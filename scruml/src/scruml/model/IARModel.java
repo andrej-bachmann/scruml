@@ -13,4 +13,6 @@ package scruml.model;
 public interface IARModel {
     
     public String getTablename();
+    public String getKey();
+    
 }
