@@ -6,8 +6,12 @@
 
 package scruml.controller;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import scruml.model.IARModel;
 
 /**
@@ -44,7 +48,28 @@ public class SQLiteDatabaseController implements IDatabaseController {
     
     @Override
     public IARModel find(String modelName, String where) throws Exception {
-        return null;
-    }
-
+        
+        IARModel model = (IARModel)Class.forName(modelName).newInstance();
+        
+        Statement statement = this.conn.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" WHERE "+where);
+        ResultSetMetaData resultSetMeta = resultSet.getMetaData();
+        if(resultSet.isClosed())
+            return null;
+        
+        for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
+            String columnName = resultSetMeta.getColumnName(i);
+            String columnValue = resultSet.getString(i);
+            
+            try {
+                Field field = model.getClass().getDeclaredField(columnName);
+                field.set(model, columnValue);
+            }
+            catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {}
+              
+        }
+        
+        return model;
+    } 
+    
 }
