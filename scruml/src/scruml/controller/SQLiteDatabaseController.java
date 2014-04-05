@@ -75,26 +75,64 @@ public class SQLiteDatabaseController implements IDatabaseController {
               
         }
         
+        statement.close();
         return model;
     } 
     
     @Override
     public void save(IARModel model) throws Exception {
 
-        Field field = model.getClass().getDeclaredField(model.getKey());
-        String value = (String)field.get(model);
-        if(value==null || value.equals(""))
+        if(this.getKeyValue(model)==null)
             this.insert(model);
         else {
-            //not implemented yet
+            this.update(model);
         }
         
     }
 
     private void insert(IARModel model) throws Exception {
 
+        ArrayList[] fieldsAndValues = this.generateFieldsAndValues(model, false);
+        ArrayList<String> fields = fieldsAndValues[0];
+        ArrayList<String> values = fieldsAndValues[1];
+        
         Statement statement = this.conn.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" LIMIT 1");
+        String sqlString = "INSERT INTO "+model.getTablename()+" ("+this.implode(", ", fields.toArray())+") VALUES ("+this.implode(", ", values.toArray())+")";
+        statement.execute(sqlString);
+        statement.close();
+    }
+    
+    private void update(IARModel model) throws Exception {
+        
+        ArrayList[] fieldsAndValues = this.generateFieldsAndValues(model, true);
+        ArrayList<String> fields = fieldsAndValues[0];
+        ArrayList<String> values = fieldsAndValues[1];
+        
+        ArrayList<String> updates = new ArrayList<>();
+        for(int i=0; i<fields.size(); ++i)
+            updates.add(fields.get(i)+"="+values.get(i));
+        
+        Statement statement = this.conn.createStatement();
+        String sqlString = "UPDATE "+model.getTablename()+" SET "+this.implode(", ", updates.toArray())+" WHERE "+model.getKey()+"="+this.getKeyValue(model);
+        statement.execute(sqlString);
+        statement.close();
+        
+    }
+    
+    private String getKeyValue(IARModel model) {
+        try {
+            Field field = model.getClass().getDeclaredField(model.getKey());
+            return (String)field.get(model);
+        }
+        catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+            return null;
+        }
+    }
+    
+    private ArrayList[] generateFieldsAndValues(IARModel model, boolean removeNullFields) throws Exception {
+        
+        Statement statement = this.conn.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" LIMIT 0");
         ResultSetMetaData resultSetMeta = resultSet.getMetaData();
         
         ArrayList<String> fields = new ArrayList<>();
@@ -106,19 +144,27 @@ public class SQLiteDatabaseController implements IDatabaseController {
             try {
                 Field field = model.getClass().getDeclaredField(columnName);
                 String value = (String)field.get(model);
-                fields.add(columnName);
-                if(field.get(model)!=null)
-                    values.add("'"+value+"'");
-                else
-                    values.add(value);
+                if(!removeNullFields) {
+                    fields.add(columnName);
+                    if(field.get(model)!=null)
+                        values.add("'"+value+"'");
+                    else
+                        values.add(value);
+                }
+                else {
+                    if(field.get(model)!=null) {
+                        fields.add(columnName);
+                        values.add("'"+value+"'");
+                    }
+                }
             }
             catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {};    
             
         }
         
-        String sqlString = "INSERT INTO "+model.getTablename()+" ("+this.implode(", ", fields.toArray())+") VALUES ("+this.implode(", ", values.toArray())+")";
-        statement.execute(sqlString);
-        
+        statement.close();
+        ArrayList[] rtn = {fields, values};
+        return rtn;
     }
     
     private String implode(String glue, Object[] array) {

@@ -139,8 +139,17 @@ public class SQLiteDatabaseControllerTest {
             assertEquals(result.id, "2");
             assertEquals(result.firstname, "John");
             assertEquals(result.lastname, "Doe");
-            
-            //TO-DO: Check also update operation
+            //Update some fields ...
+            result.firstname = "Matti";
+            result.lastname = "Meikäläinen";
+            instance.save(result);
+            //... and check if the update got saved
+            result = (TestModel)instance.find("scruml.fixture.TestModel", "id=2");
+            assertNotNull(result);
+            assertThat(result, instanceOf(TestModel.class));
+            assertEquals(result.id, "2");
+            assertEquals(result.firstname, "Matti");
+            assertEquals(result.lastname, "Meikäläinen");
             
             instance.disconnect();
         }
