@@ -19,5 +19,6 @@ public interface IDatabaseController {
     
     public IARModel find(String modelName, String where) throws Exception;
     public void save(IARModel model) throws Exception;
+    public void delete(IARModel model) throws Exception;
             
 }

@@ -89,6 +89,16 @@ public class SQLiteDatabaseController implements IDatabaseController {
         }
         
     }
+    
+    @Override
+    public void delete(IARModel model) throws Exception {
+        
+        Statement statement = this.conn.createStatement();
+        String sqlString = "DELETE FROM "+model.getTablename()+" WHERE "+model.getKey()+"="+this.getKeyValue(model);
+        statement.execute(sqlString);
+        statement.close();
+        
+    }
 
     private void insert(IARModel model) throws Exception {
 

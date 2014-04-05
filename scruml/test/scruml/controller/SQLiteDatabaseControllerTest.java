@@ -172,5 +172,27 @@ public class SQLiteDatabaseControllerTest {
             fail(e.getMessage());
         }
     }
+
+    /**
+     * Test of delete method, of class SQLiteDatabaseController.
+     */
+    @Test
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
+        try {
+            instance.connect(this.dbTestFilenameTmp);
+            
+            TestModel result = (TestModel)instance.find("scruml.fixture.TestModel", "id=1");
+            instance.delete(result);
+            result = (TestModel)instance.find("scruml.fixture.TestModel", "id=1");
+            assertNull(result);
+            
+            instance.disconnect();
+        }
+        catch(Exception e) {
+            fail(e.getMessage());
+        }
+    }
     
 }
