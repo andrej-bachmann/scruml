@@ -40,6 +40,11 @@ public class SQLiteDatabaseController implements IDatabaseController {
         Class.forName(this.className);
         this.conn = DriverManager.getConnection("jdbc:sqlite:"+this.dbFilename);
     }
+    
+    public void connect(String dbFilename) throws Exception {
+        this.dbFilename = dbFilename;
+        this.connect();
+    }
 
     @Override
     public void disconnect() throws Exception {
