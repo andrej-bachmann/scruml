@@ -66,11 +66,26 @@ public class SQLiteDatabaseControllerTest {
      * Test of connect method, of class SQLiteDatabaseController.
      */
     @Test
-    public void testConnect() {
+    public void testConnect_0args() {
         System.out.println("connect");
         IDatabaseController instance = SQLiteDatabaseController.getInstance();
         try {
             instance.connect();
+        }
+        catch(Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    /**
+     * Test of connect method, of class SQLiteDatabaseController.
+     */
+    @Test
+    public void testConnect_String() throws Exception {
+        System.out.println("connect");
+        SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
+        try {
+            instance.connect(this.dbTestFilenameTmp);
         }
         catch(Exception e) {
             fail(e.getMessage());
