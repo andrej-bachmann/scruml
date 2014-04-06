@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import scruml.model.IARModel;
@@ -36,24 +37,24 @@ public class SQLiteDatabaseController implements IDatabaseController {
     }
 
     @Override
-    public void connect() throws Exception {
+    public void connect() throws ClassNotFoundException, SQLException {
         Class.forName(this.className);
         this.conn = DriverManager.getConnection("jdbc:sqlite:"+this.dbFilename);
     }
     
-    public void connect(String dbFilename) throws Exception {
+    public void connect(String dbFilename) throws ClassNotFoundException, SQLException {
         this.dbFilename = dbFilename;
         this.connect();
     }
 
     @Override
-    public void disconnect() throws Exception {
+    public void disconnect() throws ClassNotFoundException, SQLException {
         this.conn.close();
         this.conn = null;
     }
     
     @Override
-    public IARModel find(Class modelClass, String where) throws Exception {
+    public IARModel find(Class modelClass, String where) throws InstantiationException, IllegalAccessException, SQLException, NoSuchFieldException {
         
         IARModel model = (IARModel)modelClass.newInstance();
         
@@ -82,7 +83,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
     } 
     
     @Override
-    public void save(IARModel model) throws Exception {
+    public void save(IARModel model) throws SQLException, NoSuchFieldException {
 
         if(this.getKeyValue(model)==null)
             this.insert(model);
@@ -93,7 +94,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
     }
     
     @Override
-    public void delete(IARModel model) throws Exception {
+    public void delete(IARModel model) throws SQLException {
         
         try(Statement statement = this.conn.createStatement()) {
             String sqlString = "DELETE FROM "+model.getTablename()+" WHERE "+model.getKey()+"="+this.getKeyValue(model);
@@ -102,7 +103,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
         
     }
 
-    private void insert(IARModel model) throws Exception {
+    private void insert(IARModel model) throws SQLException, NoSuchFieldException {
 
         ArrayList[] fieldsAndValues = this.generateFieldsAndValues(model, false);
         ArrayList<String> fields = fieldsAndValues[0];
@@ -114,7 +115,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
         }
     }
     
-    private void update(IARModel model) throws Exception {
+    private void update(IARModel model) throws SQLException, NoSuchFieldException {
         
         ArrayList[] fieldsAndValues = this.generateFieldsAndValues(model, true);
         ArrayList<String> fields = fieldsAndValues[0];
@@ -141,7 +142,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
         }
     }
     
-    private ArrayList[] generateFieldsAndValues(IARModel model, boolean removeNullFields) throws Exception {
+    private ArrayList[] generateFieldsAndValues(IARModel model, boolean removeNullFields) throws SQLException, NoSuchFieldException {
         
         ArrayList<String> fields = new ArrayList<>();
         ArrayList<String> values = new ArrayList<>();
