@@ -23,7 +23,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
     
     private static IDatabaseController instance; 
     private Connection conn;
-    private String className = "org.sqlite.JDBC";
+    private final String className = "org.sqlite.JDBC";
     private String dbFilename = "src/scruml/database/db.sqlite";
     
     private SQLiteDatabaseController() { }
@@ -57,25 +57,24 @@ public class SQLiteDatabaseController implements IDatabaseController {
         
         IARModel model = (IARModel)Class.forName(modelName).newInstance();
         
-        Statement statement = this.conn.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" WHERE "+where);
-        ResultSetMetaData resultSetMeta = resultSet.getMetaData();
-        if(resultSet.isClosed())
-            return null;
-        
-        for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
-            String columnName = resultSetMeta.getColumnName(i);
-            String columnValue = resultSet.getString(i);
+        try(Statement statement = this.conn.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" WHERE "+where);
+            ResultSetMetaData resultSetMeta = resultSet.getMetaData();
+            if(resultSet.isClosed())
+                return null;
             
-            try {
-                Field field = model.getClass().getDeclaredField(columnName);
-                field.set(model, columnValue);
+            for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
+                String columnName = resultSetMeta.getColumnName(i);
+                String columnValue = resultSet.getString(i);
+                
+                try {
+                    Field field = model.getClass().getDeclaredField(columnName);
+                    field.set(model, columnValue);
+                }
+                catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {}
+                
             }
-            catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {}
-              
         }
-        
-        statement.close();
         return model;
     } 
     
@@ -93,10 +92,10 @@ public class SQLiteDatabaseController implements IDatabaseController {
     @Override
     public void delete(IARModel model) throws Exception {
         
-        Statement statement = this.conn.createStatement();
-        String sqlString = "DELETE FROM "+model.getTablename()+" WHERE "+model.getKey()+"="+this.getKeyValue(model);
-        statement.execute(sqlString);
-        statement.close();
+        try(Statement statement = this.conn.createStatement()) {
+            String sqlString = "DELETE FROM "+model.getTablename()+" WHERE "+model.getKey()+"="+this.getKeyValue(model);
+            statement.execute(sqlString);
+        }
         
     }
 
@@ -106,10 +105,10 @@ public class SQLiteDatabaseController implements IDatabaseController {
         ArrayList<String> fields = fieldsAndValues[0];
         ArrayList<String> values = fieldsAndValues[1];
         
-        Statement statement = this.conn.createStatement();
-        String sqlString = "INSERT INTO "+model.getTablename()+" ("+this.implode(", ", fields.toArray())+") VALUES ("+this.implode(", ", values.toArray())+")";
-        statement.execute(sqlString);
-        statement.close();
+        try(Statement statement = this.conn.createStatement()) {
+            String sqlString = "INSERT INTO "+model.getTablename()+" ("+this.implode(", ", fields.toArray())+") VALUES ("+this.implode(", ", values.toArray())+")";
+            statement.execute(sqlString);
+        }
     }
     
     private void update(IARModel model) throws Exception {
@@ -122,10 +121,10 @@ public class SQLiteDatabaseController implements IDatabaseController {
         for(int i=0; i<fields.size(); ++i)
             updates.add(fields.get(i)+"="+values.get(i));
         
-        Statement statement = this.conn.createStatement();
-        String sqlString = "UPDATE "+model.getTablename()+" SET "+this.implode(", ", updates.toArray())+" WHERE "+model.getKey()+"="+this.getKeyValue(model);
-        statement.execute(sqlString);
-        statement.close();
+        try(Statement statement = this.conn.createStatement()) {
+            String sqlString = "UPDATE "+model.getTablename()+" SET "+this.implode(", ", updates.toArray())+" WHERE "+model.getKey()+"="+this.getKeyValue(model);
+            statement.execute(sqlString);
+        }
         
     }
     
@@ -141,38 +140,36 @@ public class SQLiteDatabaseController implements IDatabaseController {
     
     private ArrayList[] generateFieldsAndValues(IARModel model, boolean removeNullFields) throws Exception {
         
-        Statement statement = this.conn.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" LIMIT 0");
-        ResultSetMetaData resultSetMeta = resultSet.getMetaData();
-        
         ArrayList<String> fields = new ArrayList<>();
         ArrayList<String> values = new ArrayList<>();
-        
-        for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
-            String columnName = resultSetMeta.getColumnName(i);
+        try(Statement statement = this.conn.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" LIMIT 0");
+            ResultSetMetaData resultSetMeta = resultSet.getMetaData();
             
-            try {
-                Field field = model.getClass().getDeclaredField(columnName);
-                String value = (String)field.get(model);
-                if(!removeNullFields) {
-                    fields.add(columnName);
-                    if(field.get(model)!=null)
-                        values.add("'"+value+"'");
-                    else
-                        values.add(value);
-                }
-                else {
-                    if(field.get(model)!=null) {
+            for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
+                String columnName = resultSetMeta.getColumnName(i);
+                
+                try {
+                    Field field = model.getClass().getDeclaredField(columnName);
+                    String value = (String)field.get(model);
+                    if(!removeNullFields) {
                         fields.add(columnName);
-                        values.add("'"+value+"'");
+                        if(field.get(model)!=null)
+                            values.add("'"+value+"'");
+                        else
+                            values.add(value);
+                    }
+                    else {
+                        if(field.get(model)!=null) {
+                            fields.add(columnName);
+                            values.add("'"+value+"'");
+                        }
                     }
                 }
+                catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {};
+                
             }
-            catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {};    
-            
         }
-        
-        statement.close();
         ArrayList[] rtn = {fields, values};
         return rtn;
     }
