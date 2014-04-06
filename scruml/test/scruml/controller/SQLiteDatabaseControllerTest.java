@@ -118,7 +118,7 @@ public class SQLiteDatabaseControllerTest {
         try {
             instance.connect(this.dbTestFilenameTmp);
             
-            TestModel result = (TestModel)instance.find("scruml.fixture.TestModel", "id=1");
+            TestModel result = (TestModel)instance.find(TestModel.class, "id=1");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
             assertEquals(result.id, "1");
@@ -148,7 +148,7 @@ public class SQLiteDatabaseControllerTest {
             model.lastname = "Doe";
             instance.save(model);
             //... and check if it is there
-            TestModel result = (TestModel)instance.find("scruml.fixture.TestModel", "id=2");
+            TestModel result = (TestModel)instance.find(TestModel.class, "id=2");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
             assertEquals(result.id, "2");
@@ -159,7 +159,7 @@ public class SQLiteDatabaseControllerTest {
             result.lastname = "Meikäläinen";
             instance.save(result);
             //... and check if the update got saved
-            result = (TestModel)instance.find("scruml.fixture.TestModel", "id=2");
+            result = (TestModel)instance.find(TestModel.class, "id=2");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
             assertEquals(result.id, "2");
@@ -183,11 +183,11 @@ public class SQLiteDatabaseControllerTest {
         try {
             instance.connect(this.dbTestFilenameTmp);
             
-            TestModel result = (TestModel)instance.find("scruml.fixture.TestModel", "id=1");
+            TestModel result = (TestModel)instance.find(TestModel.class, "id=1");
             instance.delete(result);
-            result = (TestModel)instance.find("scruml.fixture.TestModel", "id=1");
+            result = (TestModel)instance.find(TestModel.class, "id=1");
             assertNull(result);
-            
+
             instance.disconnect();
         }
         catch(Exception e) {

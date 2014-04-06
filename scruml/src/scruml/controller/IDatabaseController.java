@@ -17,7 +17,7 @@ public interface IDatabaseController {
     public void connect() throws Exception;
     public void disconnect() throws Exception;
     
-    public IARModel find(String modelName, String where) throws Exception;
+    public IARModel find(Class modelClass, String where) throws Exception;
     public void save(IARModel model) throws Exception;
     public void delete(IARModel model) throws Exception;
             

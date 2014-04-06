@@ -53,9 +53,9 @@ public class SQLiteDatabaseController implements IDatabaseController {
     }
     
     @Override
-    public IARModel find(String modelName, String where) throws Exception {
+    public IARModel find(Class modelClass, String where) throws Exception {
         
-        IARModel model = (IARModel)Class.forName(modelName).newInstance();
+        IARModel model = (IARModel)modelClass.newInstance();
         
         try(Statement statement = this.conn.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" WHERE "+where);
