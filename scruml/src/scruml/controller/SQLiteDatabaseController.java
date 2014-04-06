@@ -71,7 +71,10 @@ public class SQLiteDatabaseController implements IDatabaseController {
                     Field field = model.getClass().getDeclaredField(columnName);
                     field.set(model, columnValue);
                 }
-                catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {}
+                catch(NoSuchFieldException | IllegalAccessException e) {
+                    if(columnName.equals(model.getKey()))
+                        throw new NoSuchFieldException("Key attribute is missing in model class.");
+                }
                 
             }
         }
@@ -166,7 +169,10 @@ public class SQLiteDatabaseController implements IDatabaseController {
                         }
                     }
                 }
-                catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {};
+                catch(NoSuchFieldException | IllegalAccessException e) {
+                    if(columnName.equals(model.getKey()))
+                        throw new NoSuchFieldException("Key attribute is missing in model class.");
+                };
                 
             }
         }
