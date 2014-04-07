@@ -75,13 +75,19 @@ public class SQLiteDatabaseControllerTest {
         catch(Exception e) {
             fail(e.getMessage());
         }
+        finally {
+            try {
+                instance.disconnect();
+            }
+            catch(Exception e) {}
+        }
     }
     
     /**
      * Test of connect method, of class SQLiteDatabaseController.
      */
     @Test
-    public void testConnect_String() throws Exception {
+    public void testConnect_String() {
         System.out.println("connect");
         SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         try {
@@ -89,6 +95,12 @@ public class SQLiteDatabaseControllerTest {
         }
         catch(Exception e) {
             fail(e.getMessage());
+        }
+        finally {
+            try {
+                instance.disconnect();
+            }
+            catch(Exception e) {}
         }
     }
 
