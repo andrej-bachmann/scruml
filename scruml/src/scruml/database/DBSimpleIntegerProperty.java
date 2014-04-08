@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scruml.database;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
- *
- * @author Kevin
+ * DBSimpleIntegerProperty subclasses SimpleIntegerProperty and defines a
+ * property that gets populated from a database.
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
 public class DBSimpleIntegerProperty extends SimpleIntegerProperty {
     
