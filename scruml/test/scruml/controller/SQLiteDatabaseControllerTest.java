@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scruml.controller;
 
 import java.io.File;
@@ -18,8 +12,9 @@ import org.junit.Test;
 import scruml.fixture.TestModel;
 
 /**
- *
- * @author Kevin
+ * This class provides unit tests of {@link SQLiteDatabaseController}
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
+ * @see SQLiteDatabaseController
  */
 public class SQLiteDatabaseControllerTest {
     

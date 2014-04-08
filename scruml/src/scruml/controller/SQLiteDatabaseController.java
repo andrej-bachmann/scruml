@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scruml.controller;
 
 import java.lang.reflect.Field;
@@ -19,8 +13,8 @@ import java.util.ArrayList;
 import scruml.model.IARModel;
 
 /**
- *
- * @author Kevin
+ * SQLiteDatabaseController handles the connection to a SQLite database.
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
 public class SQLiteDatabaseController implements IDatabaseController {
     
@@ -31,6 +25,11 @@ public class SQLiteDatabaseController implements IDatabaseController {
     
     private SQLiteDatabaseController() { }
     
+    /**
+     * This method is used to retrieve one instance from SQLiteDatabaseController
+     * since this class is a Singleton.
+     * @return Instance of SQLiteDatabaseController
+     */
     public static synchronized IDatabaseController getInstance() {
         if(instance==null) {
             instance = new SQLiteDatabaseController();
@@ -44,6 +43,12 @@ public class SQLiteDatabaseController implements IDatabaseController {
         this.conn = DriverManager.getConnection("jdbc:sqlite:"+this.dbFilename);
     }
     
+    /**
+     * This method is used to connect to a specific SQLite database file.
+     * @param dbFilename The relative path to the SQLite database file 
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public void connect(String dbFilename) throws ClassNotFoundException, SQLException {
         this.dbFilename = dbFilename;
         this.connect();
@@ -107,7 +112,14 @@ public class SQLiteDatabaseController implements IDatabaseController {
         }
         
     }
-
+    
+    /**
+     * This method gets triggered by the save method and handles an insert to
+     * the database.
+     * @param model Instance of an IARModel that should be inserted.
+     * @throws SQLException
+     * @throws NoSuchFieldException 
+     */
     private void insert(IARModel model) throws SQLException, NoSuchFieldException {
 
         ArrayList[] fieldsAndValues = this.generateFieldsAndValues(model, false);
@@ -120,6 +132,13 @@ public class SQLiteDatabaseController implements IDatabaseController {
         }
     }
     
+    /**
+     * This method gets triggered by the save method and handles an update to
+     * the database.
+     * @param model Instance of an IARModel that should be updated.
+     * @throws SQLException
+     * @throws NoSuchFieldException 
+     */
     private void update(IARModel model) throws SQLException, NoSuchFieldException {
         
         ArrayList[] fieldsAndValues = this.generateFieldsAndValues(model, true);
@@ -137,6 +156,11 @@ public class SQLiteDatabaseController implements IDatabaseController {
         
     }
     
+    /**
+     * This method is used to get the value of the key attribute of a model.
+     * @param model Instance of IARModel
+     * @return String containing the key value
+     */
     private String getKeyValue(IARModel model) {
         try {
             Field field = model.getClass().getDeclaredField(model.getKey());
@@ -150,6 +174,20 @@ public class SQLiteDatabaseController implements IDatabaseController {
         }
     }
     
+    /**
+     * This method is used to generate fields and values of an IARModel.
+     * At first it retrieves all fields of the model table in the database and
+     * adds them to the field list. Afterwards it searches if the fields are
+     * set in the model and populates the value list. 
+     * @param model Instance of IARModel of which the fields and values should 
+     * be generated.
+     * @param removeNullFields This param triggers if null values should be added
+     * to the value list or not.
+     * @return ArrayList which contains again two ArrayList: At index null the
+     * fields list, at index one the values list.
+     * @throws SQLException
+     * @throws NoSuchFieldException 
+     */
     private ArrayList[] generateFieldsAndValues(IARModel model, boolean removeNullFields) throws SQLException, NoSuchFieldException {
         
         ArrayList<String> fields = new ArrayList<>();
@@ -192,6 +230,13 @@ public class SQLiteDatabaseController implements IDatabaseController {
         return rtn;
     }
     
+    /**
+     * Java implementation of the php function implode.
+     * {@link http://www.php.net/manual/de/function.implode.php}
+     * @param glue String that gets used for connecting the objects
+     * @param array Contains all objects that should get glued.
+     * @return String containing glued objects
+     */
     private String implode(String glue, Object[] array) {
         if(array.length == 0)
             return "";
