@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="675.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="scruml.MainSceneController">
+<AnchorPane id="anchorPane" prefHeight="675.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
     <VBox prefHeight="675.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -46,7 +46,7 @@
                       <children>
                         <Pane prefHeight="57.0" prefWidth="367.0">
                           <children>
-                            <Button layoutX="32.0" layoutY="11.0" mnemonicParsing="false" prefHeight="34.9609375" prefWidth="123.0" text="Start new Sprint" />
+                            <Button layoutX="32.0" layoutY="11.0" mnemonicParsing="false" onAction="#newSprintClicked" prefHeight="34.9609375" prefWidth="123.0" text="Start new Sprint" />
                           </children>
                         </Pane>
                         <SplitPane dividerPositions="0.33001658374792703, 0.6650082918739635" focusTraversable="true" prefHeight="516.0" prefWidth="367.0" VBox.vgrow="ALWAYS">
