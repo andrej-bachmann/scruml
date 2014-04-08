@@ -6,6 +6,10 @@
 
 package scruml.fixture;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
+import scruml.database.DBSimpleIntegerProperty;
+import scruml.database.DBSimpleStringProperty;
 import scruml.model.IARModel;
 
 /**
@@ -14,9 +18,9 @@ import scruml.model.IARModel;
  */
 public class TestModel implements IARModel {
 
-    public String id;
-    public String firstname;
-    public String lastname;
+    private final IntegerProperty id = new DBSimpleIntegerProperty();
+    private final StringProperty firstname = new DBSimpleStringProperty();
+    private final StringProperty lastname = new DBSimpleStringProperty();
     
     @Override
     public String getTablename() {
@@ -27,5 +31,29 @@ public class TestModel implements IARModel {
     public String getKey() {
         return "id";
     }
-    
+
+    public int getId() {
+        return id.get();
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    public String getFirstname() {
+        return firstname.get();
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname.set(firstname);
+    }
+
+    public String getLastname() {
+        return lastname.get();
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname.set(lastname);
+    }
+
 }

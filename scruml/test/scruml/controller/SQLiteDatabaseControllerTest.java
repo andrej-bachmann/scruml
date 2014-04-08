@@ -133,9 +133,9 @@ public class SQLiteDatabaseControllerTest {
             TestModel result = (TestModel)instance.find(TestModel.class, "id=1");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
-            assertEquals(result.id, "1");
-            assertEquals(result.firstname, "Max");
-            assertEquals(result.lastname, "Mustermann");
+            assertEquals(result.getId(), 1);
+            assertEquals(result.getFirstname(), "Max");
+            assertEquals(result.getLastname(), "Mustermann");
             
             instance.disconnect();
         }
@@ -156,27 +156,27 @@ public class SQLiteDatabaseControllerTest {
             
             //Save record to database ...
             TestModel model = new TestModel();
-            model.firstname = "John";
-            model.lastname = "Doe";
+            model.setFirstname("John");
+            model.setLastname("Doe");
             instance.save(model);
             //... and check if it is there
             TestModel result = (TestModel)instance.find(TestModel.class, "id=2");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
-            assertEquals(result.id, "2");
-            assertEquals(result.firstname, "John");
-            assertEquals(result.lastname, "Doe");
+            assertEquals(result.getId(), 2);
+            assertEquals(result.getFirstname(), "John");
+            assertEquals(result.getLastname(), "Doe");
             //Update some fields ...
-            result.firstname = "Matti";
-            result.lastname = "Meikäläinen";
+            result.setFirstname("Matti");
+            result.setLastname("Meikäläinen");
             instance.save(result);
             //... and check if the update got saved
             result = (TestModel)instance.find(TestModel.class, "id=2");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
-            assertEquals(result.id, "2");
-            assertEquals(result.firstname, "Matti");
-            assertEquals(result.lastname, "Meikäläinen");
+            assertEquals(result.getId(), 2);
+            assertEquals(result.getFirstname(), "Matti");
+            assertEquals(result.getLastname(), "Meikäläinen");
             
             instance.disconnect();
         }

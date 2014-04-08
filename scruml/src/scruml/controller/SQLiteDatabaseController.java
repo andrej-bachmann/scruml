@@ -7,6 +7,8 @@
 package scruml.controller;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -70,9 +72,12 @@ public class SQLiteDatabaseController implements IDatabaseController {
                 
                 try {
                     Field field = model.getClass().getDeclaredField(columnName);
-                    field.set(model, columnValue);
+                    field.setAccessible(true);
+                    Object fieldValue = field.get(model);
+                    Method setMethod = fieldValue.getClass().getDeclaredMethod("setDBValue", new Class[]{String.class});
+                    setMethod.invoke(fieldValue, columnValue);
                 }
-                catch(NoSuchFieldException | IllegalAccessException e) {
+                catch(NoSuchFieldException | NoSuchMethodException | InvocationTargetException e ) {
                     if(columnName.equals(model.getKey()))
                         throw new NoSuchFieldException("Key attribute is missing in model class.");
                 }
@@ -135,9 +140,12 @@ public class SQLiteDatabaseController implements IDatabaseController {
     private String getKeyValue(IARModel model) {
         try {
             Field field = model.getClass().getDeclaredField(model.getKey());
-            return (String)field.get(model);
+            field.setAccessible(true);
+            Object fieldValue = field.get(model);
+            Method getMethod = fieldValue.getClass().getDeclaredMethod("getDBValue", new Class[]{});
+            return (String)getMethod.invoke(fieldValue);
         }
-        catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+        catch(NoSuchFieldException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return null;
         }
     }
@@ -155,25 +163,28 @@ public class SQLiteDatabaseController implements IDatabaseController {
                 
                 try {
                     Field field = model.getClass().getDeclaredField(columnName);
-                    String value = (String)field.get(model);
+                    field.setAccessible(true);
+                    Object fieldValue = field.get(model);
+                    Method getMethod = fieldValue.getClass().getDeclaredMethod("getDBValue", new Class[]{});
+                    String value = (String)getMethod.invoke(fieldValue);
                     if(!removeNullFields) {
                         fields.add(columnName);
-                        if(field.get(model)!=null)
+                        if(getMethod.invoke(fieldValue)!=null)
                             values.add("'"+value+"'");
                         else
                             values.add(value);
                     }
                     else {
-                        if(field.get(model)!=null) {
+                        if(getMethod.invoke(fieldValue)!=null) {
                             fields.add(columnName);
                             values.add("'"+value+"'");
                         }
                     }
                 }
-                catch(NoSuchFieldException | IllegalAccessException e) {
+                catch(NoSuchFieldException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     if(columnName.equals(model.getKey()))
                         throw new NoSuchFieldException("Key attribute is missing in model class.");
-                };
+                }
                 
             }
         }
