@@ -5,7 +5,91 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scruml.view.MainSceneViewController">
-    
+<AnchorPane id="AnchorPane" prefHeight="675.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="scruml.MainSceneController">
+  <children>
+    <VBox prefHeight="675.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <HBox maxHeight="100.0" maxWidth="-1.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+          <children>
+            <Label prefHeight="85.99990000000253" prefWidth="276.0" text="Not logged in" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="86.0" prefWidth="671.0" text="Scrum Board" textAlignment="CENTER" textOverrun="ELLIPSIS" underline="false" wrapText="false">
+              <font>
+                <Font size="50.0" />
+              </font>
+            </Label>
+            <Label prefHeight="85.99990000000253" prefWidth="251.0" text="" visible="false" />
+          </children>
+        </HBox>
+        <HBox prefHeight="575.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
+          <children>
+            <SplitPane dividerPositions="0.2328881469115192, 0.7429048414023373" focusTraversable="true" prefHeight="575.0" prefWidth="1200.0" HBox.hgrow="ALWAYS">
+              <items>
+                <AnchorPane prefHeight="573.0" prefWidth="284.0">
+                  <children>
+                    <VBox prefHeight="573.0" prefWidth="276.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <children>
+                        <Label alignment="CENTER" contentDisplay="LEFT" prefHeight="57.0" prefWidth="276.0" text="Product Backlog" textAlignment="CENTER">
+                          <font>
+                            <Font size="20.0" fx:id="x1" />
+                          </font>
+                        </Label>
+                        <ListView prefHeight="516.0" prefWidth="276.0" VBox.vgrow="ALWAYS" />
+                      </children>
+                    </VBox>
+                  </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <VBox prefHeight="573.0" prefWidth="367.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <children>
+                        <Pane prefHeight="57.0" prefWidth="367.0">
+                          <children>
+                            <Button layoutX="32.0" layoutY="11.0" mnemonicParsing="false" prefHeight="34.9609375" prefWidth="123.0" text="Start new Sprint" />
+                          </children>
+                        </Pane>
+                        <SplitPane dividerPositions="0.33001658374792703, 0.6650082918739635" focusTraversable="true" prefHeight="516.0" prefWidth="367.0" VBox.vgrow="ALWAYS">
+                          <items>
+                            <VBox prefHeight="514.0" prefWidth="122.0">
+                              <children>
+                                <Label alignment="CENTER" prefHeight="25.0" prefWidth="195.0" text="Offene Aufgaben" />
+                                <ListView prefHeight="490.0" prefWidth="120.0" />
+                              </children>
+                            </VBox>
+                            <VBox prefHeight="200.0" prefWidth="100.0">
+                              <children>
+                                <Label alignment="CENTER" prefHeight="25.0" prefWidth="196.0" text="In Bearbeitung" />
+                                <ListView prefHeight="490.0" prefWidth="114.0" />
+                              </children>
+                            </VBox>
+                            <VBox prefHeight="200.0" prefWidth="100.0">
+                              <children>
+                                <Label alignment="CENTER" prefHeight="25.0" prefWidth="200.0" text="Erledigt" />
+                                <ListView prefHeight="490.0" prefWidth="119.0" />
+                              </children>
+                            </VBox>
+                          </items>
+                        </SplitPane>
+                      </children>
+                    </VBox>
+                  </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="573.0" prefWidth="1091.0">
+                  <children>
+                    <VBox prefHeight="573.0" prefWidth="305.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <children>
+                        <Label alignment="CENTER" font="$x1" prefHeight="57.0" prefWidth="305.0" text="Erledigte Aufgaben" />
+                        <ListView prefHeight="517.0000999999975" prefWidth="305.0" VBox.vgrow="ALWAYS" />
+                      </children>
+                    </VBox>
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
 </AnchorPane>
