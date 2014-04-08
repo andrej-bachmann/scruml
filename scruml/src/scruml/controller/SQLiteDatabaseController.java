@@ -65,8 +65,8 @@ public class SQLiteDatabaseController implements IDatabaseController {
         
         IARModel model = (IARModel)modelClass.newInstance();
         
-        try(Statement statement = this.conn.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" WHERE "+where);
+        try(Statement statement = this.conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" WHERE "+where)) {
             ResultSetMetaData resultSetMeta = resultSet.getMetaData();
             if(resultSet.isClosed())
                 return null;
@@ -192,8 +192,8 @@ public class SQLiteDatabaseController implements IDatabaseController {
         
         ArrayList<String> fields = new ArrayList<>();
         ArrayList<String> values = new ArrayList<>();
-        try(Statement statement = this.conn.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" LIMIT 0");
+        try(Statement statement = this.conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" LIMIT 0")) {
             ResultSetMetaData resultSetMeta = resultSet.getMetaData();
             
             for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
