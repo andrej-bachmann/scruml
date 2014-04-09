@@ -20,6 +20,7 @@ public class RequirementModel implements IARModel{
     private final IntegerProperty id = new DBSimpleIntegerProperty();
     private final StringProperty title = new DBSimpleStringProperty();
     private final StringProperty description = new DBSimpleStringProperty();
+    private final IntegerProperty priority = new DBSimpleIntegerProperty();
 
     @Override
     public String getTablename(){
@@ -53,5 +54,12 @@ public class RequirementModel implements IARModel{
     }
     public void setDescription(String description){
         this.description.set(description);
-    }    
+    }
+    
+    public int getPriority(){
+        return this.priority.get();
+    }
+    public void setPriority(int priority){
+        this.priority.set(priority);
+    }
 }
