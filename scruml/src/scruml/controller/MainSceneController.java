@@ -6,15 +6,17 @@ import javafx.stage.Stage;
 
 
 /** 
- * MainSceneController extends javafx application class. Inherits the main(String[]args)
+ * MainSceneController extends javafx Application class. Inherits the main(String[]args)
  * 
  * @author David Goller
  */
-public class MainSceneController extends Application{
+public class MainSceneController extends Application {
     private IDatabaseController dbController;
+    
     /**
-     * 
-     * @param stage 
+     * Constructor connects to Database and creates new MainSceneViewController,
+     * which shows the MainScene
+     * @param stage MainStage Object
      * @throws Exception 
      */
     @Override
@@ -24,6 +26,11 @@ public class MainSceneController extends Application{
         new MainSceneViewController(stage); 
     }
     
+    /**
+     * Destructor disconnects from Database when MainSceneController Object 
+     * gets garbage collected
+     * @throws Throwable 
+     */
     @Override
     public void finalize() throws Throwable{
         super.finalize();
@@ -32,7 +39,7 @@ public class MainSceneController extends Application{
             
     
     /**
-     * 
+     * Main-Method which launches the Application
      * @param args 
      */
     public static void main(String[] args) {
