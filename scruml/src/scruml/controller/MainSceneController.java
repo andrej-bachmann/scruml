@@ -11,17 +11,16 @@ import javafx.stage.Stage;
  * @author David Goller
  */
 public class MainSceneController extends Application {
-    private IDatabaseController dbController;
     
     /**
-     * Constructor connects to Database and creates new MainSceneViewController,
+     * start Method connects to Database and creates new MainSceneViewController,
      * which shows the MainScene
      * @param stage MainStage Object
      * @throws Exception 
      */
     @Override
     public void start(Stage stage) throws Exception {
-        dbController = SQLiteDatabaseController.getInstance();
+        IDatabaseController dbController = SQLiteDatabaseController.getInstance();
         dbController.connect();
         new MainSceneViewController(stage); 
     }
@@ -34,6 +33,7 @@ public class MainSceneController extends Application {
     @Override
     public void finalize() throws Throwable{
         super.finalize();
+        IDatabaseController dbController = SQLiteDatabaseController.getInstance();
         dbController.disconnect();
     }
             

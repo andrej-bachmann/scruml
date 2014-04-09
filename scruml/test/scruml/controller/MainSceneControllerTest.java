@@ -6,13 +6,14 @@
 
 package scruml.controller;
 
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -45,7 +46,7 @@ public class MainSceneControllerTest {
     @Test
     public void testStart() throws Exception {
         System.out.println("start");
-        Stage stage = null;
+        Stage stage = new Stage();
         MainSceneController instance = new MainSceneController();
         instance.start(stage);
         // TODO review the generated test code and remove the default call to fail.
@@ -61,7 +62,7 @@ public class MainSceneControllerTest {
         MainSceneController instance = new MainSceneController();
         instance.finalize();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNull(instance);
     }
 
     /**
@@ -73,7 +74,7 @@ public class MainSceneControllerTest {
         String[] args = null;
         MainSceneController.main(args);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
     
 }
