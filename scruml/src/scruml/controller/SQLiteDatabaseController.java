@@ -10,6 +10,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import scruml.model.IARModel;
 
 /**
@@ -63,34 +64,56 @@ public class SQLiteDatabaseController implements IDatabaseController {
     @Override
     public IARModel find(Class modelClass, String where) throws InstantiationException, IllegalAccessException, SQLException, NoSuchFieldException {
         
+        try {
+            List<IARModel> modelList = this.findAll(modelClass, where);
+            return (modelList!=null && modelList.size()>0) ? modelList.get(0) : null;
+        }
+        catch(Exception e) {
+            return null;
+        }
+    } 
+    
+    @Override
+    public List<IARModel> findAll(Class modelClass, String where) throws InstantiationException, IllegalAccessException, SQLException, NoSuchFieldException {
+       
+        List<IARModel> modelList = new ArrayList<>();
         IARModel model = (IARModel)modelClass.newInstance();
-        
+        String queryString = "SELECT * FROM "+model.getTablename();
+        if(where!=null && !where.equals("")) {
+             queryString += " WHERE "+where;
+        }
         try(Statement statement = this.conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM "+model.getTablename()+" WHERE "+where)) {
+            ResultSet resultSet = statement.executeQuery(queryString)) {
             ResultSetMetaData resultSetMeta = resultSet.getMetaData();
             if(resultSet.isClosed())
                 return null;
             
-            for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
-                String columnName = resultSetMeta.getColumnName(i);
-                String columnValue = resultSet.getString(i);
+            while(resultSet.next()) {
+                model = (IARModel)modelClass.newInstance();
                 
-                try {
-                    Field field = model.getClass().getDeclaredField(columnName);
-                    field.setAccessible(true);
-                    Object fieldValue = field.get(model);
-                    Method setMethod = fieldValue.getClass().getDeclaredMethod("setDBValue", new Class[]{String.class});
-                    setMethod.invoke(fieldValue, columnValue);
+                for(int i=1; i<=resultSetMeta.getColumnCount(); ++i) {
+                    String columnName = resultSetMeta.getColumnName(i);
+                    String columnValue = resultSet.getString(i);
+
+                    try {
+                        Field field = model.getClass().getDeclaredField(columnName);
+                        field.setAccessible(true);
+                        Object fieldValue = field.get(model);
+                        Method setMethod = fieldValue.getClass().getDeclaredMethod("setDBValue", new Class[]{String.class});
+                        setMethod.invoke(fieldValue, columnValue);
+                    }
+                    catch(NoSuchFieldException | NoSuchMethodException | InvocationTargetException e ) {
+                        if(columnName.equals(model.getKey()))
+                            throw new NoSuchFieldException("Key attribute is missing in model class.");
+                    }
+
                 }
-                catch(NoSuchFieldException | NoSuchMethodException | InvocationTargetException e ) {
-                    if(columnName.equals(model.getKey()))
-                        throw new NoSuchFieldException("Key attribute is missing in model class.");
-                }
-                
+                modelList.add(model);
             }
+            
         }
-        return model;
-    } 
+        return modelList;
+    }
     
     @Override
     public void save(IARModel model) throws SQLException, NoSuchFieldException {
@@ -251,5 +274,5 @@ public class SQLiteDatabaseController implements IDatabaseController {
 
         return sb.toString();
     }
-    
+
 }
