@@ -3,14 +3,20 @@ package scruml.view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -19,8 +25,25 @@ import javafx.stage.Stage;
  */
 public class MainSceneViewController implements Initializable {
 
-    //@FXML
-    //private AnchorPane anchorPane;
+    @FXML
+    private VBox sprintHeaderVBox;
+    @FXML
+    private Label productBacklogLabel;
+    @FXML
+    private VBox productBacklogVBox;
+    @FXML
+    private VBox sprintVBox;
+    @FXML
+    private HBox headerOpenTasks;
+    @FXML
+    private HBox headerToDoTasks;
+    @FXML
+    private HBox headerDoneTasks;
+    
+    @FXML
+    private Label doneRequirementsLabel;
+    @FXML
+    private VBox doneRequirementsVBox;
     /**
      * Initializes the controller class.
      */
@@ -30,21 +53,48 @@ public class MainSceneViewController implements Initializable {
         //loader.setRoot(this);
         loader.setController(this);
         Parent root = (Parent)loader.load();
-
+        
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show(); 
     }
     
     @FXML
-    private void newSprintClicked(ActionEvent event) throws IOException {
-        Button button = (Button)event.getSource();
-        button.textProperty().set("TROLOOLOLO");
+    private void newRequirementClicked(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
+        //loader.setRoot(this);
+        //loader.setController(this);
+        Parent root = (Parent)loader.load();
+        RequirementViewController reqController = loader.getController();
+        reqController.setViewForProductBacklog(productBacklogVBox.widthProperty());
+        //reqController.getState().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
+        root.setUserData(reqController);
+        boolean add = productBacklogVBox.getChildren().add(root);
+    }
+    
+    @FXML
+    private void moveRequirementClicked(ActionEvent event) throws IOException {
+        if (productBacklogVBox.getChildren().size() > 0)
+        {
+            Node n = productBacklogVBox.getChildren().get(0);
+            RequirementViewController reqController = (RequirementViewController)n.getUserData();
+            reqController.setViewForSprintBacklog(headerOpenTasks.widthProperty(), headerToDoTasks.widthProperty(), headerDoneTasks.widthProperty());
+            productBacklogVBox.getChildren().remove(n);
+            sprintVBox.getChildren().add(n);
+        }
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+        productBacklogLabel.minWidthProperty().bind(productBacklogVBox.widthProperty());
+        productBacklogLabel.prefWidthProperty().bind(productBacklogVBox.widthProperty());
+        
+        sprintHeaderVBox.minWidthProperty().bind(sprintVBox.widthProperty());
+        sprintHeaderVBox.prefWidthProperty().bind(sprintVBox.widthProperty());
+        
+        doneRequirementsLabel.minWidthProperty().bind(doneRequirementsVBox.widthProperty());
+        doneRequirementsLabel.prefWidthProperty().bind(doneRequirementsVBox.widthProperty());
+        
+    }
 }

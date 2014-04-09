@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="scruml.view.RequirementViewController">
+  <children>
+    <VBox fx:id="vBox" layoutX="0.0" layoutY="0.0">
+      <children>
+        <HBox fx:id="requirementHBox" prefHeight="100.0" prefWidth="600.0">
+          <children>
+            <Pane fx:id="requirementOpen" prefHeight="100.0" prefWidth="200.0">
+              <children>
+                <VBox fx:id="dataVBox" layoutX="0.0" layoutY="0.0" prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                    <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="200.0" text="Title" />
+                    <Label fx:id="descriptionLabel" prefHeight="50.0" prefWidth="200.0" text="Description" />
+                  </children>
+                </VBox>
+              </children>
+            </Pane>
+            <Pane fx:id="requirementToDo" prefHeight="100.0" prefWidth="200.0" />
+            <Pane fx:id="requirementDone" prefHeight="100.0" prefWidth="200.0" />
+          </children>
+        </HBox>
+        <HBox id="taskHbox" fx:id="taskHBox" prefHeight="100.0" prefWidth="600.0">
+          <children>
+            <Pane fx:id="taskOpen" prefHeight="100.0" prefWidth="200.0" />
+            <Pane fx:id="taskToDo" prefHeight="100.0" prefWidth="200.0" />
+            <Pane fx:id="taskDone" prefHeight="100.0" prefWidth="200.0" />
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>
