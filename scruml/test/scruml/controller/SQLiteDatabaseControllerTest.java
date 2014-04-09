@@ -2,6 +2,7 @@ package scruml.controller;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import scruml.fixture.TestModel;
+import scruml.model.IARModel;
 
 /**
  * This class provides unit tests of {@link SQLiteDatabaseController}
@@ -138,6 +140,37 @@ public class SQLiteDatabaseControllerTest {
             fail(e.getMessage());
         }
     }
+    
+    /**
+     * Test of findAll method, of class SQLiteDatabaseController.
+     */
+    @Test
+    public void testFindAll() throws Exception {
+        System.out.println("findAll");
+        SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
+        try {
+            instance.connect(this.dbTestFilenameTmp);
+            List<IARModel> modelList = instance.findAll(TestModel.class, null);
+            assertEquals(modelList.size(), 2);
+            TestModel result = (TestModel)modelList.get(0);
+            assertNotNull(result);
+            assertThat(result, instanceOf(TestModel.class));
+            assertEquals(result.getId(), 1);
+            assertEquals(result.getFirstname(), "Max");
+            assertEquals(result.getLastname(), "Mustermann");
+            result = (TestModel)modelList.get(1);
+            assertNotNull(result);
+            assertThat(result, instanceOf(TestModel.class));
+            assertEquals(result.getId(), 2);
+            assertEquals(result.getFirstname(), "Marion");
+            assertEquals(result.getLastname(), "Musterfrau");
+            
+            instance.disconnect();
+        }
+        catch(Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
     /**
      * Test of save method, of class SQLiteDatabaseController.
@@ -155,10 +188,10 @@ public class SQLiteDatabaseControllerTest {
             model.setLastname("Doe");
             instance.save(model);
             //... and check if it is there
-            TestModel result = (TestModel)instance.find(TestModel.class, "id=2");
+            TestModel result = (TestModel)instance.find(TestModel.class, "id=3");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
-            assertEquals(result.getId(), 2);
+            assertEquals(result.getId(), 3);
             assertEquals(result.getFirstname(), "John");
             assertEquals(result.getLastname(), "Doe");
             //Update some fields ...
@@ -166,10 +199,10 @@ public class SQLiteDatabaseControllerTest {
             result.setLastname("Meikäläinen");
             instance.save(result);
             //... and check if the update got saved
-            result = (TestModel)instance.find(TestModel.class, "id=2");
+            result = (TestModel)instance.find(TestModel.class, "id=3");
             assertNotNull(result);
             assertThat(result, instanceOf(TestModel.class));
-            assertEquals(result.getId(), 2);
+            assertEquals(result.getId(), 3);
             assertEquals(result.getFirstname(), "Matti");
             assertEquals(result.getLastname(), "Meikäläinen");
             

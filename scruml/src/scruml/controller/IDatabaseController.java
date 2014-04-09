@@ -1,5 +1,6 @@
 package scruml.controller;
 
+import java.util.List;
 import scruml.model.IARModel;
 
 /**
@@ -22,6 +23,8 @@ public interface IDatabaseController {
     
     /**
      * The find method is used to retrieve one record from a database.
+     * Note: Even when the where clause would probably retrieve more than one
+     * database record only the first one is returned.
      * @param modelClass Model Class which gets populated with data.
      * @param where Where condition that gets applied to the sql statement.
      * @return Instance of modelClass where all properties got populated with
@@ -29,6 +32,16 @@ public interface IDatabaseController {
      * @throws Exception 
      */
     public IARModel find(Class modelClass, String where) throws Exception;
+    
+    /**
+     * The findAll method is used to retrieve many records from a database.
+     * @param modelClass Model class which gets populated with data
+     * @param where Where condition that gets applied to the sql statement.
+     * @return List with instances of modelClass where all properties got
+     * populated with data from the database record.
+     * @throws Exception 
+     */
+    public List<IARModel> findAll(Class modelClass, String where) throws Exception;
     
     /**
      * The save method is used to save a model in the database.
