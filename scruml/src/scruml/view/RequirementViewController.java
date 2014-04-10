@@ -11,12 +11,20 @@ import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  * FXML Controller class
@@ -81,7 +89,7 @@ public class RequirementViewController implements Initializable {
         
     }
     
-    public void setViewForProductBacklog(ReadOnlyDoubleProperty productBacklogWidth) {
+    public void setViewForProductBacklog(ReadOnlyDoubleProperty productBacklogWidth, VBox sprintVBox) {
         taskHBox.maxHeightProperty().set(0);
         vBox.maxHeightProperty().set(200);
         requirementHBox.minHeightProperty().bind(vBox.heightProperty());
@@ -89,6 +97,100 @@ public class RequirementViewController implements Initializable {
         requirementDone.setPrefWidth(0);
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
+        
+        VBox target =  sprintVBox;
+        
+        vBox.setOnDragDetected(new EventHandler <MouseEvent>() {
+            public void handle(MouseEvent event) {
+                /* drag was detected, start drag-and-drop gesture*/
+                System.out.println("onDragDetected");
+                
+                /* allow any transfer mode */
+                Dragboard db = requirementOpen.getParent().startDragAndDrop(TransferMode.ANY);
+                
+                /* put a string on dragboard */
+                ClipboardContent content = new ClipboardContent();
+                content.putString(new String("Requirement"));
+                db.setContent(content);
+                
+                event.consume();
+            }
+        });
+        
+        target.setOnDragOver(new EventHandler <DragEvent>() {
+            public void handle(DragEvent event) {
+                /* data is dragged over the target */
+                System.out.println("onDragOver");
+                
+                /* accept it only if it is  not dragged from the same node 
+                 * and if it has a string data */
+                if (event.getGestureSource() != vBox &&
+                        event.getDragboard().hasString()) {
+                    /* allow for both copying and moving, whatever user chooses */
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                }
+                
+                event.consume();
+            }
+        });
+
+        target.setOnDragEntered(new EventHandler <DragEvent>() {
+            public void handle(DragEvent event) {
+                /* the drag-and-drop gesture entered the target */
+                System.out.println("onDragEntered");
+                /* show to the user that it is an actual gesture target */
+                if (event.getGestureSource() != vBox &&
+                        event.getDragboard().hasString()) {
+                    titleLabel.textProperty().set("LOL");
+                }
+                
+                event.consume();
+            }
+        });
+
+        target.setOnDragExited(new EventHandler <DragEvent>() {
+            public void handle(DragEvent event) {
+                /* mouse moved away, remove the graphical cues */
+                titleLabel.textProperty().set("LOL");
+                
+                event.consume();
+            }
+        });
+        
+        target.setOnDragDropped(new EventHandler <DragEvent>() {
+            public void handle(DragEvent event) {
+                /* data dropped */
+                System.out.println("onDragDropped");
+                /* if there is a string data on dragboard, read it and use it */
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                if (db.hasString()) {
+                    titleLabel.setText(db.getString());
+                    success = true;
+                }
+                
+                state.set(STATE_SPRINT_BACKLOCK);
+                /* let the source know whether the string was successfully 
+                 * transferred and used */
+                event.setDropCompleted(success);
+                
+                event.consume();
+            }
+        });
+
+        requirementOpen.setOnDragDone(new EventHandler <DragEvent>() {
+            public void handle(DragEvent event) {
+                /* the drag-and-drop gesture ended */
+                System.out.println("onDragDone");
+                /* if the data was successfully moved, clear it */
+                if (event.getTransferMode() == TransferMode.MOVE) {
+                    titleLabel.setText("");
+                }
+                
+                event.consume();
+            }
+        });
+
     }
     
     public void setViewForSprintBacklog(ReadOnlyDoubleProperty open, ReadOnlyDoubleProperty todo, ReadOnlyDoubleProperty done) {
@@ -111,6 +213,7 @@ public class RequirementViewController implements Initializable {
         taskDone.maxWidthProperty().bind(done);
         taskOpen.maxWidthProperty().bind(open);
     }
+    
     
     public Pane getRequirementOpenPane() {
         return requirementOpen;

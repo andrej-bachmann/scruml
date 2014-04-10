@@ -12,6 +12,7 @@ import javafx.stage.Stage;
  */
 public class MainSceneController extends Application {
     
+    private MainSceneViewController mainSceneVC;
     /**
      * start Method connects to Database and creates new MainSceneViewController,
      * which shows the MainScene
@@ -22,7 +23,12 @@ public class MainSceneController extends Application {
     public void start(Stage stage) throws Exception {
         IDatabaseController dbController = SQLiteDatabaseController.getInstance();
         dbController.connect();
-        new MainSceneViewController(stage); 
+        mainSceneVC = new MainSceneViewController(stage); 
+    }
+    
+    public MainSceneViewController getMainSceneVC()
+    {
+        return mainSceneVC;
     }
     
     /**

@@ -3,6 +3,8 @@ package scruml.view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -48,6 +50,11 @@ public class MainSceneViewController implements Initializable {
      * Initializes the controller class.
      */
     
+    public VBox getSprintVBox()
+    {
+        return sprintVBox;
+    }
+    
     public MainSceneViewController(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
         //loader.setRoot(this);
@@ -66,7 +73,21 @@ public class MainSceneViewController implements Initializable {
         //loader.setController(this);
         Parent root = (Parent)loader.load();
         RequirementViewController reqController = loader.getController();
-        reqController.setViewForProductBacklog(productBacklogVBox.widthProperty());
+        reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
+        final ChangeListener changeListener = new ChangeListener() {
+        @Override
+        public void changed(ObservableValue observableValue, Object oldValue,
+            Object newValue) {
+          if ((int)oldValue==RequirementViewController.STATE_PRODUCT_BACKLOCK && (int)newValue==RequirementViewController.STATE_SPRINT_BACKLOCK)
+              try {
+                  moveRequirementClicked(new ActionEvent());
+          } catch (IOException ex) {
+              Logger.getLogger(MainSceneViewController.class.getName()).log(Level.SEVERE, null, ex);
+          }
+      }
+    };
+
+        reqController.getState().addListener(changeListener);
         //reqController.getState().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
         root.setUserData(reqController);
         boolean add = productBacklogVBox.getChildren().add(root);
