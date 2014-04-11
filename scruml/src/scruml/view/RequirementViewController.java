@@ -199,36 +199,7 @@ public class RequirementViewController implements Initializable {
         taskDone.maxWidthProperty().bind(done);
         taskOpen.maxWidthProperty().bind(open);
     }
-    
-    public Pane getRequirementOpenPane() {
-        return requirementOpen;
-    }
-    
-    public Pane getRequirementToDoPane() {
-        return requirementToDo;
-    }
-    
-    public Pane getRequirementDonePane() {
-        return requirementDone;
-    }
-    
-    public Pane getTaskOpenPane() {
-        return taskOpen;
-    }
-    
-    public Pane getTaskToDoPane() {
-        return taskToDo;
-    }
-    
-    public Pane getTaskDonePane() {
-        return taskDone;
-    }
-    
-    public HBox getRequirementHBox()
-    {
-        return requirementHBox;
-    }
-    
+
     public IntegerProperty getState() {
         return state;
     }   

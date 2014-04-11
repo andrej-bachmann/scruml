@@ -79,23 +79,20 @@ public class MainSceneViewController implements Initializable {
         
         RequirementViewController reqController = loader.getController();
         reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
-        final ChangeListener changeListener = new ChangeListener() {
-        @Override
-        public void changed(ObservableValue observableValue, Object oldValue,
-            Object newValue) {
-          if ((int)oldValue==RequirementViewController.STATE_PRODUCT_BACKLOCK && (int)newValue==RequirementViewController.STATE_SPRINT_BACKLOCK)
-              try {
-                  moveRequirementClicked(new ActionEvent());
-          } catch (IOException ex) {
-              Logger.getLogger(MainSceneViewController.class.getName()).log(Level.SEVERE, null, ex);
-          }
-      }
-    };
 
-        reqController.getState().addListener(changeListener);
-        //reqController.getState().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
+        reqController.getState().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                if ((int)oldValue==RequirementViewController.STATE_PRODUCT_BACKLOCK && (int)newValue==RequirementViewController.STATE_SPRINT_BACKLOCK)
+                    try {
+                        moveRequirementClicked(new ActionEvent());
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainSceneViewController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
+        });
         root.setUserData(reqController);
-        boolean add = productBacklogVBox.getChildren().add(root);
+        productBacklogVBox.getChildren().add(root);
     }
     
     @FXML
@@ -109,8 +106,4 @@ public class MainSceneViewController implements Initializable {
         }
     }
     
-    public VBox getSprintVBox()
-    {
-        return sprintVBox;
-    }
 }
