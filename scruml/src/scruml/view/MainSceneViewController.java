@@ -14,16 +14,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
  * FXML Controller class
- *
+ * 
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
 public class MainSceneViewController implements Initializable {
 
@@ -41,23 +40,30 @@ public class MainSceneViewController implements Initializable {
     private HBox headerToDoTasks;
     @FXML
     private HBox headerDoneTasks;
-    
     @FXML
     private Label doneRequirementsLabel;
     @FXML
     private VBox doneRequirementsVBox;
+    
     /**
      * Initializes the controller class.
      */
-    
-    public VBox getSprintVBox()
-    {
-        return sprintVBox;
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+        productBacklogLabel.minWidthProperty().bind(productBacklogVBox.widthProperty());
+        productBacklogLabel.prefWidthProperty().bind(productBacklogVBox.widthProperty());
+        
+        sprintHeaderVBox.minWidthProperty().bind(sprintVBox.widthProperty());
+        sprintHeaderVBox.prefWidthProperty().bind(sprintVBox.widthProperty());
+        
+        doneRequirementsLabel.minWidthProperty().bind(doneRequirementsVBox.widthProperty());
+        doneRequirementsLabel.prefWidthProperty().bind(doneRequirementsVBox.widthProperty());
+        
     }
-    
+
     public MainSceneViewController(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
-        //loader.setRoot(this);
         loader.setController(this);
         Parent root = (Parent)loader.load();
         
@@ -69,9 +75,8 @@ public class MainSceneViewController implements Initializable {
     @FXML
     private void newRequirementClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
-        //loader.setRoot(this);
-        //loader.setController(this);
         Parent root = (Parent)loader.load();
+        
         RequirementViewController reqController = loader.getController();
         reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
         final ChangeListener changeListener = new ChangeListener() {
@@ -95,8 +100,7 @@ public class MainSceneViewController implements Initializable {
     
     @FXML
     private void moveRequirementClicked(ActionEvent event) throws IOException {
-        if (productBacklogVBox.getChildren().size() > 0)
-        {
+        if(productBacklogVBox.getChildren().size() > 0) {
             Node n = productBacklogVBox.getChildren().get(0);
             RequirementViewController reqController = (RequirementViewController)n.getUserData();
             reqController.setViewForSprintBacklog(headerOpenTasks.widthProperty(), headerToDoTasks.widthProperty(), headerDoneTasks.widthProperty());
@@ -105,17 +109,8 @@ public class MainSceneViewController implements Initializable {
         }
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        productBacklogLabel.minWidthProperty().bind(productBacklogVBox.widthProperty());
-        productBacklogLabel.prefWidthProperty().bind(productBacklogVBox.widthProperty());
-        
-        sprintHeaderVBox.minWidthProperty().bind(sprintVBox.widthProperty());
-        sprintHeaderVBox.prefWidthProperty().bind(sprintVBox.widthProperty());
-        
-        doneRequirementsLabel.minWidthProperty().bind(doneRequirementsVBox.widthProperty());
-        doneRequirementsLabel.prefWidthProperty().bind(doneRequirementsVBox.widthProperty());
-        
+    public VBox getSprintVBox()
+    {
+        return sprintVBox;
     }
 }

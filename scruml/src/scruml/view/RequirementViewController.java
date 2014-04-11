@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scruml.view;
 
 import java.net.URL;
@@ -13,7 +7,6 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
@@ -24,51 +17,44 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 /**
  * FXML Controller class
  *
- * @author gollerda
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
 public class RequirementViewController implements Initializable {
 
-     public static int STATE_PRODUCT_BACKLOCK = 0;
-     public static int STATE_SPRINT_BACKLOCK = 1;
-     
-     private IntegerProperty state = new SimpleIntegerProperty();
-     
-     @FXML
-     private VBox vBox;
-     @FXML
-     private HBox requirementHBox;
-     @FXML
-     private HBox taskHBox;
-     @FXML
-     private Pane requirementOpen;
-     @FXML
-     private Pane requirementToDo;
-     @FXML
-     private Pane requirementDone;
-     @FXML
-     private Pane taskOpen;     
-     @FXML
-     private Pane taskToDo;
-     @FXML
-     private Pane taskDone;
-     
-     @FXML
-     private VBox dataVBox;     
-     @FXML
-     private Label titleLabel;     
-     @FXML
-     private Label descriptionLabel;
+    public static final int STATE_PRODUCT_BACKLOCK = 0;
+    public static final int STATE_SPRINT_BACKLOCK = 1;
 
-     
-     public RequirementViewController()
-     {
-         
-     }
+    private IntegerProperty state = new SimpleIntegerProperty();
+
+    @FXML
+    private VBox vBox;
+    @FXML
+    private HBox requirementHBox;
+    @FXML
+    private HBox taskHBox;
+    @FXML
+    private Pane requirementOpen;
+    @FXML
+    private Pane requirementToDo;
+    @FXML
+    private Pane requirementDone;
+    @FXML
+    private Pane taskOpen;     
+    @FXML
+    private Pane taskToDo;
+    @FXML
+    private Pane taskDone;
+    @FXML
+    private VBox dataVBox;     
+    @FXML
+    private Label titleLabel;     
+    @FXML
+    private Label descriptionLabel;
+
     /**
      * Initializes the controller class.
      */
@@ -213,7 +199,6 @@ public class RequirementViewController implements Initializable {
         taskDone.maxWidthProperty().bind(done);
         taskOpen.maxWidthProperty().bind(open);
     }
-    
     
     public Pane getRequirementOpenPane() {
         return requirementOpen;
