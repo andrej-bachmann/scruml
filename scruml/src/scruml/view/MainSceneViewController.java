@@ -2,6 +2,7 @@ package scruml.view;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import scruml.controller.RequirementController;
+import scruml.model.IARModel;
+import scruml.model.RequirementModel;
+import sun.font.EAttribute;
 
 /**
  * FXML Controller class
@@ -69,15 +74,39 @@ public class MainSceneViewController implements Initializable {
         
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        
+        this.initRequirements();
+        
         stage.show(); 
     }
     
-    @FXML
-    private void newRequirementClicked(ActionEvent event) throws IOException {
+    /**
+     * This method gets all requirements from the database and triggers the
+     * addRequirement method.
+     */
+    private void initRequirements() {
+        RequirementController rc = new RequirementController();
+        List<IARModel> models = rc.getAllRequirements();
+        for(IARModel model : models) {
+            try {
+                this.addRequirement(model);
+            }
+            catch(IOException e) {
+                System.err.println(e);
+            }
+        }
+    }
+    
+    /**
+     * This method adds a requirement to the product backlog pane.
+     * @param model RequirementModel that should be added
+     */
+    private void addRequirement(IARModel model) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
         Parent root = (Parent)loader.load();
         
         RequirementViewController reqController = loader.getController();
+        reqController.setRequirementModel((RequirementModel)model);
         reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
 
         reqController.getState().addListener(new ChangeListener() {
@@ -93,6 +122,11 @@ public class MainSceneViewController implements Initializable {
         });
         root.setUserData(reqController);
         productBacklogVBox.getChildren().add(root);
+    }
+    
+    @FXML
+    private void newRequirementClicked(ActionEvent event) throws IOException {
+        this.addRequirement(new RequirementModel()); //Adds dummy entry
     }
     
     @FXML

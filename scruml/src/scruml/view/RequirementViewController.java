@@ -17,6 +17,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import scruml.model.RequirementModel;
 
 /**
  * FXML Controller class
@@ -29,7 +30,8 @@ public class RequirementViewController implements Initializable {
     public static final int STATE_SPRINT_BACKLOCK = 1;
 
     private IntegerProperty state = new SimpleIntegerProperty();
-
+    private RequirementModel requirementModel;
+    
     @FXML
     private VBox vBox;
     @FXML
@@ -68,7 +70,8 @@ public class RequirementViewController implements Initializable {
         taskOpen.setStyle("-fx-background-color: white;");
         taskDone.setStyle("-fx-background-color: red;");
         
-        titleLabel.setStyle("-fx-color: white;");
+        titleLabel.setStyle("-fx-text-fill: white;");
+        descriptionLabel.setStyle("-fx-text-fill: white;");
     }    
     
     public void stateChanged(int oldVal, int newVal) {
@@ -127,7 +130,7 @@ public class RequirementViewController implements Initializable {
                 /* show to the user that it is an actual gesture target */
                 if (event.getGestureSource() != vBox &&
                         event.getDragboard().hasString()) {
-                    titleLabel.textProperty().set("LOL");
+                    //titleLabel.textProperty().set("LOL");
                 }
                 
                 event.consume();
@@ -137,7 +140,7 @@ public class RequirementViewController implements Initializable {
         target.setOnDragExited(new EventHandler <DragEvent>() {
             public void handle(DragEvent event) {
                 /* mouse moved away, remove the graphical cues */
-                titleLabel.textProperty().set("LOL");
+                //titleLabel.textProperty().set("LOL");
                 
                 event.consume();
             }
@@ -151,7 +154,7 @@ public class RequirementViewController implements Initializable {
                 Dragboard db = event.getDragboard();
                 boolean success = false;
                 if (db.hasString()) {
-                    titleLabel.setText(db.getString());
+                    //titleLabel.setText(db.getString());
                     success = true;
                 }
                 
@@ -170,7 +173,7 @@ public class RequirementViewController implements Initializable {
                 System.out.println("onDragDone");
                 /* if the data was successfully moved, clear it */
                 if (event.getTransferMode() == TransferMode.MOVE) {
-                    titleLabel.setText("");
+                    //titleLabel.setText("");
                 }
                 
                 event.consume();
@@ -203,4 +206,15 @@ public class RequirementViewController implements Initializable {
     public IntegerProperty getState() {
         return state;
     }   
+    
+    /**
+     * This method sets the requirement model and binds properties to the view.
+     * @param requirementModel Model that gets bind to the view.
+     */
+    public void setRequirementModel(RequirementModel requirementModel) {
+        this.requirementModel = requirementModel;
+        this.titleLabel.textProperty().bind(requirementModel.titleProperty());
+        this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
+    }
+    
 }

@@ -62,4 +62,14 @@ public class RequirementModel implements IARModel{
     public void setPriority(int priority){
         this.priority.set(priority);
     }
+
+    public StringProperty titleProperty() {
+        return title;
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+    
+    
 }
