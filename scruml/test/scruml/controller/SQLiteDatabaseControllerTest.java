@@ -1,13 +1,9 @@
 package scruml.controller;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import scruml.fixture.TestModel;
@@ -18,10 +14,7 @@ import scruml.model.IARModel;
  * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  * @see SQLiteDatabaseController
  */
-public class SQLiteDatabaseControllerTest {
-    
-    private final String dbTestFilename = "test/scruml/database/db_test.sqlite";
-    private final String dbTestFilenameTmp = "test/scruml/database/tmp_db_test.sqlite";
+public class SQLiteDatabaseControllerTest extends TestWithFixture {
     
     public SQLiteDatabaseControllerTest() {
     }
@@ -34,18 +27,14 @@ public class SQLiteDatabaseControllerTest {
     public static void tearDownClass() {
     }
     
-    @Before
+    @Override
     public void setUp() throws Exception {
-        File source = new File(this.dbTestFilename);
-        File destination = new File(this.dbTestFilenameTmp);
-        destination.delete();
-        Files.copy(source.toPath(), destination.toPath());
+        super.setUp();
     }
     
-    @After
-    public void tearDown() {
-        File destination = new File(this.dbTestFilenameTmp);
-        destination.delete();
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 
     /**
@@ -88,7 +77,7 @@ public class SQLiteDatabaseControllerTest {
         System.out.println("connect");
         SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         try {
-            instance.connect(this.dbTestFilenameTmp);
+            instance.connect(super.getDbTestFilenameTmp());
         }
         catch(Exception e) {
             fail(e.getMessage());
@@ -125,7 +114,7 @@ public class SQLiteDatabaseControllerTest {
         System.out.println("find");
         SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         try {
-            instance.connect(this.dbTestFilenameTmp);
+            instance.connect(super.getDbTestFilenameTmp());
             
             TestModel result = (TestModel)instance.find(TestModel.class, "id=1");
             assertNotNull(result);
@@ -149,7 +138,7 @@ public class SQLiteDatabaseControllerTest {
         System.out.println("findAll");
         SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         try {
-            instance.connect(this.dbTestFilenameTmp);
+            instance.connect(super.getDbTestFilenameTmp());
             List<IARModel> modelList = instance.findAll(TestModel.class, null);
             assertEquals(modelList.size(), 2);
             TestModel result = (TestModel)modelList.get(0);
@@ -180,7 +169,7 @@ public class SQLiteDatabaseControllerTest {
         System.out.println("save");
         SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         try {
-            instance.connect(this.dbTestFilenameTmp);
+            instance.connect(super.getDbTestFilenameTmp());
             
             //Save record to database ...
             TestModel model = new TestModel();
@@ -221,7 +210,7 @@ public class SQLiteDatabaseControllerTest {
         System.out.println("delete");
         SQLiteDatabaseController instance = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         try {
-            instance.connect(this.dbTestFilenameTmp);
+            instance.connect(super.getDbTestFilenameTmp());
             
             TestModel result = (TestModel)instance.find(TestModel.class, "id=1");
             instance.delete(result);
