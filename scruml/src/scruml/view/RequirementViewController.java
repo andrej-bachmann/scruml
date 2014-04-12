@@ -14,6 +14,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -32,6 +33,11 @@ public class RequirementViewController implements Initializable {
     private IntegerProperty state = new SimpleIntegerProperty();
     private RequirementModel requirementModel;
     
+    // This reference for event-handlers
+    private final RequirementViewController thisObject;
+    
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private VBox vBox;
     @FXML
@@ -57,6 +63,11 @@ public class RequirementViewController implements Initializable {
     @FXML
     private Label descriptionLabel;
 
+    
+    public RequirementViewController()
+    {
+        thisObject=this;
+    }
     /**
      * Initializes the controller class.
      */
@@ -74,10 +85,6 @@ public class RequirementViewController implements Initializable {
         descriptionLabel.setStyle("-fx-text-fill: white;");
     }    
     
-    public void stateChanged(int oldVal, int newVal) {
-        
-    }
-    
     public void setViewForProductBacklog(ReadOnlyDoubleProperty productBacklogWidth, VBox sprintVBox) {
         taskHBox.maxHeightProperty().set(0);
         vBox.maxHeightProperty().set(200);
@@ -87,7 +94,8 @@ public class RequirementViewController implements Initializable {
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
         
-        VBox target =  sprintVBox;
+        VBox target =  sprintVBox;        
+        final MainSceneViewController mcVC = (MainSceneViewController)target.getUserData();
         
         vBox.setOnDragDetected(new EventHandler <MouseEvent>() {
             public void handle(MouseEvent event) {
@@ -96,7 +104,7 @@ public class RequirementViewController implements Initializable {
                 
                 /* allow any transfer mode */
                 Dragboard db = requirementOpen.getParent().startDragAndDrop(TransferMode.ANY);
-                
+                mcVC.setCurrentDragRequirement(thisObject);
                 /* put a string on dragboard */
                 ClipboardContent content = new ClipboardContent();
                 content.putString(new String("Requirement"));
@@ -146,7 +154,9 @@ public class RequirementViewController implements Initializable {
             }
         });
         
+        
         target.setOnDragDropped(new EventHandler <DragEvent>() {
+            @Override
             public void handle(DragEvent event) {
                 /* data dropped */
                 System.out.println("onDragDropped");
@@ -158,7 +168,8 @@ public class RequirementViewController implements Initializable {
                     success = true;
                 }
                 
-                state.set(STATE_SPRINT_BACKLOCK);
+                mcVC.moveCurrentDragRequirementToSprintBacklog();
+
                 /* let the source know whether the string was successfully 
                  * transferred and used */
                 event.setDropCompleted(success);
@@ -201,6 +212,7 @@ public class RequirementViewController implements Initializable {
         taskToDo.maxWidthProperty().bind(todo);
         taskDone.maxWidthProperty().bind(done);
         taskOpen.maxWidthProperty().bind(open);
+        state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
     }
 
     public IntegerProperty getState() {
@@ -215,6 +227,10 @@ public class RequirementViewController implements Initializable {
         this.requirementModel = requirementModel;
         this.titleLabel.textProperty().bind(requirementModel.titleProperty());
         this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
+    }
+    
+    public AnchorPane getAnchorPane()    {
+        return anchorPane;
     }
     
 }

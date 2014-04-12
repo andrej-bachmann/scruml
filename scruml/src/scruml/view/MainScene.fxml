@@ -53,21 +53,13 @@
                       <children>
                         <HBox prefHeight="41.0" prefWidth="612.0" VBox.vgrow="ALWAYS">
                           <children>
-                            <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
-                              <children>
-                                <Button mnemonicParsing="false" onAction="#newRequirementClicked" prefHeight="35.0" prefWidth="127.0" text="New Requirement" />
-                              </children>
-                            </HBox>
+                            <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS" />
                             <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
                               <children>
                                 <Label alignment="CENTER" contentDisplay="CENTER" font="$x1" minWidth="0.0" prefHeight="27.0" prefWidth="400.0" text="Sprint Nr." textAlignment="CENTER" HBox.hgrow="ALWAYS" />
                               </children>
                             </HBox>
-                            <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
-                              <children>
-                                <Button mnemonicParsing="false" onAction="#moveRequirementClicked" prefHeight="43.0" prefWidth="135.0" text="MoveReq" />
-                              </children>
-                            </HBox>
+                            <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS" />
                           </children>
                         </HBox>
                         <HBox id="HBox" alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
