@@ -153,6 +153,15 @@ public class MainSceneViewController implements Initializable {
         productBacklogVBox.getChildren().add(reqController.getAnchorPane());
     }
     
+    /**
+     * This method adds a priority to the currently selected requirement and 
+     * triggers the changeRequirementPriority method.
+     */
+    private void initRequirementPriority() {
+        
+        
+    }
+    
     public void moveCurrentDragRequirementToSprintBacklog()
     {
         if (currentDragRequirement != null )
