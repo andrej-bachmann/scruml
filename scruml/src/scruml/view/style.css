@@ -1,0 +1,53 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12.04.2014, 11:13:37
+    Author     : Kevin
+*/
+
+/* MainScene */
+
+.root {
+    
+}
+
+.h2 {
+    -fx-background-color: #f1f1f1;
+}
+
+.h2.hover {
+    -fx-background-color: #3C63A8;
+    -fx-text-fill: white;
+}
+
+#productBacklockVBox {
+    -fx-spacing: 2px;
+}
+
+#mainSplitPane {
+    -fx-box-border: transparent;
+    -fx-padding: 7px 0 0 0;
+}
+
+/* RequirementView */
+
+#requirementHBox {
+    -fx-border-width: 1px;
+    -fx-border-color: transparent transparent #d5d5d5 transparent;
+}
+
+#titleLabel {
+    -fx-font-size: 20px;
+}
+
+#descriptionLabel {
+    
+}
+
+#requirementHBox .titleTextField {
+    -fx-font-size: 20px;
+    -fx-border-color: transparent;
+}

@@ -5,6 +5,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <AnchorPane id="AnchorPane" fx:id="anchorPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="scruml.view.RequirementViewController">
   <children>
@@ -14,10 +15,11 @@
           <children>
             <Pane fx:id="requirementOpen" prefHeight="100.0" prefWidth="200.0">
               <children>
-                <VBox fx:id="dataVBox" layoutX="0.0" layoutY="0.0" prefHeight="100.0" prefWidth="200.0">
+                <Rectangle arcHeight="0.0" arcWidth="0.0" fill="#cc0000" height="95.0" layoutX="0.0" layoutY="0.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="5.0" />
+                <VBox fx:id="dataVBox" layoutX="7.0" layoutY="0.0" prefHeight="100.0" prefWidth="193.0">
                   <children>
                     <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="200.0" text="Title" />
-                    <Label fx:id="descriptionLabel" prefHeight="50.0" prefWidth="200.0" text="Description" />
+                    <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="200.0" text="Description" />
                   </children>
                 </VBox>
               </children>

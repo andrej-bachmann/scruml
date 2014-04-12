@@ -85,21 +85,19 @@ public class RequirementViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        requirementOpen.setStyle("-fx-background-color: black;");
         requirementToDo.setStyle("-fx-background-color: red;");
         requirementDone.setStyle("-fx-background-color: white;");
         taskToDo.setStyle("-fx-background-color: black;");
         taskOpen.setStyle("-fx-background-color: white;");
         taskDone.setStyle("-fx-background-color: red;");
         
-        titleLabel.setStyle("-fx-text-fill: white;");
-        descriptionLabel.setStyle("-fx-text-fill: white;");
     }   
     
     public void setViewForCreate(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {
         this.setViewForProductBacklog(productBacklogWidth, sprintVBox);
         dataVBox.getChildren().remove(titleLabel);
         dataVBox.getChildren().remove(descriptionLabel);
+        titleTextField.getStyleClass().add("titleTextField");
         dataVBox.getChildren().add(titleTextField);
         dataVBox.getChildren().add(descriptionTextField);
         dataVBox.getChildren().add(saveButton);

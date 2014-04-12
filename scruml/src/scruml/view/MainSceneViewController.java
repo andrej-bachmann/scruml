@@ -76,9 +76,8 @@ public class MainSceneViewController implements Initializable {
         productBacklogLabel.addEventHandler(MouseEvent.MOUSE_ENTERED, 
         new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent e) {
-                    DropShadow shadow = new DropShadow();
                     productBacklogLabel.setText("New Requirement");
-                    productBacklogLabel.setEffect(shadow);
+                    productBacklogLabel.getStyleClass().add("hover");
                 }
         });
         
@@ -87,7 +86,7 @@ public class MainSceneViewController implements Initializable {
             new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent e) {
                     productBacklogLabel.setText("Product Backlog");
-                    productBacklogLabel.setEffect(null);
+                    productBacklogLabel.getStyleClass().remove(productBacklogLabel.getStyleClass().indexOf("hover"));
                 }
         });
         
