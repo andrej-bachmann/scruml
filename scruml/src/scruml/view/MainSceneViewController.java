@@ -95,7 +95,11 @@ public class MainSceneViewController implements Initializable {
             new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent e) {
                     try {
-                        addRequirement(new RequirementModel());
+                        
+                        newRequirementClicked();
+                       // addRequirement(new RequirementModel());
+                        
+                        
                     } catch (IOException ex) {
                         Logger.getLogger(MainSceneViewController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -105,7 +109,7 @@ public class MainSceneViewController implements Initializable {
         sprintVBox.setUserData(this);
         
     }
-
+    
     public MainSceneViewController(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
         loader.setController(this);
@@ -148,18 +152,35 @@ public class MainSceneViewController implements Initializable {
         reqController.setRequirementModel((RequirementModel)model);
         reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
 
-
+        
+        reqController.getState().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
         root.setUserData(reqController);
         productBacklogVBox.getChildren().add(reqController.getAnchorPane());
     }
     
+    public void newRequirementClicked() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
+        Parent root = (Parent)loader.load();
+        
+        RequirementViewController reqController = loader.getController();
+        reqController.setViewForCreate(productBacklogVBox.widthProperty(), sprintVBox);
+        reqController.getState().set(RequirementViewController.STATE_CREATE);
+        
+        productBacklogVBox.getChildren().add(reqController.getAnchorPane());
+        
+    }
+    
+    
     public void moveCurrentDragRequirementToSprintBacklog()
     {
-        if (currentDragRequirement != null )
-        {
-            currentDragRequirement.setViewForSprintBacklog(headerOpenTasks.widthProperty(), headerToDoTasks.widthProperty(), headerDoneTasks.widthProperty());
-            productBacklogVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
-            sprintVBox.getChildren().add(currentDragRequirement.getAnchorPane());
+        if (currentDragRequirement != null) {
+            if (currentDragRequirement.getState().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK)
+            {
+                currentDragRequirement.setViewForSprintBacklog(headerOpenTasks.widthProperty(), headerToDoTasks.widthProperty(), headerDoneTasks.widthProperty());
+                productBacklogVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
+                sprintVBox.getChildren().add(currentDragRequirement.getAnchorPane());
+                currentDragRequirement.getState().set(RequirementViewController.STATE_SPRINT_BACKLOCK);
+            }
         }
     }
     

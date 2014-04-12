@@ -2,13 +2,18 @@ package scruml.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -18,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import scruml.controller.RequirementController;
 import scruml.model.RequirementModel;
 
 /**
@@ -27,8 +33,9 @@ import scruml.model.RequirementModel;
  */
 public class RequirementViewController implements Initializable {
 
-    public static final int STATE_PRODUCT_BACKLOCK = 0;
-    public static final int STATE_SPRINT_BACKLOCK = 1;
+    public static final int STATE_CREATE = 0;
+    public static final int STATE_PRODUCT_BACKLOCK = 1;
+    public static final int STATE_SPRINT_BACKLOCK = 2;
 
     private IntegerProperty state = new SimpleIntegerProperty();
     private RequirementModel requirementModel;
@@ -62,6 +69,10 @@ public class RequirementViewController implements Initializable {
     private Label titleLabel;     
     @FXML
     private Label descriptionLabel;
+    
+    private TextField titleTextField=new TextField("Title");
+    private TextField descriptionTextField=new TextField("Description");
+    private Button saveButton=new Button("Save Requirement");
 
     
     public RequirementViewController()
@@ -83,9 +94,46 @@ public class RequirementViewController implements Initializable {
         
         titleLabel.setStyle("-fx-text-fill: white;");
         descriptionLabel.setStyle("-fx-text-fill: white;");
-    }    
+    }   
+    
+    public void setViewForCreate(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {
+        this.setViewForProductBacklog(productBacklogWidth, sprintVBox);
+        dataVBox.getChildren().remove(titleLabel);
+        dataVBox.getChildren().remove(descriptionLabel);
+        dataVBox.getChildren().add(titleTextField);
+        dataVBox.getChildren().add(descriptionTextField);
+        dataVBox.getChildren().add(saveButton);
+        
+        titleTextField.focusTraversableProperty().set(true);
+        descriptionTextField.focusTraversableProperty().set(true);
+        
+        titleTextField.requestFocus();
+        
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            RequirementController reqController = new RequirementController();
+            try {
+                thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(), descriptionTextField.textProperty().get()));
+                thisObject.setViewForProductBacklog(productBacklogWidth, sprintVBox);
+                thisObject.state.set(STATE_PRODUCT_BACKLOCK);
+                
+                dataVBox.getChildren().remove(titleTextField);
+                dataVBox.getChildren().remove(descriptionTextField);
+                dataVBox.getChildren().remove(saveButton);  
+                dataVBox.getChildren().add(titleLabel);
+                dataVBox.getChildren().add(descriptionLabel);
+            } catch (Exception ex) {
+                Logger.getLogger(RequirementViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    });
+    }
     
     public void setViewForProductBacklog(ReadOnlyDoubleProperty productBacklogWidth, VBox sprintVBox) {
+
+        
+        
         taskHBox.maxHeightProperty().set(0);
         vBox.maxHeightProperty().set(200);
         requirementHBox.minHeightProperty().bind(vBox.heightProperty());
