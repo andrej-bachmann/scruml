@@ -1,5 +1,6 @@
 package scruml.view;
 
+import java.awt.Choice;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -7,6 +8,10 @@ import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -73,9 +78,15 @@ public class RequirementViewController implements Initializable {
     @FXML
     private ChoiceBox priorityMenu;
     
+    
+    
+    
     private TextField titleTextField=new TextField("Title");
     private TextField descriptionTextField=new TextField("Description");
     private Button saveButton=new Button("Save Requirement");
+    
+    
+    
 
     
     public RequirementViewController()
@@ -272,10 +283,19 @@ public class RequirementViewController implements Initializable {
      * This method sets the requirement model and binds properties to the view.
      * @param requirementModel Model that gets bind to the view.
      */
-    public void setRequirementModel(RequirementModel requirementModel) {
+    public void setRequirementModel(final RequirementModel requirementModel) {
         this.requirementModel = requirementModel;
         this.titleLabel.textProperty().bind(requirementModel.titleProperty());
         this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
+        this.priorityMenu.setItems(FXCollections.observableArrayList("1","2","3"));
+        final int[] priority = new int []{1, 2, 3};
+        priorityMenu.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue ov, Number value, Number new_value){
+                requirementModel.setPriority(priority[new_value.intValue()]);
+            };
+    });
+        
     }
     
      /**
@@ -289,6 +309,10 @@ public class RequirementViewController implements Initializable {
     
     public AnchorPane getAnchorPane()    {
         return anchorPane;
+    }
+
+    private void priorityMenu(String toString) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
