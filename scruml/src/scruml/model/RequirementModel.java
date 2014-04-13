@@ -71,5 +71,9 @@ public class RequirementModel implements IARModel{
         return description;
     }
     
+    public IntegerProperty priorityProperty() {
+        return priority;
+    }
+    
     
 }
