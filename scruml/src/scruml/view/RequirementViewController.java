@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
@@ -69,6 +70,8 @@ public class RequirementViewController implements Initializable {
     private Label titleLabel;     
     @FXML
     private Label descriptionLabel;
+    @FXML
+    private ChoiceBox priorityMenu;
     
     private TextField titleTextField=new TextField("Title");
     private TextField descriptionTextField=new TextField("Description");
@@ -273,6 +276,7 @@ public class RequirementViewController implements Initializable {
         this.requirementModel = requirementModel;
         this.titleLabel.textProperty().bind(requirementModel.titleProperty());
         this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
+
     }
     
     public AnchorPane getAnchorPane()    {
