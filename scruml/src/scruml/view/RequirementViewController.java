@@ -276,8 +276,16 @@ public class RequirementViewController implements Initializable {
         this.requirementModel = requirementModel;
         this.titleLabel.textProperty().bind(requirementModel.titleProperty());
         this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
-
     }
+    
+     /**
+     * This method sets the gets the chosen priority and gives it to the model
+     */
+/*    public void setChosenPriority (RequirementModel requirementModel) {
+        this.priorityMenu.g
+        int selectedItem = (int)priorityMenu.getSel
+        requirementModel.setPriority(this.priorityMenu.);
+    }*/
     
     public AnchorPane getAnchorPane()    {
         return anchorPane;
