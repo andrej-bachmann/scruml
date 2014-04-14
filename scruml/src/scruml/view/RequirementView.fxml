@@ -21,7 +21,7 @@
                   <children>
                     <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="200.0" text="Title" />
                     <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="200.0" text="Description" />
-                    <Label id="labelPriority" fx:id="priorityLabel" text="Priority:" />
+                    <Label id="labelPriority" fx:id="priorityLabel" text="Priorität:" />
                     <ChoiceBox fx:id="priorityMenu">
                       <items>
                         <FXCollections fx:factory="observableArrayList">

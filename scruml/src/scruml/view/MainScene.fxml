@@ -92,7 +92,7 @@
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
                   <children>
-                    <Label fx:id="doneRequirementsLabel" alignment="CENTER" font="$x1" minHeight="75.0" prefHeight="75.0" prefWidth="312.0" text="Erledigte Aufgaben" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="doneRequirementsLabel" alignment="BOTTOM_CENTER" font="$x1" minHeight="75.0" prefHeight="75.0" prefWidth="312.0" text="Burndown" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
                   </children>
                 </HBox>
               </children>
