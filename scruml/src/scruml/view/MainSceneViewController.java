@@ -6,18 +6,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,7 +20,6 @@ import javafx.stage.Stage;
 import scruml.controller.RequirementController;
 import scruml.model.IARModel;
 import scruml.model.RequirementModel;
-import sun.font.EAttribute;
 
 /**
  * FXML Controller class
@@ -103,8 +97,7 @@ public class MainSceneViewController implements Initializable {
                 }
         });
         
-        sprintVBox.setUserData(this);
-        
+        sprintVBox.setUserData(this);        
     }
 
     /**
@@ -138,10 +131,8 @@ public class MainSceneViewController implements Initializable {
         reqController.setViewForCreate(productBacklogVBox.widthProperty(), sprintVBox);
         reqController.getState().set(RequirementViewController.STATE_CREATE);
         
-        productBacklogVBox.getChildren().add(reqController.getAnchorPane());
-        
+        productBacklogVBox.getChildren().add(reqController.getAnchorPane());        
     }
-
     
     /**
      * This method gets all requirements from the database and triggers the
@@ -178,15 +169,6 @@ public class MainSceneViewController implements Initializable {
     }
     
     /**
-     * This method adds a priority to the currently selected requirement and 
-     * triggers the changeRequirementPriority method.
-     */
-    private void initRequirementPriority() {
-        
-        
-    }
-    
-    /**
      * is called when a RequirementView object is in Drag action and gets dropped over sprintVBox.
      * Removes the currentDragRequirement(if not null) from productBacklogVBox and adds it to sprintVBox after setting its State to "STATE_SPRINT_BACKLOG"
      */
@@ -209,6 +191,5 @@ public class MainSceneViewController implements Initializable {
     public void setCurrentDragRequirement(RequirementViewController reqViewController)
     {
         currentDragRequirement = reqViewController;
-    }
-    
+    }    
 }
