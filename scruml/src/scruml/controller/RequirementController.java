@@ -1,6 +1,8 @@
 package scruml.controller;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import scruml.model.IARModel;
 import scruml.model.RequirementModel;
 
@@ -26,11 +28,11 @@ public class RequirementController {
      * @return RequirementModel
      * @throws Exception 
      */
-    public RequirementModel createRequirement(String title, String description) throws Exception {
+    public RequirementModel createRequirement(String title, String description, int priority) throws Exception {
         RequirementModel model = new RequirementModel();
         model.setTitle(title);
         model.setDescription(description);
-        model.setPriority(1); //default priority
+        model.setPriority(priority); //default priority
         this.db.save(model);
         return model;
     }
@@ -49,6 +51,15 @@ public class RequirementController {
         }
         catch(Exception e) {
             return null;
+        }
+    }
+    
+    public void changePriority(RequirementModel m, int newPriority) {
+        try {
+            m.priorityProperty().set(newPriority);
+            db.save(m);
+        } catch (Exception ex) {
+            Logger.getLogger(RequirementController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -29,6 +30,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import scruml.controller.RequirementController;
 import scruml.model.RequirementModel;
 
@@ -76,6 +79,8 @@ public class RequirementViewController implements Initializable {
     @FXML
     private Label descriptionLabel;
     @FXML
+    private Label priorityLabel;
+    @FXML
     private ChoiceBox priorityMenu;
     
     
@@ -106,6 +111,7 @@ public class RequirementViewController implements Initializable {
         taskOpen.setStyle("-fx-background-color: white;");
         taskDone.setStyle("-fx-background-color: red;");
         
+        priorityMenu.setItems(FXCollections.observableArrayList("1","2","3"));
     }  
     
     /**
@@ -129,9 +135,13 @@ public class RequirementViewController implements Initializable {
         
         dataVBox.getChildren().remove(titleLabel);
         dataVBox.getChildren().remove(descriptionLabel);
+        dataVBox.getChildren().remove(priorityLabel);
+        dataVBox.getChildren().remove(priorityMenu);
         titleTextField.getStyleClass().add("titleTextField");
         dataVBox.getChildren().add(titleTextField);
         dataVBox.getChildren().add(descriptionTextField);
+        dataVBox.getChildren().add(priorityLabel);
+        dataVBox.getChildren().add(priorityMenu);
         dataVBox.getChildren().add(saveButton);
         
         titleTextField.focusTraversableProperty().set(true);
@@ -144,15 +154,20 @@ public class RequirementViewController implements Initializable {
         public void handle(ActionEvent event) {
             reqController = new RequirementController();
             try {
-                thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(), descriptionTextField.textProperty().get()));
+                thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(),
+                        descriptionTextField.textProperty().get(), Integer.parseInt(priorityMenu.valueProperty().get().toString())));
                 thisObject.setViewForProductBacklog(productBacklogWidth, sprintVBox);
                 thisObject.state.set(STATE_PRODUCT_BACKLOCK);
                 
                 dataVBox.getChildren().remove(titleTextField);
-                dataVBox.getChildren().remove(descriptionTextField);
+                dataVBox.getChildren().remove(descriptionTextField);                
+                dataVBox.getChildren().remove(priorityLabel);
+                dataVBox.getChildren().remove(priorityMenu);
                 dataVBox.getChildren().remove(saveButton);  
                 dataVBox.getChildren().add(titleLabel);
                 dataVBox.getChildren().add(descriptionLabel);
+                dataVBox.getChildren().add(priorityLabel);
+                dataVBox.getChildren().add(priorityMenu);
             } catch (Exception ex) {
                 Logger.getLogger(RequirementViewController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -175,6 +190,15 @@ public class RequirementViewController implements Initializable {
         requirementDone.setPrefWidth(0);
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
+        
+        priorityMenu.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue ov, Number value, Number new_value){
+                if (reqController == null)
+                    reqController = new RequirementController();
+                reqController.changePriority(requirementModel, new_value.intValue()+1);
+            };
+        });
         
         VBox target =  sprintVBox;        
         final MainSceneViewController mcVC = (MainSceneViewController)target.getUserData();
@@ -317,17 +341,10 @@ public class RequirementViewController implements Initializable {
      */
     public void setRequirementModel(final RequirementModel requirementModel) {
         this.requirementModel = requirementModel;
-        this.titleLabel.textProperty().bind(requirementModel.titleProperty());
-        this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
-        this.priorityMenu.setItems(FXCollections.observableArrayList("1","2","3"));
-        final int[] priority = new int []{1, 2, 3};
-        priorityMenu.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
-            @Override
-            public void changed(ObservableValue ov, Number value, Number new_value){
-                requirementModel.setPriority(priority[new_value.intValue()]);
-            };
-    });
-        
+        this.titleLabel.textProperty().bindBidirectional(requirementModel.titleProperty());
+        this.descriptionLabel.textProperty().bindBidirectional(requirementModel.descriptionProperty());  
+        priorityMenu.getSelectionModel().select(requirementModel.priorityProperty().get()-1);
+        //Bindings.bind(this.priorityMenu.valueProperty(), requirementModel.priorityProperty(), new NumberStringConverter());
     }
     
      /**

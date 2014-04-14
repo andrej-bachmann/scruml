@@ -7,6 +7,7 @@
 package scruml.model;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.StringProperty;
 import scruml.database.DBSimpleIntegerProperty;
 import scruml.database.DBSimpleStringProperty;
@@ -62,13 +63,17 @@ public class RequirementModel implements IARModel{
     public void setPriority(int priority){
         this.priority.set(priority);
     }
+    
+    public StringProperty descriptionProperty() {
+        return description;
+    }
 
     public StringProperty titleProperty() {
         return title;
     }
 
-    public StringProperty descriptionProperty() {
-        return description;
+    public IntegerProperty priorityProperty() {
+        return priority;
     }
     
     
