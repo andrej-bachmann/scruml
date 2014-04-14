@@ -58,6 +58,8 @@ public class MainSceneViewController implements Initializable {
     
     /**
      * Initializes the controller class.
+     * binds the headers of ProductBacklog, SprintBacklog and Burndown to its content VBoxes.
+     * Adds eventhandler to productBacklogLabel for Mouse entered, -exited, and -clicked, to manage "new Requirement" functionality.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,6 +107,11 @@ public class MainSceneViewController implements Initializable {
         
     }
 
+    /**
+     * Constructor, loads the MainScene and calls initRequirements()
+     * @param stage MainStage, where MainScene is shown.
+     * @throws Exception 
+     */
     public MainSceneViewController(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
         loader.setController(this);
@@ -118,7 +125,12 @@ public class MainSceneViewController implements Initializable {
         stage.show(); 
     }
     
-        public void newRequirementClicked() throws IOException{
+    /**
+     * Called when User clicks on "New Requirement". Creates a new RequirementViewController, sets its state to "STATE_CREATE" and
+     * adds it to ProductBacklog
+     * @throws IOException 
+     */
+    public void newRequirementClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
         Parent root = (Parent)loader.load();
         
@@ -174,6 +186,10 @@ public class MainSceneViewController implements Initializable {
         
     }
     
+    /**
+     * is called when a RequirementView object is in Drag action and gets dropped over sprintVBox.
+     * Removes the currentDragRequirement(if not null) from productBacklogVBox and adds it to sprintVBox after setting its State to "STATE_SPRINT_BACKLOG"
+     */
     public void moveCurrentDragRequirementToSprintBacklog()
     {
         if (currentDragRequirement != null) {
@@ -186,6 +202,10 @@ public class MainSceneViewController implements Initializable {
         }
     }
     
+    /**
+     * This Method is called by a requirementView object which is currently in Drag action.
+     * @param reqViewController 
+     */
     public void setCurrentDragRequirement(RequirementViewController reqViewController)
     {
         currentDragRequirement = reqViewController;
