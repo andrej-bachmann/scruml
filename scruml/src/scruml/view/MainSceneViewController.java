@@ -129,7 +129,7 @@ public class MainSceneViewController implements Initializable {
         
         RequirementViewController reqController = loader.getController();
         reqController.setViewForCreate(productBacklogVBox.widthProperty(), sprintVBox);
-        reqController.getState().set(RequirementViewController.STATE_CREATE);
+        reqController.stateProperty().set(RequirementViewController.STATE_CREATE);
         
         productBacklogVBox.getChildren().add(reqController.getAnchorPane());        
     }
@@ -163,7 +163,7 @@ public class MainSceneViewController implements Initializable {
         reqController.setRequirementModel((RequirementModel)model);
         reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
 
-        reqController.getState().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
+        reqController.stateProperty().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
         root.setUserData(reqController);
         productBacklogVBox.getChildren().add(reqController.getAnchorPane());
     }
@@ -175,11 +175,11 @@ public class MainSceneViewController implements Initializable {
     public void moveCurrentDragRequirementToSprintBacklog()
     {
         if (currentDragRequirement != null) {
-            if (currentDragRequirement.getState().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK)   {
+            if (currentDragRequirement.stateProperty().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK)   {
                 currentDragRequirement.setViewForSprintBacklog(headerOpenTasks.widthProperty(), headerToDoTasks.widthProperty(), headerDoneTasks.widthProperty());
                 productBacklogVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
                 sprintVBox.getChildren().add(currentDragRequirement.getAnchorPane());
-                currentDragRequirement.getState().set(RequirementViewController.STATE_SPRINT_BACKLOCK);
+                currentDragRequirement.stateProperty().set(RequirementViewController.STATE_SPRINT_BACKLOCK);
             }
         }
     }

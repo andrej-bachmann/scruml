@@ -307,7 +307,7 @@ public class RequirementViewController implements Initializable {
         state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
     }
 
-    public IntegerProperty getState() {
+    public IntegerProperty stateProperty() {
         return state;
     }   
     
