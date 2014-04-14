@@ -6,18 +6,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,7 +20,6 @@ import javafx.stage.Stage;
 import scruml.controller.RequirementController;
 import scruml.model.IARModel;
 import scruml.model.RequirementModel;
-import sun.font.EAttribute;
 
 /**
  * FXML Controller class
@@ -58,6 +52,8 @@ public class MainSceneViewController implements Initializable {
     
     /**
      * Initializes the controller class.
+     * binds the headers of ProductBacklog, SprintBacklog and Burndown to its content VBoxes.
+     * Adds eventhandler to productBacklogLabel for Mouse entered, -exited, and -clicked, to manage "new Requirement" functionality.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,10 +97,14 @@ public class MainSceneViewController implements Initializable {
                 }
         });
         
-        sprintVBox.setUserData(this);
-        
+        sprintVBox.setUserData(this);        
     }
 
+    /**
+     * Constructor, loads the MainScene and calls initRequirements()
+     * @param stage MainStage, where MainScene is shown.
+     * @throws Exception 
+     */
     public MainSceneViewController(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
         loader.setController(this);
@@ -118,18 +118,21 @@ public class MainSceneViewController implements Initializable {
         stage.show(); 
     }
     
-        public void newRequirementClicked() throws IOException{
+    /**
+     * Called when User clicks on "New Requirement". Creates a new RequirementViewController, sets its state to "STATE_CREATE" and
+     * adds it to ProductBacklog
+     * @throws IOException 
+     */
+    public void newRequirementClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
         Parent root = (Parent)loader.load();
         
         RequirementViewController reqController = loader.getController();
         reqController.setViewForCreate(productBacklogVBox.widthProperty(), sprintVBox);
-        reqController.getState().set(RequirementViewController.STATE_CREATE);
+        reqController.stateProperty().set(RequirementViewController.STATE_CREATE);
         
-        productBacklogVBox.getChildren().add(reqController.getAnchorPane());
-        
+        productBacklogVBox.getChildren().add(reqController.getAnchorPane());        
     }
-
     
     /**
      * This method gets all requirements from the database and triggers the
@@ -160,35 +163,33 @@ public class MainSceneViewController implements Initializable {
         reqController.setRequirementModel((RequirementModel)model);
         reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
 
-        reqController.getState().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
+        reqController.stateProperty().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
         root.setUserData(reqController);
         productBacklogVBox.getChildren().add(reqController.getAnchorPane());
     }
     
     /**
-     * This method adds a priority to the currently selected requirement and 
-     * triggers the changeRequirementPriority method.
+     * is called when a RequirementView object is in Drag action and gets dropped over sprintVBox.
+     * Removes the currentDragRequirement(if not null) from productBacklogVBox and adds it to sprintVBox after setting its State to "STATE_SPRINT_BACKLOG"
      */
-    private void initRequirementPriority() {
-        
-        
-    }
-    
     public void moveCurrentDragRequirementToSprintBacklog()
     {
         if (currentDragRequirement != null) {
-            if (currentDragRequirement.getState().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK)   {
+            if (currentDragRequirement.stateProperty().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK)   {
                 currentDragRequirement.setViewForSprintBacklog(headerOpenTasks.widthProperty(), headerToDoTasks.widthProperty(), headerDoneTasks.widthProperty());
                 productBacklogVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
                 sprintVBox.getChildren().add(currentDragRequirement.getAnchorPane());
-                currentDragRequirement.getState().set(RequirementViewController.STATE_SPRINT_BACKLOCK);
+                currentDragRequirement.stateProperty().set(RequirementViewController.STATE_SPRINT_BACKLOCK);
             }
         }
     }
     
+    /**
+     * This Method is called by a requirementView object which is currently in Drag action.
+     * @param reqViewController 
+     */
     public void setCurrentDragRequirement(RequirementViewController reqViewController)
     {
         currentDragRequirement = reqViewController;
-    }
-    
+    }    
 }

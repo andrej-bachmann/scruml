@@ -85,6 +85,7 @@ public class RequirementViewController implements Initializable {
     private TextField descriptionTextField=new TextField("Description");
     private Button saveButton=new Button("Save Requirement");
     
+    private RequirementController reqController;
     
     
 
@@ -105,10 +106,27 @@ public class RequirementViewController implements Initializable {
         taskOpen.setStyle("-fx-background-color: white;");
         taskDone.setStyle("-fx-background-color: red;");
         
-    }   
+    }  
+    
+    /**
+     * Sets the RequirementView for ProductBacklog, Height of taskHBox is set to 0,
+     * requirementToDo and requirementDone cells width is set to 0, requirementopen cells width is bind to productBacklog labels widthProperty
+     * Replaces titleLabel with titleTextField and descriptionLabel with descriptionTextField and adds Save Button in dataVBox.
+     * Adds eventHandler to saveButton, which creates RequirementController (which further creates a RequirementModel) on button click.
+     * After Button click state is set to STATE_PRODUCTBACKLOG and textfields are replaced with labels.
+     * @param productBacklogWidth widthProperty of ProductBacklog label
+     * @param sprintVBox The target of Drag and Drop for Requirement
+     */
     
     public void setViewForCreate(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {
-        this.setViewForProductBacklog(productBacklogWidth, sprintVBox);
+        taskHBox.maxHeightProperty().set(0);
+        vBox.maxHeightProperty().set(200);
+        requirementHBox.minHeightProperty().bind(vBox.heightProperty());
+        requirementToDo.setPrefWidth(0);
+        requirementDone.setPrefWidth(0);
+        requirementOpen.minWidthProperty().bind(productBacklogWidth);
+        requirementOpen.maxWidthProperty().bind(productBacklogWidth);
+        
         dataVBox.getChildren().remove(titleLabel);
         dataVBox.getChildren().remove(descriptionLabel);
         titleTextField.getStyleClass().add("titleTextField");
@@ -124,7 +142,7 @@ public class RequirementViewController implements Initializable {
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            RequirementController reqController = new RequirementController();
+            reqController = new RequirementController();
             try {
                 thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(), descriptionTextField.textProperty().get()));
                 thisObject.setViewForProductBacklog(productBacklogWidth, sprintVBox);
@@ -142,10 +160,14 @@ public class RequirementViewController implements Initializable {
     });
     }
     
-    public void setViewForProductBacklog(ReadOnlyDoubleProperty productBacklogWidth, VBox sprintVBox) {
-
-        
-        
+    /**
+     * Sets the RequirementView for ProductBacklog, Height of taskHBox is set to 0,
+     * requirementToDo and requirementDone cells width is set to 0, requirementopen cells width is bind to productBacklog labels widthProperty
+     * Drag and Drop functionality added to Requirement and sprintVBox as target of Drag and Drop
+     * @param productBacklogWidth widthProperty of ProductBacklog label
+     * @param sprintVBox The target of Drag and Drop for Requirement
+     */
+    public void setViewForProductBacklog(ReadOnlyDoubleProperty productBacklogWidth, VBox sprintVBox) {        
         taskHBox.maxHeightProperty().set(0);
         vBox.maxHeightProperty().set(200);
         requirementHBox.minHeightProperty().bind(vBox.heightProperty());
@@ -253,6 +275,16 @@ public class RequirementViewController implements Initializable {
 
     }
     
+    
+    /**
+     * Sets the RequirementView for sprintBacklog. One Requirement has two rows and three coloums, the second row is where the Tasks will be placed.
+     * 
+     * Later there will be two ore more views for sprintBacklog, one "collapsed" where the taskHBox is invisible and one "expanded" where it's not.
+     * 
+     * @param open widthProperty of open Tasks coloumn
+     * @param todo widthProperty of to do coloumn
+     * @param done widthProperty of done coloumn
+     */
     public void setViewForSprintBacklog(ReadOnlyDoubleProperty open, ReadOnlyDoubleProperty todo, ReadOnlyDoubleProperty done) {
         taskHBox.setMaxHeight(500);
         taskHBox.minHeightProperty().bind(vBox.heightProperty().divide(2));
@@ -275,7 +307,7 @@ public class RequirementViewController implements Initializable {
         state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
     }
 
-    public IntegerProperty getState() {
+    public IntegerProperty stateProperty() {
         return state;
     }   
     
@@ -288,12 +320,11 @@ public class RequirementViewController implements Initializable {
         this.titleLabel.textProperty().bind(requirementModel.titleProperty());
         this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
         this.priorityMenu.setItems(FXCollections.observableArrayList("1","2","3"));
-        this.priorityMenu.valueProperty().bind(requirementModel.priorityProperty());
         final int[] priority = new int []{1, 2, 3};
         priorityMenu.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             @Override
             public void changed(ObservableValue ov, Number value, Number new_value){
-
+                requirementModel.setPriority(priority[new_value.intValue()]);
             };
     });
         
