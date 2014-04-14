@@ -320,12 +320,11 @@ public class RequirementViewController implements Initializable {
         this.titleLabel.textProperty().bind(requirementModel.titleProperty());
         this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty());
         this.priorityMenu.setItems(FXCollections.observableArrayList("1","2","3"));
-        this.priorityMenu.valueProperty().bind(requirementModel.priorityProperty());
         final int[] priority = new int []{1, 2, 3};
         priorityMenu.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             @Override
             public void changed(ObservableValue ov, Number value, Number new_value){
-
+                requirementModel.setPriority(priority[new_value.intValue()]);
             };
     });
         
