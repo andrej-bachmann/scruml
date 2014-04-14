@@ -150,7 +150,7 @@ public class RequirementViewController implements Initializable {
             reqController = new RequirementController();
             try {
                 thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(),
-                        descriptionTextField.textProperty().get(), priorityMenu.getSelectionModel().getSelectedIndex()));
+                        descriptionTextField.textProperty().get(), priorityMenu.getSelectionModel().getSelectedIndex()+1));
                 thisObject.setViewForProductBacklog(productBacklogWidth, sprintVBox);
                 thisObject.state.set(STATE_PRODUCT_BACKLOCK);
                 
