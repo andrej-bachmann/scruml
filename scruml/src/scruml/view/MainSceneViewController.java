@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -46,6 +47,12 @@ public class MainSceneViewController implements Initializable {
     private Label doneRequirementsLabel;
     @FXML
     private VBox doneRequirementsVBox;
+    @FXML
+    private ScrollPane productBacklogScrollPane;    
+    @FXML
+    private ScrollPane sprintScrollPane;    
+    @FXML
+    private ScrollPane burndownScrollPane;
     
     
     private RequirementViewController currentDragRequirement;
@@ -58,14 +65,14 @@ public class MainSceneViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        productBacklogLabel.minWidthProperty().bind(productBacklogVBox.widthProperty());
-        productBacklogLabel.prefWidthProperty().bind(productBacklogVBox.widthProperty());
+        productBacklogLabel.minWidthProperty().bind(productBacklogScrollPane.widthProperty());
+        productBacklogLabel.prefWidthProperty().bind(productBacklogScrollPane.widthProperty());
         
-        sprintHeaderVBox.minWidthProperty().bind(sprintVBox.widthProperty());
-        sprintHeaderVBox.prefWidthProperty().bind(sprintVBox.widthProperty());
+        sprintHeaderVBox.minWidthProperty().bind(sprintScrollPane.widthProperty());
+        sprintHeaderVBox.prefWidthProperty().bind(sprintScrollPane.widthProperty());
         
-        doneRequirementsLabel.minWidthProperty().bind(doneRequirementsVBox.widthProperty());
-        doneRequirementsLabel.prefWidthProperty().bind(doneRequirementsVBox.widthProperty());
+        doneRequirementsLabel.minWidthProperty().bind(burndownScrollPane.widthProperty());
+        doneRequirementsLabel.prefWidthProperty().bind(burndownScrollPane.widthProperty());
         
         
         
