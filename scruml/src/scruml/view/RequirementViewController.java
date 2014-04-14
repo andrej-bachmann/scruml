@@ -1,18 +1,15 @@
 package scruml.view;
 
-import java.awt.Choice;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,8 +27,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.NumberStringConverter;
 import scruml.controller.RequirementController;
 import scruml.model.RequirementModel;
 
@@ -105,12 +100,12 @@ public class RequirementViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        requirementToDo.setStyle("-fx-background-color: red;");
+        /*requirementToDo.setStyle("-fx-background-color: red;");
         requirementDone.setStyle("-fx-background-color: white;");
         taskToDo.setStyle("-fx-background-color: black;");
         taskOpen.setStyle("-fx-background-color: white;");
         taskDone.setStyle("-fx-background-color: red;");
-        
+        */
         priorityMenu.setItems(FXCollections.observableArrayList("1","2","3","4","5"));
     }  
     
@@ -155,7 +150,7 @@ public class RequirementViewController implements Initializable {
             reqController = new RequirementController();
             try {
                 thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(),
-                        descriptionTextField.textProperty().get(), Integer.parseInt(priorityMenu.valueProperty().get().toString())));
+                        descriptionTextField.textProperty().get(), priorityMenu.getSelectionModel().getSelectedIndex()));
                 thisObject.setViewForProductBacklog(productBacklogWidth, sprintVBox);
                 thisObject.state.set(STATE_PRODUCT_BACKLOCK);
                 
@@ -328,6 +323,8 @@ public class RequirementViewController implements Initializable {
         taskToDo.maxWidthProperty().bind(todo);
         taskDone.maxWidthProperty().bind(done);
         taskOpen.maxWidthProperty().bind(open);
+        
+        priorityMenu.disableProperty().setValue(Boolean.TRUE);
         state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
     }
 

@@ -32,7 +32,10 @@ public class RequirementController {
         RequirementModel model = new RequirementModel();
         model.setTitle(title);
         model.setDescription(description);
-        model.setPriority(priority); //default priority
+        if (priority == -1)
+            model.setPriority(5); //default priority
+        else
+            model.setPriority(priority); 
         this.db.save(model);
         return model;
     }
