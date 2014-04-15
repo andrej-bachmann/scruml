@@ -153,6 +153,26 @@ public class SQLiteDatabaseController implements IDatabaseController {
             String sqlString = "INSERT INTO "+model.getTablename()+" ("+this.implode(", ", fields.toArray())+") VALUES ("+this.implode(", ", values.toArray())+")";
             statement.execute(sqlString);
         }
+        try(Statement statement = this.conn.createStatement()) {
+            String sqlString = "SELECT last_insert_rowid() FROM "+model.getTablename();
+            try(ResultSet resultSet = statement.executeQuery(sqlString)) {
+                if(!resultSet.isClosed()) {
+                    String id = resultSet.getString(1);
+                    
+                    try {
+                        Field field = model.getClass().getDeclaredField(model.getKey());
+                        field.setAccessible(true);
+                        Object fieldValue = field.get(model);
+                        Method setMethod = fieldValue.getClass().getDeclaredMethod("setDBValue", new Class[]{String.class});
+                        setMethod.invoke(fieldValue, id);
+                    }
+                    catch(NoSuchFieldException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e ) {
+                        throw new NoSuchFieldException("Key attribute is missing in model class.");
+                    }
+                    
+                }
+            }
+        }
     }
     
     /**

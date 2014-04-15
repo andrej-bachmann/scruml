@@ -195,6 +195,15 @@ public class SQLiteDatabaseControllerTest extends TestWithFixture {
             assertEquals(result.getFirstname(), "Matti");
             assertEquals(result.getLastname(), "Meikäläinen");
             
+            //New created model that gets double saved should only create one result
+            model = new TestModel();
+            model.setFirstname("David");
+            model.setLastname("Goller");
+            instance.save(model);
+            instance.save(model);
+            List<IARModel> modelList = instance.findAll(TestModel.class, "firstname='David' AND lastname='Goller'");
+            assertEquals(1, modelList.size());
+            
             instance.disconnect();
         }
         catch(Exception e) {
