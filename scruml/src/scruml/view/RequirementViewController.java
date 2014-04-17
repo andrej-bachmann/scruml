@@ -106,7 +106,8 @@ public class RequirementViewController implements Initializable {
         taskOpen.setStyle("-fx-background-color: white;");
         taskDone.setStyle("-fx-background-color: red;");
         */
-        priorityMenu.setItems(FXCollections.observableArrayList("1","2","3","4","5"));
+        priorityMenu.setItems(FXCollections.observableArrayList
+        ("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"));
     }  
     
     /**
