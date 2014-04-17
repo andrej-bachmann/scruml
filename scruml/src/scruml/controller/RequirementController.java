@@ -33,7 +33,7 @@ public class RequirementController {
         model.setTitle(title);
         model.setDescription(description);
         if (priority == -1)
-            model.setPriority(5); //default priority
+            model.setPriority(15); //default priority
         else
             model.setPriority(priority); 
         this.db.save(model);
