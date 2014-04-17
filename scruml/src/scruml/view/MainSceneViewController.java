@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
@@ -35,6 +36,8 @@ public class MainSceneViewController implements Initializable {
     private Label productBacklogLabel;
     @FXML
     private VBox productBacklogVBox;
+    @FXML 
+    private Button newRequirementButton;
     @FXML
     private VBox sprintVBox;
     @FXML
@@ -76,7 +79,7 @@ public class MainSceneViewController implements Initializable {
         
         
         
-        productBacklogLabel.addEventHandler(MouseEvent.MOUSE_ENTERED, 
+/*        productBacklogLabel.addEventHandler(MouseEvent.MOUSE_ENTERED, 
         new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent e) {
                     productBacklogLabel.setText("New Requirement");
@@ -91,9 +94,9 @@ public class MainSceneViewController implements Initializable {
                     productBacklogLabel.setText("Product Backlog");
                     productBacklogLabel.getStyleClass().remove(productBacklogLabel.getStyleClass().indexOf("hover"));
                 }
-        });
+        });*/
         
-        productBacklogLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+        newRequirementButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
             new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent e) {
                     try {
