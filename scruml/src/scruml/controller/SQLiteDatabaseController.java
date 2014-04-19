@@ -108,6 +108,8 @@ public class SQLiteDatabaseController implements IDatabaseController {
                     }
 
                 }
+                
+                this.invokeAfterFind(model);
                 modelList.add(model);
             }
             
@@ -173,6 +175,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
                 }
             }
         }
+        this.invokeAfterFind(model);
     }
     
     /**
@@ -271,6 +274,20 @@ public class SQLiteDatabaseController implements IDatabaseController {
         }
         ArrayList[] rtn = {fields, values};
         return rtn;
+    }
+    
+    /**
+     * This method triggers the void afterFind() method for all models that got
+     * received from the database.
+     * @param model Instance of IARModel
+     */
+    private void invokeAfterFind(IARModel model) {
+        try {
+            Method afterFindMethod = model.getClass().getDeclaredMethod("afterFind", new Class[]{});
+            afterFindMethod.setAccessible(true);
+            afterFindMethod.invoke(model, new Object[]{}); 
+        }
+        catch(IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException e) { }
     }
     
     /**
