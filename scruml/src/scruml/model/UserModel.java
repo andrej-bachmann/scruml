@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scruml.model;
 
 import javafx.beans.property.IntegerProperty;
@@ -12,10 +6,11 @@ import scruml.database.DBSimpleIntegerProperty;
 import scruml.database.DBSimpleStringProperty;
 
 /**
- *
- * @author tom
+ * This model represents the database table "user".
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
-public class UserModel implements IARModel{
+public class UserModel implements IARModel {
+    
      private final IntegerProperty id = new DBSimpleIntegerProperty();
      private final StringProperty name = new DBSimpleStringProperty();
      private final IntegerProperty role = new DBSimpleIntegerProperty();
@@ -33,22 +28,25 @@ public class UserModel implements IARModel{
     public int getId() {
         return this.id.get();
     }
-    public void setId(int id){
-        this.id.set(id);
-    }
     
     public String getName() {
         return this.name.get();
-    }
-    public void setName(String name){
-        this.name.set(name);
     }
     
     public int getRole(){
         return this.role.get();
     }
     
+    public void setId(int id){
+        this.id.set(id);
+    }
+    
+    public void setName(String name){
+        this.name.set(name);
+    }
+    
     public void setRole(int role){
         this.role.set(role);
     }
+    
 }
