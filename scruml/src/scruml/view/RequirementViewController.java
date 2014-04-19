@@ -1,5 +1,6 @@
 package scruml.view;
 
+import java.awt.event.MouseListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -100,12 +101,6 @@ public class RequirementViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        /*requirementToDo.setStyle("-fx-background-color: red;");
-        requirementDone.setStyle("-fx-background-color: white;");
-        taskToDo.setStyle("-fx-background-color: black;");
-        taskOpen.setStyle("-fx-background-color: white;");
-        taskDone.setStyle("-fx-background-color: red;");
-        */
         priorityMenu.setItems(FXCollections.observableArrayList
         ("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"));
     }  
@@ -129,10 +124,13 @@ public class RequirementViewController implements Initializable {
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
         
+        dataVBox.getChildren().remove(titleTextField);
+        dataVBox.getChildren().remove(descriptionTextField);   
         dataVBox.getChildren().remove(titleLabel);
         dataVBox.getChildren().remove(descriptionLabel);
         dataVBox.getChildren().remove(priorityLabel);
         dataVBox.getChildren().remove(priorityMenu);
+        dataVBox.getChildren().remove(saveButton);
         titleTextField.getStyleClass().add("titleTextField");
         dataVBox.getChildren().add(titleTextField);
         dataVBox.getChildren().add(descriptionTextField);
@@ -150,12 +148,14 @@ public class RequirementViewController implements Initializable {
         public void handle(ActionEvent event) {
             reqController = new RequirementController();
             try {
-                if (priorityMenu.getSelectionModel().getSelectedIndex()==-1)
-                    thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(),
-                        descriptionTextField.textProperty().get(), -1));
-                else
-                    thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(),
-                        descriptionTextField.textProperty().get(), priorityMenu.getSelectionModel().getSelectedIndex()+1));
+                if (requirementModel==null) { 
+                    if (priorityMenu.getSelectionModel().getSelectedIndex()==-1)
+                        thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(),
+                            descriptionTextField.textProperty().get(), -1));
+                    else
+                        thisObject.setRequirementModel(reqController.createRequirement(titleTextField.textProperty().get(),
+                            descriptionTextField.textProperty().get(), priorityMenu.getSelectionModel().getSelectedIndex()+1));
+                }
                 thisObject.setViewForProductBacklog(productBacklogWidth, sprintVBox);
                 thisObject.state.set(STATE_PRODUCT_BACKLOCK);
                 
@@ -182,7 +182,7 @@ public class RequirementViewController implements Initializable {
      * @param productBacklogWidth widthProperty of ProductBacklog label
      * @param sprintVBox The target of Drag and Drop for Requirement
      */
-    public void setViewForProductBacklog(ReadOnlyDoubleProperty productBacklogWidth, VBox sprintVBox) {        
+    public void setViewForProductBacklog(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {        
         taskHBox.maxHeightProperty().set(0);
         vBox.maxHeightProperty().set(200);
         requirementHBox.minHeightProperty().bind(vBox.heightProperty());
@@ -190,6 +190,13 @@ public class RequirementViewController implements Initializable {
         requirementDone.setPrefWidth(0);
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
+        
+        requirementOpen.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent t) {
+               setViewForCreate(productBacklogWidth, sprintVBox);
+            }
+        });
         
         priorityMenu.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             @Override
@@ -343,8 +350,10 @@ public class RequirementViewController implements Initializable {
      */
     public void setRequirementModel(final RequirementModel requirementModel) {
         this.requirementModel = requirementModel;
-        this.titleLabel.textProperty().bindBidirectional(requirementModel.titleProperty());
-        this.descriptionLabel.textProperty().bindBidirectional(requirementModel.descriptionProperty());  
+        this.titleLabel.textProperty().bind(requirementModel.titleProperty());
+        this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty()); 
+        this.titleTextField.textProperty().bindBidirectional(requirementModel.titleProperty());
+        this.descriptionTextField.textProperty().bindBidirectional(requirementModel.descriptionProperty());
         priorityMenu.getSelectionModel().select(requirementModel.priorityProperty().get()-1);
         //Bindings.bind(this.priorityMenu.valueProperty(), requirementModel.priorityProperty(), new NumberStringConverter());
     }
