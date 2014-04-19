@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scruml.controller;
 
 import org.junit.After;
@@ -12,15 +6,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import scruml.model.UserModel;
-import scruml.model.IARModel;
 
 /**
- *
- * @author tom
+ * This class provides unit tests of {@link UserController}
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
+ * @see UserController
  */
 public class UserControllerTest extends TestWithFixture {
-    SQLiteDatabaseController db;
+    
     public UserControllerTest() {
     }
     
@@ -32,14 +25,14 @@ public class UserControllerTest extends TestWithFixture {
     public static void tearDownClass() {
     }
     
-    @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         SQLiteDatabaseController db = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         db.connect(super.getDbTestFilenameTmp());
     }
     
-    @After
+    @Override
     public void tearDown() throws Exception {
         SQLiteDatabaseController.getInstance().disconnect();
         super.tearDown();
