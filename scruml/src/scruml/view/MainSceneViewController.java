@@ -138,7 +138,7 @@ public class MainSceneViewController implements Initializable {
         Parent root = (Parent)loader.load();
         
         RequirementViewController reqController = loader.getController();
-        reqController.setViewForCreate(productBacklogVBox.widthProperty(), sprintVBox);
+        reqController.setViewForEditing(productBacklogVBox.widthProperty(), sprintVBox);
         reqController.stateProperty().set(RequirementViewController.STATE_CREATE);
         
         productBacklogVBox.getChildren().add(reqController.getAnchorPane());        

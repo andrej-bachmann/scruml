@@ -90,9 +90,6 @@ public class RequirementViewController implements Initializable {
     
     private RequirementController reqController;
     
-    private EventHandler<MouseEvent> editClickHandler;
-
-    
     public RequirementViewController()
     {
         thisObject=this;
@@ -111,13 +108,15 @@ public class RequirementViewController implements Initializable {
      * Sets the RequirementView for ProductBacklog, Height of taskHBox is set to 0,
      * requirementToDo and requirementDone cells width is set to 0, requirementopen cells width is bind to productBacklog labels widthProperty
      * Replaces titleLabel with titleTextField and descriptionLabel with descriptionTextField and adds Save Button in dataVBox.
-     * Adds eventHandler to saveButton, which creates RequirementController (which further creates a RequirementModel) on button click.
+     * Adds eventHandler to saveButton, which creates (if not already exists) RequirementController 
+     * (which further creates or saves the RequirementModel) on button click.
      * After Button click state is set to STATE_PRODUCTBACKLOG and textfields are replaced with labels.
+     * Also the onDragDetected-handler is set to null, to avoid dragging the requirement when it's in editing mode.
      * @param productBacklogWidth widthProperty of ProductBacklog label
      * @param sprintVBox The target of Drag and Drop for Requirement
      */
     
-    public void setViewForCreate(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {
+    public void setViewForEditing(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {
         taskHBox.maxHeightProperty().set(0);
         vBox.maxHeightProperty().set(200);
         requirementHBox.minHeightProperty().bind(vBox.heightProperty());
@@ -174,8 +173,8 @@ public class RequirementViewController implements Initializable {
                 Logger.getLogger(RequirementViewController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    });        
-    vBox.setOnDragDetected(null);
+        });        
+        vBox.setOnDragDetected(null);
     }    
     
     /**
@@ -197,9 +196,7 @@ public class RequirementViewController implements Initializable {
         requirementOpen.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent t) {
-                if (editClickHandler==null)
-                    thisObject.editClickHandler = this;
-               setViewForCreate(productBacklogWidth, sprintVBox);
+               setViewForEditing(productBacklogWidth, sprintVBox);
             }
         });
         
