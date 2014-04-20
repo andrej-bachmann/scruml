@@ -1,38 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scruml.controller;
 
 import scruml.model.UserModel;
 
 
 /**
- *
- * @author tom
+ * RequirementController handles all the user related tasks.
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
 public class UserController {
     
     private final IDatabaseController db;
     
-    public UserController(){
+    /**
+     * Constructor gets the database controller.
+     */
+    public UserController() {
         this.db = SQLiteDatabaseController.getInstance();
     }
     
-/**
+    /**
      * This method creates a new user and saves it in the database.
      * @param name Name of the user
-     * @param role role of the user
-     * 1 = ProductOwner
-     * 2 = ScrumMaster
-     * 3 = Developer
+     * @param role role of the user (see ROLE_ constants in {@link UserModel})
      * @return UserModel
      * @throws Exception 
      */
-    
-    public UserModel createUser (String name, int role) throws Exception{
+    public UserModel createUser (String name, int role) throws Exception {
         UserModel user = new UserModel();
         user.setName(name);
         user.setRole(role);

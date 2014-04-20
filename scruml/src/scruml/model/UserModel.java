@@ -11,10 +11,14 @@ import scruml.database.DBSimpleStringProperty;
  */
 public class UserModel implements IARModel {
     
-     private final IntegerProperty id = new DBSimpleIntegerProperty();
-     private final StringProperty name = new DBSimpleStringProperty();
-     private final IntegerProperty role = new DBSimpleIntegerProperty();
-
+    public static final int ROLE_SCRUMMASTER = 1;
+    public static final int ROLE_PRODUCTOWNER = 2;
+    public static final int ROLE_DEVELOPER = 3;
+    
+    private final IntegerProperty id = new DBSimpleIntegerProperty();
+    private final StringProperty name = new DBSimpleStringProperty();
+    private final IntegerProperty role = new DBSimpleIntegerProperty();
+     
     @Override
     public String getTablename() {
         return "user";
