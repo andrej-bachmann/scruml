@@ -77,7 +77,7 @@
                 <Button fx:id="newRequirementButton" minHeight="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="264.0" text="New Requirement" VBox.vgrow="ALWAYS" />
                 <ScrollPane fx:id="productBacklogScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="200.0" prefWidth="267.0" styleClass="nofocus" VBox.vgrow="ALWAYS">
                   <content>
-                    <VBox id="productBacklockVBox" fx:id="productBacklogVBox" prefHeight="502.0" prefWidth="249.0" />
+                    <VBox fx:id="productBacklogVBox" prefHeight="502.0" prefWidth="249.0" />
                   </content>
                 </ScrollPane>
               </children>

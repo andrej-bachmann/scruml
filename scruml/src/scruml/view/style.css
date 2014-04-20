@@ -23,7 +23,7 @@ and open the template in the editor.
     -fx-text-fill: white;
 }
 
-#productBacklockVBox {
+#productBacklogVBox, #sprintVBox {
     -fx-spacing: 2px;
 }
 
