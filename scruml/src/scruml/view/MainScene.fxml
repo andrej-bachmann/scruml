@@ -77,7 +77,7 @@
                 <Button fx:id="newRequirementButton" minHeight="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="264.0" text="New Requirement" VBox.vgrow="ALWAYS" />
                 <ScrollPane fx:id="productBacklogScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="200.0" prefWidth="267.0" styleClass="nofocus" VBox.vgrow="ALWAYS">
                   <content>
-                    <VBox id="productBacklockVBox" fx:id="productBacklogVBox" prefHeight="502.0" prefWidth="267.0" />
+                    <VBox id="productBacklockVBox" fx:id="productBacklogVBox" prefHeight="502.0" prefWidth="249.0" />
                   </content>
                 </ScrollPane>
               </children>
@@ -105,7 +105,7 @@
                 </SplitPane>
                 <ScrollPane fx:id="sprintScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="200.0" prefWidth="610.0" styleClass="nofocus" VBox.vgrow="ALWAYS">
                   <content>
-                    <VBox fx:id="sprintVBox" prefHeight="507.0" prefWidth="607.0" />
+                    <VBox fx:id="sprintVBox" prefHeight="507.0" prefWidth="591.0" />
                   </content>
                 </ScrollPane>
               </children>
@@ -115,7 +115,7 @@
                 <Label minHeight="26.0" prefHeight="26.0" text="Label" visible="false" VBox.vgrow="ALWAYS" />
                 <ScrollPane id="ScrollPane" fx:id="burndownScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="776.0" prefWidth="308.0" styleClass="nofocus" VBox.vgrow="ALWAYS">
                   <content>
-                    <VBox fx:id="doneRequirementsVBox" prefHeight="507.0" prefWidth="305.0" />
+                    <VBox fx:id="doneRequirementsVBox" prefHeight="507.0" prefWidth="289.0" />
                   </content>
                 </ScrollPane>
               </children>
