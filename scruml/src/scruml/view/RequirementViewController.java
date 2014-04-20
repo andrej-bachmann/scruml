@@ -79,6 +79,8 @@ public class RequirementViewController implements Initializable {
     @FXML
     private ChoiceBox priorityMenu;
     
+    private boolean isExpanded = false;
+    
     
     
     
@@ -88,7 +90,7 @@ public class RequirementViewController implements Initializable {
     
     private RequirementController reqController;
     
-    
+    private EventHandler<MouseEvent> editClickHandler;
 
     
     public RequirementViewController()
@@ -172,8 +174,9 @@ public class RequirementViewController implements Initializable {
                 Logger.getLogger(RequirementViewController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    });
-    }
+    });        
+    vBox.setOnDragDetected(null);
+    }    
     
     /**
      * Sets the RequirementView for ProductBacklog, Height of taskHBox is set to 0,
@@ -191,9 +194,11 @@ public class RequirementViewController implements Initializable {
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
         
-        requirementOpen.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+        requirementOpen.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent t) {
+                if (editClickHandler==null)
+                    thisObject.editClickHandler = this;
                setViewForCreate(productBacklogWidth, sprintVBox);
             }
         });
@@ -317,8 +322,7 @@ public class RequirementViewController implements Initializable {
      * @param done widthProperty of done coloumn
      */
     public void setViewForSprintBacklog(ReadOnlyDoubleProperty open, ReadOnlyDoubleProperty todo, ReadOnlyDoubleProperty done) {
-        taskHBox.setMaxHeight(500);
-        taskHBox.minHeightProperty().bind(vBox.heightProperty().divide(2));
+        taskHBox.setMaxHeight(0);
         requirementHBox.minHeightProperty().unbind();
         requirementHBox.minHeightProperty().bind(vBox.heightProperty().divide(2));
         
@@ -338,6 +342,24 @@ public class RequirementViewController implements Initializable {
         
         priorityMenu.disableProperty().setValue(Boolean.TRUE);
         state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
+        
+        requirementOpen.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent t) {
+                if (!isExpanded) {
+                    //TestTasks
+                    isExpanded = true;
+                }
+                else {                    
+                    taskHBox.minHeightProperty().unbind();
+                    taskHBox.setMinHeight(0);
+                    
+                    taskHBox.maxHeightProperty().unbind();
+                    taskHBox.setMaxHeight(0);
+                    isExpanded = false;
+                }
+            }
+        });        
     }
 
     public IntegerProperty stateProperty() {
