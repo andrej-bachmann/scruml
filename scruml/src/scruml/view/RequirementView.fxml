@@ -41,7 +41,7 @@
         </HBox>
         <HBox id="taskHbox" fx:id="taskHBox" prefHeight="100.0" prefWidth="600.0">
           <children>
-            <Pane fx:id="taskOpen" prefHeight="100.0" prefWidth="200.0" />
+            <VBox id="VBox" fx:id="taskOpen" alignment="CENTER" spacing="5.0" />
             <Pane fx:id="taskToDo" prefHeight="100.0" prefWidth="200.0" />
             <Pane fx:id="taskDone" prefHeight="100.0" prefWidth="200.0" />
           </children>

@@ -63,7 +63,7 @@ public class RequirementViewController implements Initializable {
     @FXML
     private Pane requirementDone;
     @FXML
-    private Pane taskOpen;     
+    private VBox taskOpen;     
     @FXML
     private Pane taskToDo;
     @FXML
@@ -144,6 +144,8 @@ public class RequirementViewController implements Initializable {
         
         titleTextField.requestFocus();
         
+        anchorPane.onMouseClickedProperty().set(null);
+        
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -192,6 +194,8 @@ public class RequirementViewController implements Initializable {
         requirementDone.setPrefWidth(0);
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
+        
+        anchorPane.onMouseClickedProperty().set(null);
         
         requirementOpen.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
             @Override
@@ -323,6 +327,9 @@ public class RequirementViewController implements Initializable {
         requirementHBox.minHeightProperty().unbind();
         requirementHBox.minHeightProperty().bind(vBox.heightProperty().divide(2));
         
+        dataVBox.minWidthProperty().bind(open);
+        dataVBox.maxWidthProperty().bind(open);
+        
         requirementToDo.minWidthProperty().bind(todo);
         requirementDone.minWidthProperty().bind(done);
         requirementOpen.minWidthProperty().bind(open);
@@ -340,11 +347,32 @@ public class RequirementViewController implements Initializable {
         priorityMenu.disableProperty().setValue(Boolean.TRUE);
         state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
         
-        requirementOpen.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
+        //DummyTasks:
+        final Pane task1 = new Pane();
+        final Pane task2 = new Pane();
+        
+        task1.prefHeightProperty().set(50);
+        task1.styleProperty().set("-fx-background-color: black;");
+        
+        task2.prefHeightProperty().set(50);
+        task2.styleProperty().set("-fx-background-color: red;");
+        
+        task1.visibleProperty().set(false);
+        task2.visibleProperty().set(false);
+                
+        taskOpen.getChildren().add(task1);
+        taskOpen.getChildren().add(task2);
+        
+        requirementOpen.onMouseClickedProperty().set(null);
+        anchorPane.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent t) {
-                if (!isExpanded) {
-                    //TestTasks
+                if (!isExpanded) {                    
+                    taskHBox.minHeightProperty().unbind();
+                    taskHBox.setMinHeight(100);
+                    
+                    taskHBox.maxHeightProperty().unbind();
+                    taskHBox.setMaxHeight(100);
                     isExpanded = true;
                 }
                 else {                    
@@ -355,6 +383,8 @@ public class RequirementViewController implements Initializable {
                     taskHBox.setMaxHeight(0);
                     isExpanded = false;
                 }
+                task1.visibleProperty().set(isExpanded);
+                task2.visibleProperty().set(isExpanded);
             }
         });        
     }
@@ -374,24 +404,9 @@ public class RequirementViewController implements Initializable {
         this.titleTextField.textProperty().bindBidirectional(requirementModel.titleProperty());
         this.descriptionTextField.textProperty().bindBidirectional(requirementModel.descriptionProperty());
         priorityMenu.getSelectionModel().select(requirementModel.priorityProperty().get()-1);
-        //Bindings.bind(this.priorityMenu.valueProperty(), requirementModel.priorityProperty(), new NumberStringConverter());
     }
-    
-     /**
-     * This method sets the gets the chosen priority and gives it to the model
-     */
-/*    public void setChosenPriority (RequirementModel requirementModel) {
-        this.priorityMenu.g
-        int selectedItem = (int)priorityMenu.getSel
-        requirementModel.setPriority(this.priorityMenu.);
-    }*/
     
     public AnchorPane getAnchorPane()    {
         return anchorPane;
-    }
-
-    private void priorityMenu(String toString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+    }    
 }
