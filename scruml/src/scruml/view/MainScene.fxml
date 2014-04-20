@@ -75,7 +75,7 @@
             <VBox id="VBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
               <children>
                 <Button fx:id="newRequirementButton" minHeight="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="264.0" text="New Requirement" VBox.vgrow="ALWAYS" />
-                <ScrollPane id="ScrollPane" fx:id="productBacklogScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="200.0" prefWidth="267.0" VBox.vgrow="ALWAYS">
+                <ScrollPane fx:id="productBacklogScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="200.0" prefWidth="267.0" styleClass="nofocus" VBox.vgrow="ALWAYS">
                   <content>
                     <VBox id="productBacklockVBox" fx:id="productBacklogVBox" prefHeight="502.0" prefWidth="267.0" />
                   </content>
@@ -103,7 +103,7 @@
                     </HBox>
                   </items>
                 </SplitPane>
-                <ScrollPane id="ScrollPane" fx:id="sprintScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="200.0" prefWidth="610.0" VBox.vgrow="ALWAYS">
+                <ScrollPane fx:id="sprintScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="200.0" prefWidth="610.0" styleClass="nofocus" VBox.vgrow="ALWAYS">
                   <content>
                     <VBox fx:id="sprintVBox" prefHeight="507.0" prefWidth="607.0" />
                   </content>
@@ -113,7 +113,7 @@
             <VBox id="VBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
               <children>
                 <Label minHeight="26.0" prefHeight="26.0" text="Label" visible="false" VBox.vgrow="ALWAYS" />
-                <ScrollPane id="ScrollPane" fx:id="burndownScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="776.0" prefWidth="308.0" VBox.vgrow="ALWAYS">
+                <ScrollPane id="ScrollPane" fx:id="burndownScrollPane" prefHeight="509.0" prefViewportHeight="508.0" prefViewportWidth="776.0" prefWidth="308.0" styleClass="nofocus" VBox.vgrow="ALWAYS">
                   <content>
                     <VBox fx:id="doneRequirementsVBox" prefHeight="507.0" prefWidth="305.0" />
                   </content>
