@@ -12,7 +12,7 @@
   <children>
     <VBox fx:id="vBox" layoutX="0.0" layoutY="0.0">
       <children>
-        <HBox fx:id="requirementHBox" prefHeight="100.0" prefWidth="600.0">
+        <HBox fx:id="requirementHBox" maxHeight="100.0" minHeight="100.0" prefHeight="100.0" prefWidth="600.0">
           <children>
             <Pane fx:id="requirementOpen" prefHeight="100.0" prefWidth="200.0">
               <children>

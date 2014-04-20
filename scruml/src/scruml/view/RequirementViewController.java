@@ -117,11 +117,12 @@ public class RequirementViewController implements Initializable {
      */
     
     public void setViewForEditing(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {
-        taskHBox.maxHeightProperty().set(0);
-        vBox.maxHeightProperty().set(200);
-        requirementHBox.minHeightProperty().bind(vBox.heightProperty());
+        
+        //Do not show: task related stuff, ToDo- and Done-Pane
+        taskHBox.setPrefHeight(0);
         requirementToDo.setPrefWidth(0);
         requirementDone.setPrefWidth(0);
+        //Bind width of a requirement to width of productBacklog pane
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
         
@@ -187,11 +188,13 @@ public class RequirementViewController implements Initializable {
      * @param sprintVBox The target of Drag and Drop for Requirement
      */
     public void setViewForProductBacklog(final ReadOnlyDoubleProperty productBacklogWidth, final VBox sprintVBox) {        
-        taskHBox.maxHeightProperty().set(0);
-        vBox.maxHeightProperty().set(200);
-        requirementHBox.minHeightProperty().bind(vBox.heightProperty());
+        
+        //Do not show: task related stuff, ToDo- and Done-Pane
+        taskHBox.setPrefHeight(0);
         requirementToDo.setPrefWidth(0);
         requirementDone.setPrefWidth(0);
+        
+        //Bind width of a requirement to width of productBacklog pane
         requirementOpen.minWidthProperty().bind(productBacklogWidth);
         requirementOpen.maxWidthProperty().bind(productBacklogWidth);
         
@@ -323,13 +326,12 @@ public class RequirementViewController implements Initializable {
      * @param done widthProperty of done coloumn
      */
     public void setViewForSprintBacklog(ReadOnlyDoubleProperty open, ReadOnlyDoubleProperty todo, ReadOnlyDoubleProperty done) {
+        
+        //Do not show: task related stuff
+        taskHBox.setMinHeight(0);
         taskHBox.setMaxHeight(0);
-        requirementHBox.minHeightProperty().unbind();
-        requirementHBox.minHeightProperty().bind(vBox.heightProperty().divide(2));
         
-        dataVBox.minWidthProperty().bind(open);
-        dataVBox.maxWidthProperty().bind(open);
-        
+        //Bind minWidth of requirementPanes and taskPanes to corresponding columns
         requirementToDo.minWidthProperty().bind(todo);
         requirementDone.minWidthProperty().bind(done);
         requirementOpen.minWidthProperty().bind(open);
@@ -337,6 +339,7 @@ public class RequirementViewController implements Initializable {
         taskDone.minWidthProperty().bind(done);
         taskOpen.minWidthProperty().bind(open);
         
+        //Bind maxWidth of requirementPanes and taskPanes to corresponding columns
         requirementToDo.maxWidthProperty().bind(todo);
         requirementDone.maxWidthProperty().bind(done);
         requirementOpen.maxWidthProperty().bind(open);
