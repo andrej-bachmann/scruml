@@ -22,6 +22,9 @@ public class MainSceneController extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         IDatabaseController dbController = SQLiteDatabaseController.getInstance();
+        stage.setMinWidth(700);
+        stage.setMinHeight(400);
+        stage.setTitle("scruml ScrumBoard");
         dbController.connect();
         mainSceneVC = new MainSceneViewController(stage); 
     }
