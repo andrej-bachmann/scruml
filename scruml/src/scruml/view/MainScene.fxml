@@ -10,11 +10,11 @@
 
 <AnchorPane id="anchorPane" minHeight="300.0" minWidth="500.0" prefHeight="675.0" prefWidth="1200.0" styleClass="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
-    <VBox prefHeight="675.0" prefWidth="1186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0">
+    <VBox prefHeight="675.0" prefWidth="1193.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0">
       <children>
-        <VBox id="header" maxHeight="167.0" minHeight="167.0" prefHeight="167.0" prefWidth="1199.0" VBox.vgrow="NEVER">
+        <VBox id="header" maxHeight="167.0" minHeight="167.0" prefHeight="167.0" prefWidth="1193.0" VBox.vgrow="NEVER">
           <children>
-            <HBox maxHeight="100.0" maxWidth="-1.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="100.0" maxWidth="-1.0" prefHeight="93.0" prefWidth="1193.0" VBox.vgrow="ALWAYS">
               <children>
                 <HBox id="HBox" alignment="CENTER" prefHeight="92.0" spacing="5.0" HBox.hgrow="ALWAYS">
                   <children>
@@ -37,15 +37,19 @@
                 </HBox>
               </children>
             </HBox>
-            <HBox minHeight="75.0" prefHeight="75.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
+            <HBox minHeight="75.0" prefHeight="75.0" prefWidth="1193.0" VBox.vgrow="ALWAYS">
               <children>
-                <HBox id="HBox" alignment="BOTTOM_CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
+                <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
                   <children>
-                    <Label id="labelProductBacklog" fx:id="productBacklogLabel" alignment="CENTER" contentDisplay="LEFT" minHeight="35.0" prefHeight="35.0" prefWidth="271.0" styleClass="h2" text="Product Backlog" textAlignment="CENTER" HBox.hgrow="ALWAYS">
-                      <font>
-                        <Font size="20.0" fx:id="x1" />
-                      </font>
-                    </Label>
+                    <VBox id="VBox" alignment="BOTTOM_CENTER" spacing="5.0">
+                      <children>
+                        <Label id="labelProductBacklog" fx:id="productBacklogLabel" alignment="CENTER" contentDisplay="LEFT" labelFor="$productBacklogLabel" minHeight="35.0" prefHeight="35.0" prefWidth="266.0" styleClass="h2" text="Product Backlog" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                          <font>
+                            <Font size="20.0" fx:id="x1" />
+                          </font>
+                        </Label>
+                      </children>
+                    </VBox>
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="BOTTOM_CENTER" minHeight="61.0" prefHeight="61.0" prefWidth="614.0" spacing="5.0" HBox.hgrow="ALWAYS">
@@ -84,7 +88,7 @@
             </VBox>
             <VBox id="VBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
               <children>
-                <SplitPane dividerPositions="0.3867768595041322, 0.6958677685950413" focusTraversable="true" maxHeight="26.0" minHeight="26.0" orientation="HORIZONTAL" pickOnBounds="false" prefHeight="26.0" prefWidth="605.0" VBox.vgrow="ALWAYS">
+                <SplitPane dividerPositions="0.385502471169687, 0.6968698517298187" focusTraversable="true" maxHeight="26.0" minHeight="26.0" orientation="HORIZONTAL" pickOnBounds="false" prefHeight="26.0" prefWidth="605.0" VBox.vgrow="ALWAYS">
                   <items>
                     <HBox id="HBox" fx:id="headerOpenTasks" alignment="CENTER" spacing="5.0">
                       <children>
