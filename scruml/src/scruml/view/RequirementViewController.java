@@ -248,28 +248,7 @@ public class RequirementViewController implements Initializable {
             }
         });
         
-        trash.setOnDragDropped(new EventHandler <DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                /* data dropped */
-                System.out.println("onDragDropped");
-                /* if there is a string data on dragboard, read it and use it */
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasString()) {
-                    //titleLabel.setText(db.getString());
-                    success = true;
-                }
-                                
-                mcVC.moveCurrentDragRequirementToTrash();
-                
-                /* let the source know whether the string was successfully 
-                 * transferred and used */
-                event.setDropCompleted(success);
-                
-                event.consume();
-            }
-        });
+        
         
         trash.setOnDragOver(new EventHandler <DragEvent>() {
             public void handle(DragEvent event) {
@@ -300,10 +279,15 @@ public class RequirementViewController implements Initializable {
                     //titleLabel.setText(db.getString());
                     success = true;
                 }
-                          
+                /*delete Requirement in Backlog */          
                 mcVC.moveCurrentDragRequirementToTrash();
-                
-                   
+                /* delete Requirement Model in Database*/
+                if (reqController == null)
+                    reqController = new RequirementController();
+                if (thisObject.state.get() == STATE_PRODUCT_BACKLOCK){
+                    mcVC.moveCurrentDragRequirementToTrash();
+                    reqController.deleteRequirement(requirementModel);
+                }
 
                 /* let the source know whether the string was successfully 
                  * transferred and used */

@@ -204,10 +204,8 @@ public class MainSceneViewController implements Initializable {
     public void moveCurrentDragRequirementToTrash()
     {
         if (currentDragRequirement != null) {
-                productBacklogVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
-                sprintVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
-                currentDragRequirement.stateProperty().set(RequirementViewController.STATE_TRASH_ICON);
-                
+            productBacklogVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
+            currentDragRequirement.stateProperty().set(RequirementViewController.STATE_TRASH_ICON);  
             }
     }
     
