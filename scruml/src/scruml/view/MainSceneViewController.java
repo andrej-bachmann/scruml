@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -56,6 +57,8 @@ public class MainSceneViewController implements Initializable {
     private ScrollPane sprintScrollPane;    
     @FXML
     private ScrollPane burndownScrollPane;
+    @FXML 
+    private ImageView trashIcon;
     
     
     private RequirementViewController currentDragRequirement;
@@ -138,7 +141,7 @@ public class MainSceneViewController implements Initializable {
         Parent root = (Parent)loader.load();
         
         RequirementViewController reqController = loader.getController();
-        reqController.setViewForEditing(productBacklogVBox.widthProperty(), sprintVBox);
+        reqController.setViewForEditing(productBacklogVBox.widthProperty(), sprintVBox, trashIcon);
         reqController.stateProperty().set(RequirementViewController.STATE_CREATE);
         
         productBacklogVBox.getChildren().add(reqController.getAnchorPane());        
@@ -171,7 +174,7 @@ public class MainSceneViewController implements Initializable {
         
         RequirementViewController reqController = loader.getController();
         reqController.setRequirementModel((RequirementModel)model);
-        reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox);
+        reqController.setViewForProductBacklog(productBacklogVBox.widthProperty(), sprintVBox, trashIcon);
 
         reqController.stateProperty().set(RequirementViewController.STATE_PRODUCT_BACKLOCK);
         root.setUserData(reqController);
@@ -194,6 +197,16 @@ public class MainSceneViewController implements Initializable {
         }
     }
     
+    public void moveCurrentDragRequirementToTrash()
+    {
+        if (currentDragRequirement != null) {
+                productBacklogVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
+                sprintVBox.getChildren().remove(currentDragRequirement.getAnchorPane());
+                currentDragRequirement.stateProperty().set(RequirementViewController.STATE_TRASH_ICON);
+                
+            }
+    }
+    
     /**
      * This Method is called by a requirementView object which is currently in Drag action.
      * @param reqViewController 
@@ -202,4 +215,8 @@ public class MainSceneViewController implements Initializable {
     {
         currentDragRequirement = reqViewController;
     }    
+    
+    public void setTrashIcon (boolean state){
+        trashIcon.setVisible(state);
+    }
 }

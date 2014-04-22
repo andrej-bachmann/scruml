@@ -65,4 +65,12 @@ public class RequirementController {
             Logger.getLogger(RequirementController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void deleteRequirement(RequirementModel m){
+        try{
+            db.delete(m);
+        } catch (Exception ex){
+            
+        }
+    }
 }
