@@ -18,11 +18,14 @@ public class RequirementController {
     private RequirementViewController view;
     private MainSceneController mainSceneController;
     
+    public RequirementController() {
+        this.db = SQLiteDatabaseController.getInstance();
+    }
     /**
      * Constructor gets the database controller.
      */
     public RequirementController(MainSceneController mainSceneController) {
-        this.db = SQLiteDatabaseController.getInstance();
+        this();
         this.mainSceneController = mainSceneController;
         try {
             this.view = new RequirementViewController(this);

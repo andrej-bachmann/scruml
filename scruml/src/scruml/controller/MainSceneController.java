@@ -44,7 +44,7 @@ public class MainSceneController extends Application {
      * addRequirement method.
      */
     private void initRequirements() {
-        RequirementController rc = new RequirementController(this);
+        RequirementController rc = new RequirementController();
         List<IARModel> models = rc.getAllRequirements();
         for(IARModel model : models) {
             try {
@@ -80,7 +80,7 @@ public class MainSceneController extends Application {
     
     public void requirementDraggedToTrash(RequirementViewController requirementVC) {
         if(requirementVC.stateProperty().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK) {
-            RequirementController rc = new RequirementController(this);
+            RequirementController rc = new RequirementController();
             rc.deleteRequirement(requirementVC.getRequirementModel());
             this.mainSceneVC.removeRequirement(requirementVC);
         }
