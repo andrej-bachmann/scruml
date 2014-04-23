@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -48,9 +47,9 @@ public class RequirementViewController implements Initializable {
     private RequirementModel requirementModel;
     private ReadOnlyDoubleProperty productBacklogWidth;
     private IntegerProperty state = new SimpleIntegerProperty();
-    private TextField titleTextField = new TextField("Title");
-    private TextField descriptionTextField = new TextField("Description");
-    private Button saveButton = new Button("Save Requirement");
+    private TextField titleTextField = new TextField();
+    private TextField descriptionTextField = new TextField();
+    private Button saveButton = new Button();
     private boolean isExpanded = false;
     
     @FXML
@@ -82,7 +81,7 @@ public class RequirementViewController implements Initializable {
     @FXML
     private Label priorityLabel;
     @FXML
-    private ChoiceBox priorityMenu;
+    private ChoiceBox<String> priorityMenu;
     
     public RequirementViewController(RequirementController reqController) throws IOException {
         this.reqController = reqController;
@@ -99,6 +98,10 @@ public class RequirementViewController implements Initializable {
         // TODO
         priorityMenu.setItems(FXCollections.observableArrayList
         ("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"));
+        
+        titleTextField.setPromptText("Title");
+        descriptionTextField.setPromptText("Description");
+        saveButton.setText("Save Requirement");
     }  
     
     /**
@@ -116,6 +119,8 @@ public class RequirementViewController implements Initializable {
     public void setViewForEditing() {
        
         this.state.set(STATE_CREATE);
+        if(requirementModel==null)
+            this.setRequirementModel(new RequirementModel());
         
         //Do not show: task related stuff, ToDo- and Done-Pane
         taskHBox.setPrefHeight(0);
@@ -187,8 +192,8 @@ public class RequirementViewController implements Initializable {
         
         anchorPane.onMouseClickedProperty().set(null);
         requirementOpen.setOnMouseClicked(new requirementClicked());
-        priorityMenu.getSelectionModel().selectedIndexProperty().addListener(new priorityMenuChanged());
-             
+        priorityMenu.valueProperty().addListener(new priorityMenuChanged());
+        
         vBox.setOnDragDetected(new vBoxDragDetected());
         vBox.setOnDragDone(new vBoxDragDone());
         
@@ -285,7 +290,7 @@ public class RequirementViewController implements Initializable {
         this.descriptionLabel.textProperty().bind(requirementModel.descriptionProperty()); 
         this.titleTextField.textProperty().bindBidirectional(requirementModel.titleProperty());
         this.descriptionTextField.textProperty().bindBidirectional(requirementModel.descriptionProperty());
-        priorityMenu.getSelectionModel().select(requirementModel.priorityProperty().get()-1);
+        this.priorityMenu.valueProperty().bindBidirectional(requirementModel.priorityProperty());
     }
 
     public RequirementModel getRequirementModel() {
@@ -328,8 +333,7 @@ public class RequirementViewController implements Initializable {
 
         @Override
         public void handle(ActionEvent t) {
-            int priority = ((priorityMenu.getSelectionModel().getSelectedIndex()==-1)) ? -1: priorityMenu.getSelectionModel().getSelectedIndex()+1;
-            reqController.createRequirement(titleTextField.textProperty().get(), descriptionTextField.textProperty().get(), priority);
+            reqController.createRequirement(requirementModel);
         }
         
     }
@@ -343,11 +347,11 @@ public class RequirementViewController implements Initializable {
         
     }
     
-    class priorityMenuChanged implements ChangeListener<Number> {
+    class priorityMenuChanged implements ChangeListener<String> {
 
         @Override
-        public void changed(ObservableValue<? extends Number> ov, Number value, Number newValue) {
-            reqController.changePriority(requirementModel, newValue.intValue()+1);
+        public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+            reqController.updateRequirement(requirementModel);
         }
 
     }

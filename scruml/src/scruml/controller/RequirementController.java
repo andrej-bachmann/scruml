@@ -2,8 +2,6 @@ package scruml.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import scruml.model.IARModel;
 import scruml.model.RequirementModel;
 import scruml.view.RequirementViewController;
@@ -43,18 +41,22 @@ public class RequirementController {
      * @return RequirementModel
      * @throws Exception 
      */
-    public void createRequirement(String title, String description, int priority) {
-        RequirementModel model = new RequirementModel();
-        model.setTitle(title);
-        model.setDescription(description);
-        if (priority == -1)
-            model.setPriority(15); //default priority
-        else
-            model.setPriority(priority); 
+    public void createRequirement(RequirementModel model) {
         try {
+            if(model.getPriority()==null)
+                model.setPriority("15");
             this.db.save(model);
             view.setRequirementModel(model);
             view.endEditing();
+        }
+        catch(Exception e) {
+            System.err.println(e);
+        }
+    }
+    
+    public void updateRequirement(RequirementModel model) {
+        try {
+            this.db.save(model);
         }
         catch(Exception e) {
             System.err.println(e);
@@ -74,20 +76,11 @@ public class RequirementController {
         }
     }
     
-    public void changePriority(RequirementModel m, int newPriority) {
-        try {
-            m.priorityProperty().set(newPriority);
-            db.save(m);
-        } catch (Exception ex) {
-            Logger.getLogger(RequirementController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     public void deleteRequirement(RequirementModel m){
         try{
             db.delete(m);
         } catch (Exception ex){
-            
+            System.err.println(ex);
         }
     }
 
