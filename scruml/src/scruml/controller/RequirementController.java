@@ -1,10 +1,12 @@
 package scruml.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import scruml.model.IARModel;
 import scruml.model.RequirementModel;
+import scruml.view.RequirementViewController;
 
 /**
  * RequirementController handles all the requirement related tasks.
@@ -13,12 +15,22 @@ import scruml.model.RequirementModel;
 public class RequirementController {
     
     private final IDatabaseController db;
+    private RequirementViewController view;
+    private MainSceneController mainSceneController;
     
     /**
      * Constructor gets the database controller.
      */
-    public RequirementController() {
+    public RequirementController(MainSceneController mainSceneController) {
         this.db = SQLiteDatabaseController.getInstance();
+        this.mainSceneController = mainSceneController;
+        try {
+            this.view = new RequirementViewController(this);
+            this.view.setProductBacklogWidth(mainSceneController.getMainSceneVC().getProductBacklogWidth());
+        }
+        catch(IOException e) {
+            System.err.println(e);
+        }
     }
     
     /**
@@ -28,7 +40,7 @@ public class RequirementController {
      * @return RequirementModel
      * @throws Exception 
      */
-    public RequirementModel createRequirement(String title, String description, int priority) throws Exception {
+    public void createRequirement(String title, String description, int priority) {
         RequirementModel model = new RequirementModel();
         model.setTitle(title);
         model.setDescription(description);
@@ -36,13 +48,15 @@ public class RequirementController {
             model.setPriority(15); //default priority
         else
             model.setPriority(priority); 
-        this.db.save(model);
-        return model;
+        try {
+            this.db.save(model);
+            view.setRequirementModel(model);
+            view.endEditing();
+        }
+        catch(Exception e) {
+            System.err.println(e);
+        }
     }
-    
- //   public void changeRequirementPriority(){
- //      reqMod.setPriority(priority);
- //   }
     
     /**
      * This method gets all requirement models from database.
@@ -73,4 +87,17 @@ public class RequirementController {
             
         }
     }
+
+    public RequirementViewController getView() {
+        return view;
+    }
+    
+    public void dragAndDropStarted(RequirementViewController currentDragRequirement) {
+        this.mainSceneController.dragAndDropStarted(currentDragRequirement);
+    }
+    
+    public void dragAndDropStopped() {
+        this.mainSceneController.dragAndDropStopped();
+    }
+    
 }
