@@ -44,9 +44,14 @@ public class RequirementViewController implements Initializable {
     public static final int STATE_SPRINT_BACKLOCK = 2;
     public static final int STATE_TRASH_ICON = 3;
 
-    private IntegerProperty state = new SimpleIntegerProperty();
+    private RequirementController reqController;
     private RequirementModel requirementModel;
-    
+    private ReadOnlyDoubleProperty productBacklogWidth;
+    private IntegerProperty state = new SimpleIntegerProperty();
+    private TextField titleTextField = new TextField("Title");
+    private TextField descriptionTextField = new TextField("Description");
+    private Button saveButton = new Button("Save Requirement");
+    private boolean isExpanded = false;
     
     @FXML
     private AnchorPane anchorPane;
@@ -79,27 +84,13 @@ public class RequirementViewController implements Initializable {
     @FXML
     private ChoiceBox priorityMenu;
     
-    private boolean isExpanded = false;
-    
-    
-    
-    
-    private TextField titleTextField=new TextField("Title");
-    private TextField descriptionTextField=new TextField("Description");
-    private Button saveButton=new Button("Save Requirement");
-    
-    private RequirementController reqController;
-    
-    ReadOnlyDoubleProperty productBacklogWidth;
-    VBox sprintVBox;
-    ImageView trashIcon;
-    
     public RequirementViewController(RequirementController reqController) throws IOException {
         this.reqController = reqController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
         loader.setController(this);
         Parent root = (Parent)loader.load();
     }
+    
     /**
      * Initializes the controller class.
      */
