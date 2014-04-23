@@ -44,6 +44,20 @@ public interface IDatabaseController {
     public List<IARModel> findAll(Class modelClass, String where) throws Exception;
     
     /**
+     * The findAll method is used to retrieve many records from a database that
+     * should get received in a specific order. It is basically overriding the
+     * findAll method while adding an additional parameter order.
+     * @param modelClass Model class which gets populated with data
+     * @param where Where condition that gets applied to the sql statement.
+     * @param order Order parameter that gets applied to the sql statement to
+     * retrieve the results in a specific order.
+     * @return List with instances of modelClass where all properties got
+     * populated with data from the database record.
+     * @throws Exception 
+     */
+    public List<IARModel> findAll(Class modelClass, String where, String order) throws Exception;
+    
+    /**
      * The save method is used to save a model in the database.
      * It automatically detects if the model is already saved in the database and
      * execute either an INSERT or UPDATE statement.

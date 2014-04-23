@@ -154,6 +154,11 @@ public class SQLiteDatabaseControllerTest extends TestWithFixture {
             assertEquals(result.getFirstname(), "Marion");
             assertEquals(result.getLastname(), "Musterfrau");
             
+            //Test order by clause
+            modelList = instance.findAll(TestModel.class, null, "id DESC");
+            result = (TestModel)modelList.get(0);
+            assertEquals(result.getId(), 2);
+            
             instance.disconnect();
         }
         catch(Exception e) {

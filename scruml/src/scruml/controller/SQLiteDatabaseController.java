@@ -75,12 +75,20 @@ public class SQLiteDatabaseController implements IDatabaseController {
     
     @Override
     public List<IARModel> findAll(Class modelClass, String where) throws InstantiationException, IllegalAccessException, SQLException, NoSuchFieldException {
+        return this.findAll(modelClass, where, null);
+    }
+    
+    @Override
+    public List<IARModel> findAll(Class modelClass, String where, String order) throws InstantiationException, IllegalAccessException, SQLException, NoSuchFieldException {
        
         List<IARModel> modelList = new ArrayList<>();
         IARModel model = (IARModel)modelClass.newInstance();
         String queryString = "SELECT * FROM "+model.getTablename();
         if(where!=null && !where.equals("")) {
              queryString += " WHERE "+where;
+        }
+        if(order!=null && !order.equals("")) {
+            queryString += " ORDER BY "+order;
         }
         try(Statement statement = this.conn.createStatement();
             ResultSet resultSet = statement.executeQuery(queryString)) {
