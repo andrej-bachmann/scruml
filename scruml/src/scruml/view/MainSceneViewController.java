@@ -58,6 +58,8 @@ public class MainSceneViewController implements Initializable {
     private ScrollPane burndownScrollPane;
     @FXML 
     private ImageView trashIcon;
+    @FXML
+    private HBox productBacklogHeaderHBox;
 
     private MainSceneController controller;
     private RequirementViewController currentDragRequirement;
@@ -72,8 +74,8 @@ public class MainSceneViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         //Bind heading labels to panes
-        productBacklogLabel.minWidthProperty().bind(productBacklogScrollPane.widthProperty());
-        productBacklogLabel.maxWidthProperty().bind(productBacklogScrollPane.widthProperty());
+        productBacklogHeaderHBox.minWidthProperty().bind(productBacklogScrollPane.widthProperty());
+        productBacklogHeaderHBox.maxWidthProperty().bind(productBacklogScrollPane.widthProperty());
         
         sprintHeaderVBox.minWidthProperty().bind(sprintScrollPane.widthProperty());
         sprintHeaderVBox.maxWidthProperty().bind(sprintScrollPane.widthProperty());

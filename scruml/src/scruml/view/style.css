@@ -18,9 +18,10 @@ and open the template in the editor.
     -fx-background-color: #f1f1f1;
 }
 
-.h2.hover {
+#newRequirementButton {
     -fx-background-color: #3C63A8;
-    -fx-text-fill: white;
+    -fx-text-fill: white;   
+    -fx-background-radius: 0;
 }
 
 #productBacklogVBox, #sprintVBox {
