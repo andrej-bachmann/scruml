@@ -83,6 +83,10 @@ public class RequirementViewController implements Initializable {
     @FXML
     private ChoiceBox<String> priorityMenu;
     
+    //DummyTasks:
+    private Pane task1 = new Pane();
+    private Pane task2 = new Pane();
+    
     public RequirementViewController(RequirementController reqController) throws IOException {
         this.reqController = reqController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
@@ -102,6 +106,17 @@ public class RequirementViewController implements Initializable {
         titleTextField.setPromptText("Title");
         descriptionTextField.setPromptText("Description");
         saveButton.setText("Save Requirement");
+        task1.prefHeightProperty().set(50);
+        task1.styleProperty().set("-fx-background-color: black;");
+        
+        task2.prefHeightProperty().set(50);
+        task2.styleProperty().set("-fx-background-color: red;");
+        
+        task1.visibleProperty().set(false);
+        task2.visibleProperty().set(false);
+                
+        taskOpen.getChildren().add(task1);
+        taskOpen.getChildren().add(task2);
     }  
     
     /**
@@ -234,46 +249,8 @@ public class RequirementViewController implements Initializable {
         priorityMenu.disableProperty().setValue(Boolean.TRUE);
         state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
         
-        //DummyTasks:
-        final Pane task1 = new Pane();
-        final Pane task2 = new Pane();
-        
-        task1.prefHeightProperty().set(50);
-        task1.styleProperty().set("-fx-background-color: black;");
-        
-        task2.prefHeightProperty().set(50);
-        task2.styleProperty().set("-fx-background-color: red;");
-        
-        task1.visibleProperty().set(false);
-        task2.visibleProperty().set(false);
-                
-        taskOpen.getChildren().add(task1);
-        taskOpen.getChildren().add(task2);
-        
         requirementOpen.onMouseClickedProperty().set(null);
-        anchorPane.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent t) {
-                if (!isExpanded) {                    
-                    taskHBox.minHeightProperty().unbind();
-                    taskHBox.setMinHeight(100);
-                    
-                    taskHBox.maxHeightProperty().unbind();
-                    taskHBox.setMaxHeight(100);
-                    isExpanded = true;
-                }
-                else {                    
-                    taskHBox.minHeightProperty().unbind();
-                    taskHBox.setMinHeight(0);
-                    
-                    taskHBox.maxHeightProperty().unbind();
-                    taskHBox.setMaxHeight(0);
-                    isExpanded = false;
-                }
-                task1.visibleProperty().set(isExpanded);
-                task2.visibleProperty().set(isExpanded);
-            }
-        });        
+        anchorPane.onMouseClickedProperty().set(new sprintBacklogExpand());      
     }
 
     public IntegerProperty stateProperty() {
@@ -281,7 +258,7 @@ public class RequirementViewController implements Initializable {
     }   
     
     /**
-     * This method sets the requirement model and binds properties to the view.
+     * This method sets the requirement model and binds properties bidirectional to the view.
      * @param requirementModel Model that gets bind to the view.
      */
     public void setRequirementModel(final RequirementModel requirementModel) {
@@ -345,6 +322,30 @@ public class RequirementViewController implements Initializable {
             setViewForEditing();
         }
         
+    }
+    
+    class sprintBacklogExpand implements EventHandler<MouseEvent> {
+        @Override
+            public void handle(MouseEvent t) {
+                if (!isExpanded) {                    
+                    taskHBox.minHeightProperty().unbind();
+                    taskHBox.setMinHeight(100);
+                    
+                    taskHBox.maxHeightProperty().unbind();
+                    taskHBox.setMaxHeight(100);
+                    isExpanded = true;
+                }
+                else {                    
+                    taskHBox.minHeightProperty().unbind();
+                    taskHBox.setMinHeight(0);
+                    
+                    taskHBox.maxHeightProperty().unbind();
+                    taskHBox.setMaxHeight(0);
+                    isExpanded = false;
+                }
+                task1.visibleProperty().set(isExpanded);
+                task2.visibleProperty().set(isExpanded);
+            }
     }
     
     class priorityMenuChanged implements ChangeListener<String> {
