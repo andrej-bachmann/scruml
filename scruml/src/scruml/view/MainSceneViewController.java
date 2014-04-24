@@ -185,7 +185,10 @@ public class MainSceneViewController implements Initializable {
             controller.newRequirementClicked();
         }
     }
-    
+    /**
+     * Is called when the Drag and Drop of the Requirement is currently at the 
+     * trash Icon
+     */
     class trashIconDragOver implements EventHandler<DragEvent> {
         @Override
         public void handle(DragEvent event) {
@@ -199,6 +202,10 @@ public class MainSceneViewController implements Initializable {
         }
     }
     
+    /**
+     * Is called when the Drag and Drop of the Requirement is released above
+     * the trash icon
+     */
     class trashIconDragDropped implements EventHandler<DragEvent> {
         @Override
         public void handle(DragEvent event) {
