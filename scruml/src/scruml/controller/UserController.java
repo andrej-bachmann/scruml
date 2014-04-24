@@ -1,5 +1,8 @@
 package scruml.controller;
 
+import java.util.List;
+import scruml.model.IARModel;
+import scruml.model.RequirementModel;
 import scruml.model.UserModel;
 
 
@@ -32,8 +35,16 @@ public class UserController {
         this.db.save(user);
         return user;
     }
+    public List<IARModel> getAllUser() {
+        try {
+            return SQLiteDatabaseController.getInstance().findAll(UserModel.class, null);
+        }
+        catch(Exception e) {
+            return null;
+        }
+    } 
     
 //    public boolean checkForScrumMaster(){
-//        
+//    changeUser    
 //    }
 }
