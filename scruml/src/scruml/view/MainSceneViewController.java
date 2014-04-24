@@ -115,16 +115,17 @@ public class MainSceneViewController implements Initializable {
     }
     
     /**
-     * This method adds a requirement to the product backlog pane as first item.
-     * @param model RequirementModel that should be added
+     * This method adds a requirementView object to the product backlog pane as first item.
+     * @param requirementVC RequirementViewController object that should be added
      */
-    public void addRequirement(RequirementViewController reqController) throws IOException {
-        productBacklogVBox.getChildren().add(0, reqController.getAnchorPane());
+    public void addRequirement(RequirementViewController requirementVC) throws IOException {
+        productBacklogVBox.getChildren().add(0, requirementVC.getAnchorPane());
     }
     
     /**
      * is called when a RequirementView object is in Drag action and gets dropped over sprintVBox.
      * Removes the currentDragRequirement(if not null) from productBacklogVBox and adds it to sprintVBox after setting its State to "STATE_SPRINT_BACKLOG"
+     * @param requirementVC
      */
     public void moveRequirementToSprintBacklog(RequirementViewController requirementVC)
     {
@@ -133,12 +134,22 @@ public class MainSceneViewController implements Initializable {
         sprintVBox.getChildren().add(requirementVC.getAnchorPane());
     }
     
+    /**
+     * is called when a RequirementView object is in Drag action and gets dropped over the trash box.
+     * Only works if the requirement is an item of the productBacklogVBox
+     * @param requirementVC RequirementViewController object that should be removed
+     */
     public void removeRequirement(RequirementViewController requirementVC)
     {
         productBacklogVBox.getChildren().remove(requirementVC.getAnchorPane());
         requirementVC.stateProperty().set(RequirementViewController.STATE_TRASH_ICON);  
     }
     
+    /**
+     * is called when drag action on a RequirementView object is detected. Sets the currentDragRequirement and shows the trashIcon.
+     * Also adds the drag event handler to the targets (trashIcon and sprintVBox) of the drag action.
+     * @param currentDragRequirement the RequirementViewController where drag action is detected
+     */
     public void activateDragAndDrop(final RequirementViewController currentDragRequirement) {
         this.currentDragRequirement = currentDragRequirement;
         trashIcon.setVisible(true);
@@ -150,6 +161,10 @@ public class MainSceneViewController implements Initializable {
         
     }
     
+    /**
+     * is called when drag on a RequirementView object is released. Hides trash icon and sets currentDragRequirement to null.
+     * Also removes drag event handler from targets.
+     */
     public void deactivateDragAndDrop() {
         this.currentDragRequirement = null;
         trashIcon.setVisible(false);
