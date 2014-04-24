@@ -1,11 +1,14 @@
 package scruml.controller;
 
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import scruml.model.IARModel;
+import scruml.model.UserModel;
 
 /**
  * This class provides unit tests of {@link UserController}
@@ -13,6 +16,9 @@ import static org.junit.Assert.*;
  * @see UserController
  */
 public class UserControllerTest extends TestWithFixture {
+    SQLiteDatabaseController db;
+    UserModel um;
+    UserController uc;
     
     public UserControllerTest() {
     }
@@ -28,7 +34,7 @@ public class UserControllerTest extends TestWithFixture {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        SQLiteDatabaseController db = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
+        db = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         db.connect(super.getDbTestFilenameTmp());
     }
     
@@ -44,10 +50,17 @@ public class UserControllerTest extends TestWithFixture {
     @Test
     public void testCreateUser() throws Exception {
         System.out.println("createUser");
-        UserController uc = new UserController();
+        uc = new UserController();
         uc.createUser("Max Mustermann", 1);
-        
-        fail("The test case is a prototype.");
+        List<IARModel> result = uc.getAllUser();
+        um = (UserModel) result.get(0);
+        assertEquals(1,um.getId());
+        assertEquals("Max Mustermann",um.getName());
+        assertEquals(1, um.getRole());
+        db.find(UserModel.class,"1");
+ //       fail("The test case is a prototype.");
     }
+    
+//    public void testGetAllUser()
     
 }
