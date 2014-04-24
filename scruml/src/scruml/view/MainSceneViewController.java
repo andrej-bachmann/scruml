@@ -115,11 +115,11 @@ public class MainSceneViewController implements Initializable {
     }
     
     /**
-     * This method adds a requirement to the product backlog pane.
+     * This method adds a requirement to the product backlog pane as first item.
      * @param model RequirementModel that should be added
      */
     public void addRequirement(RequirementViewController reqController) throws IOException {
-        productBacklogVBox.getChildren().add(reqController.getAnchorPane());
+        productBacklogVBox.getChildren().add(0, reqController.getAnchorPane());
     }
     
     /**
