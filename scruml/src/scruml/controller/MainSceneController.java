@@ -15,7 +15,7 @@ import scruml.view.RequirementViewController;
 /** 
  * MainSceneController extends javafx Application class. Inherits the main(String[]args)
  * 
- * @author David Goller
+ * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
 public class MainSceneController extends Application {
     
@@ -60,6 +60,10 @@ public class MainSceneController extends Application {
         }
     }
     
+    /**
+     * This method creates a new requirement and set
+     * the view for editing.
+     */
     public void newRequirementClicked() {
         try {
             RequirementController rc = new RequirementController(this);
@@ -70,14 +74,26 @@ public class MainSceneController extends Application {
         }
     }
     
+    /**
+     * This method handles the drag and drop events
+     * of the requirements.
+     */
     public void dragAndDropStarted(RequirementViewController currentDragRequirement) {
         this.mainSceneVC.activateDragAndDrop(currentDragRequirement);
     }
     
+    /**
+     * The dragAndDropStopped method deactivates the
+     * drag and drop modus.
+     */
     public void dragAndDropStopped() {
         this.mainSceneVC.deactivateDragAndDrop();
     }
     
+    /**
+     * This method serves to delete requirements
+     * Note: Just the requirements in the column "Product Backolg" can be deleted.
+     */
     public void requirementDraggedToTrash(RequirementViewController requirementVC) {
         if(requirementVC.stateProperty().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK) {
             RequirementController rc = new RequirementController();
@@ -86,6 +102,10 @@ public class MainSceneController extends Application {
         }
     }
     
+    /**
+     * The requirementDraggedToSprintBacklog is used to move 
+     * requirements from the Product Backlog to the Sprint Backlog.
+     */
     public void requirementDraggedToSprintBacklog(RequirementViewController requirementVC) {
         if(requirementVC.stateProperty().get() == RequirementViewController.STATE_PRODUCT_BACKLOCK) {
             requirementVC.stateProperty().set(RequirementViewController.STATE_SPRINT_BACKLOCK);
@@ -114,9 +134,10 @@ public class MainSceneController extends Application {
         launch(args);
     }
 
+    /**
+     * @return Object mainSceneVC
+     */
     public MainSceneViewController getMainSceneVC() {
         return mainSceneVC;
     }
-    
-    
 }
