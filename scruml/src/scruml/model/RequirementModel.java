@@ -21,6 +21,7 @@ public class RequirementModel implements IARModel{
     private final StringProperty title = new DBSimpleStringProperty();
     private final StringProperty description = new DBSimpleStringProperty();
     private final StringProperty priority = new DBSimpleStringProperty();
+    private final StringProperty effort = new DBSimpleStringProperty();
 
     @Override
     public String getTablename(){
@@ -63,6 +64,13 @@ public class RequirementModel implements IARModel{
         this.priority.set(priority);
     }
     
+    public String getEffort(){
+        return this.effort.get();
+    }
+    public void setEffort(String effort){
+        this.effort.set(effort);
+    }
+    
     public StringProperty descriptionProperty() {
         return description;
     }
@@ -73,6 +81,10 @@ public class RequirementModel implements IARModel{
 
     public StringProperty priorityProperty() {
         return priority;
+    }
+    
+    public StringProperty effortProperty() {
+        return effort;
     }
     
     

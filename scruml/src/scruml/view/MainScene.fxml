@@ -21,15 +21,12 @@
               <children>
                 <HBox id="HBox" alignment="CENTER" prefHeight="92.0" prefWidth="276.0" spacing="5.0" HBox.hgrow="ALWAYS">
                   <children>
-                    <ComboBox fx:id="userComboBox" prefHeight="-1.0" prefWidth="195.0">
-                      <items>
-                        <FXCollections fx:factory="observableArrayList">
-                          <String fx:value="Item 1" />
-                          <String fx:value="Item 2" />
-                          <String fx:value="Item 3" />
-                        </FXCollections>
-                      </items>
-                    </ComboBox>
+                    <ImageView fx:id="trashIcon" fitHeight="86.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                      <image>
+                        <Image url="@Trash-icon.png" />
+                      </image>
+                    </ImageView>
+                    <Label contentDisplay="TOP" prefHeight="85.99990000000253" prefWidth="251.0" text="" visible="false" HBox.hgrow="ALWAYS" />
                   </children>
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
@@ -43,12 +40,15 @@
                 </HBox>
                 <HBox id="HBox" alignment="CENTER" prefHeight="92.0" prefWidth="276.0" spacing="5.0" HBox.hgrow="ALWAYS">
                   <children>
-                    <Label contentDisplay="TOP" prefHeight="85.99990000000253" prefWidth="251.0" text="" visible="false" HBox.hgrow="ALWAYS" />
-                    <ImageView fx:id="trashIcon" fitHeight="86.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                      <image>
-                        <Image url="@Trash-icon.png" />
-                      </image>
-                    </ImageView>
+                    <ComboBox fx:id="userComboBox" prefHeight="-1.0" prefWidth="195.0">
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Item 1" />
+                          <String fx:value="Item 2" />
+                          <String fx:value="Item 3" />
+                        </FXCollections>
+                      </items>
+                    </ComboBox>
                   </children>
                 </HBox>
               </children>

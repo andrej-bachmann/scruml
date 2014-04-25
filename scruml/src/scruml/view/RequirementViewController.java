@@ -82,6 +82,14 @@ public class RequirementViewController implements Initializable {
     private Label priorityLabel;
     @FXML
     private ChoiceBox<String> priorityMenu;
+    @FXML
+    private Label effortLabel;
+    @FXML
+    private ChoiceBox<String> effortMenu;
+    @FXML
+    private HBox priorityEffortLabelHbox;
+    @FXML 
+    private HBox priorityEffortMenu;
     
     //DummyTasks:
     private Pane task1 = new Pane();
@@ -108,6 +116,8 @@ public class RequirementViewController implements Initializable {
         // TODO
         priorityMenu.setItems(FXCollections.observableArrayList
         ("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"));
+        effortMenu.setItems(FXCollections.observableArrayList
+        ("1","2","3","5","8","13"));
         
         titleTextField.setPromptText("Title");
         descriptionTextField.setPromptText("Description");
@@ -156,14 +166,14 @@ public class RequirementViewController implements Initializable {
         dataVBox.getChildren().remove(descriptionTextField);   
         dataVBox.getChildren().remove(titleLabel);
         dataVBox.getChildren().remove(descriptionLabel);
-        dataVBox.getChildren().remove(priorityLabel);
-        dataVBox.getChildren().remove(priorityMenu);
+        dataVBox.getChildren().remove(priorityEffortLabelHbox);
+        dataVBox.getChildren().remove(priorityEffortMenu);
         dataVBox.getChildren().remove(saveButton);
         titleTextField.getStyleClass().add("titleTextField");
         dataVBox.getChildren().add(titleTextField);
         dataVBox.getChildren().add(descriptionTextField);
-        dataVBox.getChildren().add(priorityLabel);
-        dataVBox.getChildren().add(priorityMenu);
+        dataVBox.getChildren().add(priorityEffortLabelHbox);
+        dataVBox.getChildren().add(priorityEffortMenu);
         dataVBox.getChildren().add(saveButton);
         
         titleTextField.focusTraversableProperty().set(true);
@@ -181,13 +191,15 @@ public class RequirementViewController implements Initializable {
         
         dataVBox.getChildren().remove(titleTextField);
         dataVBox.getChildren().remove(descriptionTextField);                
-        dataVBox.getChildren().remove(priorityLabel);
-        dataVBox.getChildren().remove(priorityMenu);
+        dataVBox.getChildren().remove(priorityEffortLabelHbox);
+        dataVBox.getChildren().remove(priorityEffortMenu);
+
         dataVBox.getChildren().remove(saveButton);  
         dataVBox.getChildren().add(titleLabel);
         dataVBox.getChildren().add(descriptionLabel);
-        dataVBox.getChildren().add(priorityLabel);
-        dataVBox.getChildren().add(priorityMenu);
+        dataVBox.getChildren().add(priorityEffortLabelHbox);
+        dataVBox.getChildren().add(priorityEffortMenu);
+
     }
     
     /**
@@ -214,6 +226,7 @@ public class RequirementViewController implements Initializable {
         anchorPane.onMouseClickedProperty().set(null);
         requirementOpen.setOnMouseClicked(new requirementClicked());
         priorityMenu.valueProperty().addListener(new priorityMenuChanged());
+        effortMenu.valueProperty().addListener(new effortMenuChanged());
         
         vBox.setOnDragDetected(new vBoxDragDetected());
         vBox.setOnDragDone(new vBoxDragDone());
@@ -253,6 +266,7 @@ public class RequirementViewController implements Initializable {
         taskOpen.maxWidthProperty().bind(open);
         
         priorityMenu.disableProperty().setValue(Boolean.TRUE);
+        effortMenu.disableProperty().setValue(Boolean.TRUE);
         state.set(RequirementViewController.STATE_SPRINT_BACKLOCK);
         
         requirementOpen.onMouseClickedProperty().set(null);
@@ -274,6 +288,7 @@ public class RequirementViewController implements Initializable {
         this.titleTextField.textProperty().bindBidirectional(requirementModel.titleProperty());
         this.descriptionTextField.textProperty().bindBidirectional(requirementModel.descriptionProperty());
         this.priorityMenu.valueProperty().bindBidirectional(requirementModel.priorityProperty());
+        this.effortMenu.valueProperty().bindBidirectional(requirementModel.effortProperty());
     }
 
     public RequirementModel getRequirementModel() {
@@ -355,6 +370,15 @@ public class RequirementViewController implements Initializable {
     }
     
     class priorityMenuChanged implements ChangeListener<String> {
+
+        @Override
+        public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+            reqController.updateRequirement(requirementModel);
+        }
+
+    }
+    
+    class effortMenuChanged implements ChangeListener<String> {
 
         @Override
         public void changed(ObservableValue<? extends String> ov, String t, String t1) {

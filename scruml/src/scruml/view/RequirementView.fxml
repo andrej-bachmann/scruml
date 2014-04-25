@@ -17,20 +17,42 @@
             <Pane fx:id="requirementOpen" prefHeight="100.0" prefWidth="200.0">
               <children>
                 <Rectangle arcHeight="0.0" arcWidth="0.0" fill="#cc0000" height="100.0" layoutX="0.0" layoutY="0.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="5.0" />
-                <VBox fx:id="dataVBox" layoutX="7.0" layoutY="0.0" prefHeight="100.0" prefWidth="193.0">
+                <VBox fx:id="dataVBox" layoutX="7.0" layoutY="0.0" prefHeight="99.99990000000253" prefWidth="193.0">
                   <children>
-                    <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="200.0" text="Title" />
-                    <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="200.0" text="Description" />
-                    <Label id="labelPriority" fx:id="priorityLabel" text="Priorität:" />
-                    <ChoiceBox fx:id="priorityMenu">
-                      <items>
-                        <FXCollections fx:factory="observableArrayList">
-                          <String fx:value="Item 1" />
-                          <String fx:value="Item 2" />
-                          <String fx:value="Item 3" />
-                        </FXCollections>
-                      </items>
-                    </ChoiceBox>
+                    <Label fx:id="titleLabel" prefHeight="36.0" prefWidth="193.0" text="Title" />
+                    <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="21.0" prefWidth="193.0" text="Description" />
+                    <HBox id="HBox" fx:id="priorityEffortLabelHbox" alignment="CENTER" prefHeight="21.0" prefWidth="193.0" spacing="5.0">
+                      <children>
+                        <Label id="labelPriority" fx:id="priorityLabel" text="Priorität:" />
+                        <Pane prefHeight="47.0" prefWidth="32.0" />
+                        <Label fx:id="effortLabel" text="Aufwand:" />
+                        <Pane prefHeight="16.0" prefWidth="47.9998779296875" />
+                      </children>
+                    </HBox>
+                    <HBox id="HBox" fx:id="priorityEffortMenu" alignment="CENTER" minHeight="16.0" prefHeight="21.0" prefWidth="193.0" spacing="5.0">
+                      <children>
+                        <ChoiceBox fx:id="priorityMenu" minHeight="16.0" prefHeight="21.0" prefWidth="45.0">
+                          <items>
+                            <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="Item 1" />
+                              <String fx:value="Item 2" />
+                              <String fx:value="Item 3" />
+                            </FXCollections>
+                          </items>
+                        </ChoiceBox>
+                        <Pane prefHeight="21.0" prefWidth="32.0" />
+                        <ChoiceBox fx:id="effortMenu" minHeight="16.0" prefHeight="21.0" prefWidth="45.0">
+                          <items>
+                            <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="Item 1" />
+                              <String fx:value="Item 2" />
+                              <String fx:value="Item 3" />
+                            </FXCollections>
+                          </items>
+                        </ChoiceBox>
+                        <Pane prefHeight="21.0" prefWidth="49.0" />
+                      </children>
+                    </HBox>
                   </children>
                 </VBox>
               </children>
