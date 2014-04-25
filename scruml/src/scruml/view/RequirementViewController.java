@@ -87,6 +87,11 @@ public class RequirementViewController implements Initializable {
     private Pane task1 = new Pane();
     private Pane task2 = new Pane();
     
+    /**
+     * Sets the requirementController and loads the RequirementView.fxml
+     * @param reqController RequirementController that gets notified on any user action with the RequirementView object
+     * @throws IOException 
+     */
     public RequirementViewController(RequirementController reqController) throws IOException {
         this.reqController = reqController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RequirementView.fxml"));
@@ -95,6 +100,7 @@ public class RequirementViewController implements Initializable {
     }
     
     /**
+     * Adds Items to the priorityMenu, sets promptTexts to TextFields, sets the Backgroundcolor of the dummy-tasks
      * Initializes the controller class.
      */
     @Override
