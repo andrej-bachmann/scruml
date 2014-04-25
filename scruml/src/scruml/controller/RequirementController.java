@@ -54,6 +54,11 @@ public class RequirementController {
         }
     }
     
+    /**
+     * This method is called when data of the requirement has changed. It saves
+     * the current data of the requirement model in database
+     * @param model 
+     */
     public void updateRequirement(RequirementModel model) {
         try {
             this.db.save(model);
@@ -76,6 +81,11 @@ public class RequirementController {
         }
     }
     
+    /**
+     * This method deletes the requirement model from database, it is called when a requirement
+     * is moved on the trash icon
+     * @param m 
+     */
     public void deleteRequirement(RequirementModel m){
         try{
             db.delete(m);
