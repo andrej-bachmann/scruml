@@ -1,10 +1,8 @@
 package scruml.controller;
 
 import java.util.List;
-import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import scruml.model.IARModel;
@@ -16,10 +14,9 @@ import scruml.model.UserModel;
  * @see UserController
  */
 public class UserControllerTest extends TestWithFixture {
-    SQLiteDatabaseController db;
-    UserModel um;
-    UserController uc;
     
+    private SQLiteDatabaseController db;
+
     public UserControllerTest() {
     }
     
@@ -34,13 +31,13 @@ public class UserControllerTest extends TestWithFixture {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        db = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
+        this.db = (SQLiteDatabaseController) SQLiteDatabaseController.getInstance();
         db.connect(super.getDbTestFilenameTmp());
     }
     
     @Override
     public void tearDown() throws Exception {
-        SQLiteDatabaseController.getInstance().disconnect();
+        db.disconnect();
         super.tearDown();
     }
 
@@ -48,19 +45,48 @@ public class UserControllerTest extends TestWithFixture {
      * Test of createUser method, of class UserController.
      */
     @Test
-    public void testCreateUser() throws Exception {
+    public void testCreateUser() {
         System.out.println("createUser");
-        uc = new UserController();
-        uc.createUser("Max Mustermann", 1);
-        List<IARModel> result = uc.getAllUser();
-        um = (UserModel) result.get(0);
-        assertEquals(1,um.getId());
-        assertEquals("Max Mustermann",um.getName());
-        assertEquals(1, um.getRole());
-        db.find(UserModel.class,"1");
- //       fail("The test case is a prototype.");
+        
+        UserController uc = new UserController();
+        try {
+            uc.createUser("Max Mustermann", 1);
+            UserModel model = (UserModel)db.find(UserModel.class, "id=1");
+            
+            assertEquals(1, model.getId());
+            assertEquals("Max Mustermann", model.getName());
+            assertEquals(1, model.getRole());
+        }
+        catch(Exception e) {
+            fail(e.getMessage());
+        }
     }
     
-//    public void testGetAllUser()
+    /**
+     * Test of getAllUser method, of class UserController.
+     */
+    @Test
+    public void testGetAllUser() {
+        System.out.println("getAllUser");
+        UserController uc = new UserController();
+        try {
+            uc.createUser("Max Mustermann", 1);
+            uc.createUser("Marion Musterfrau", 2);
+            
+            List<IARModel> list = uc.getAllUser();
+            UserModel model = (UserModel)list.get(0);
+            UserModel model2 = (UserModel)list.get(1);
+            
+            assertEquals(1, model.getId());
+            assertEquals("Max Mustermann", model.getName());
+            assertEquals(1, model.getRole());
+            assertEquals(2, model2.getId());
+            assertEquals("Marion Musterfrau", model2.getName());
+            assertEquals(2, model2.getRole());
+        }
+        catch(Exception e) {
+            fail(e.getMessage());
+        }
+    }
     
 }

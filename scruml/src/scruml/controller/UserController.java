@@ -2,12 +2,10 @@ package scruml.controller;
 
 import java.util.List;
 import scruml.model.IARModel;
-import scruml.model.RequirementModel;
 import scruml.model.UserModel;
 
-
 /**
- * RequirementController handles all the user related tasks.
+ * UserController handles all the user related tasks.
  * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
 public class UserController {
@@ -35,6 +33,11 @@ public class UserController {
         this.db.save(user);
         return user;
     }
+    
+    /**
+     * Returns all users that are stored in the database.
+     * @return List of UserModel, otherwise null
+     */
     public List<IARModel> getAllUser() {
         try {
             return SQLiteDatabaseController.getInstance().findAll(UserModel.class, null);
@@ -43,8 +46,5 @@ public class UserController {
             return null;
         }
     } 
-    
-//    public boolean checkForScrumMaster(){
-//    changeUser    
-//    }
+
 }
