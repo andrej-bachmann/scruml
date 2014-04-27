@@ -25,6 +25,7 @@ import scruml.controller.MainSceneController;
 
 /**
  * FXML Controller class
+ * ViewController to manage MainScene
  * 
  * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
@@ -110,6 +111,9 @@ public class MainSceneViewController implements Initializable {
         
     }
     
+    /**
+     * shows the stage (Main Window)
+     */
     public void show() {
         stage.show();
     }
@@ -179,6 +183,9 @@ public class MainSceneViewController implements Initializable {
         return productBacklogVBox.widthProperty();
     }
     
+    /**
+     * Eventhandler to manage Click on "new requirement" button
+     */
     class requirementButtonClicked implements EventHandler<MouseEvent> {
         @Override
         public void handle(MouseEvent t) {
@@ -224,6 +231,9 @@ public class MainSceneViewController implements Initializable {
         }
     }
     
+    /**
+     * Eventhandler to manage Requirement Drag action over sprintVBox
+     */
     class sprintVBoxDragOver implements EventHandler<DragEvent> {
         @Override
         public void handle(DragEvent event) {
@@ -237,6 +247,9 @@ public class MainSceneViewController implements Initializable {
         }
     }
     
+    /**
+     * Eventhandler to manage Drop of a Requirement over sprintVBox
+     */
     class sprintVBoxDragDropped implements EventHandler<DragEvent> {
         @Override
         public void handle(DragEvent event) {
