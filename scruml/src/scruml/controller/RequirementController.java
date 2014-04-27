@@ -10,17 +10,23 @@ import scruml.view.RequirementViewController;
  * RequirementController handles all the requirement related tasks.
  * @author Simon Deubzer, Kevin Dietrich, Manuel Fachtan, David Goller, Thomas Kausler
  */
+
 public class RequirementController {
     
     private final IDatabaseController db;
     private RequirementViewController view;
     private MainSceneController mainSceneController;
     
+    /**
+     * The default constructor gets the database controller.
+     */
     public RequirementController() {
         this.db = SQLiteDatabaseController.getInstance();
     }
+    
     /**
-     * Constructor gets the database controller.
+     * Construcor requires MainSceneController
+     * @param mainSceneController 
      */
     public RequirementController(MainSceneController mainSceneController) {
         this();
@@ -69,8 +75,9 @@ public class RequirementController {
     }
     
     /**
-     * This method gets all requirement models from database.
+     * This method fetch all requirement models from the database.
      * @return List of RequirementModel
+     * @throws Exception
      */
     public List<IARModel> getAllRequirements() {
         try {
@@ -93,17 +100,26 @@ public class RequirementController {
             System.err.println(ex);
         }
     }
-
+    
+    /**
+     * @return the current View
+     */
     public RequirementViewController getView() {
         return view;
     }
     
+    /**
+     * This method starts the drag and drop modus
+     * @param currentDragRequirement 
+     */
     public void dragAndDropStarted(RequirementViewController currentDragRequirement) {
         this.mainSceneController.dragAndDropStarted(currentDragRequirement);
     }
     
+    /**
+     * This method stops the drag and drop modus
+     */
     public void dragAndDropStopped() {
         this.mainSceneController.dragAndDropStopped();
     }
-    
 }
