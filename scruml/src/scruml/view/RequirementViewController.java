@@ -147,6 +147,13 @@ public class RequirementViewController implements Initializable {
      * @param sprintVBox The target of Drag and Drop for Requirement
      */
     
+    /**
+     * Method to set the RequirementView for editing.
+     * Binding the requirementOpen-panes (inherits the dataVBox) with to productBacklogWidth
+     * remove all elements and only add the textFields and choiceboxes for data input
+     * Adds Eventhandler to savebutton and removes them from anchorPane (mouseclick event for editing)
+     * and vBox (onDragDetected event)
+     */
     public void setViewForEditing() {
        
         this.state.set(STATE_CREATE);
@@ -186,6 +193,9 @@ public class RequirementViewController implements Initializable {
         vBox.setOnDragDetected(null);
     }    
     
+    /**
+     * calls "setViewForProductBacklog", removes the textFields and adds the labels
+     */
     public void endEditing() {
         this.setViewForProductBacklog();
         
@@ -303,6 +313,10 @@ public class RequirementViewController implements Initializable {
         this.productBacklogWidth = productBacklogWidth;
     }
     
+    /**
+     * Eventhandler for dragDetected event of vBox.
+     * Notifies the requirementController and forwards reference of RequirementView object
+     */
     class vBoxDragDetected implements EventHandler<MouseEvent> {
         @Override
         public void handle(MouseEvent event) {
@@ -320,6 +334,9 @@ public class RequirementViewController implements Initializable {
         }
     }
     
+    /**
+     * Notifies the requirementController about end of drag and drop
+     */
     class vBoxDragDone implements EventHandler<DragEvent> {
         @Override
         public void handle(DragEvent t) {
@@ -327,6 +344,9 @@ public class RequirementViewController implements Initializable {
         }
     }
     
+    /**
+     * Eventhandler for click on save
+     */
     class saveButtonClicked implements EventHandler<ActionEvent> {
 
         @Override
@@ -336,6 +356,9 @@ public class RequirementViewController implements Initializable {
         
     }
     
+    /**
+     * Eventhandler for click on the requirementView object in productBacklog.
+     */
     class requirementClicked implements EventHandler<MouseEvent> {
 
         @Override
@@ -345,6 +368,10 @@ public class RequirementViewController implements Initializable {
         
     }
     
+    /**
+     * Eventhandler for click on the requirementView object in sprintBacklog
+     * Expands the Requirment and shows the Tasks
+     */
     class sprintBacklogExpand implements EventHandler<MouseEvent> {
         @Override
             public void handle(MouseEvent t) {
@@ -369,6 +396,10 @@ public class RequirementViewController implements Initializable {
             }
     }
     
+    /**
+     * Changelistener for priorityMenu
+     * Notifies the requirementController to update the Requirement
+     */
     class priorityMenuChanged implements ChangeListener<String> {
 
         @Override
@@ -378,6 +409,10 @@ public class RequirementViewController implements Initializable {
 
     }
     
+     /**
+     * Changelistener for effortMenu
+     * Notifies the requirementController to update the Requirement
+     */
     class effortMenuChanged implements ChangeListener<String> {
 
         @Override
