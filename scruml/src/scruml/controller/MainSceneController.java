@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import scruml.view.MainSceneViewController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import scruml.model.IARModel;
 import scruml.model.RequirementModel;
+import scruml.model.UserModel;
+import scruml.view.MainSceneViewController;
 import scruml.view.RequirementViewController;
 
 
@@ -34,6 +35,7 @@ public class MainSceneController extends Application {
         mainSceneVC = new MainSceneViewController(stage, this); 
         
         this.initRequirements();
+        this.initUsers();
         
         mainSceneVC.show();
         
@@ -58,6 +60,15 @@ public class MainSceneController extends Application {
                 System.err.println(e);
             }
         }
+    }
+    
+    /**
+     * This method gets all users from the database and adds them to the view.
+     */
+    private void initUsers() {
+        UserController uc = new UserController();
+        List<UserModel> users = uc.getAllUser();
+        this.mainSceneVC.setUsers(users);
     }
     
     /**

@@ -1,7 +1,6 @@
 package scruml.controller;
 
 import java.util.List;
-import scruml.model.IARModel;
 import scruml.model.UserModel;
 
 /**
@@ -38,11 +37,12 @@ public class UserController {
      * Returns all users that are stored in the database.
      * @return List of UserModel, otherwise null
      */
-    public List<IARModel> getAllUser() {
+    public List<UserModel> getAllUser() {
         try {
-            return SQLiteDatabaseController.getInstance().findAll(UserModel.class, null);
+            return (List<UserModel>)(List<?>)SQLiteDatabaseController.getInstance().findAll(UserModel.class, null);
         }
         catch(Exception e) {
+            System.err.println(e);
             return null;
         }
     } 

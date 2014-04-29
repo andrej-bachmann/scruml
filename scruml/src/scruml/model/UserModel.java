@@ -29,6 +29,11 @@ public class UserModel implements IARModel {
         return "id";
     }
     
+    @Override
+    public String toString() {
+        return this.getName()+" ("+this.getRole()+")";
+    }
+    
     public int getId() {
         return this.id.get();
     }

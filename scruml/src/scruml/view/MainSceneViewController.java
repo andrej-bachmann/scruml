@@ -2,6 +2,7 @@ package scruml.view;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -22,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import scruml.controller.MainSceneController;
+import scruml.model.UserModel;
 
 /**
  * FXML Controller class
@@ -61,7 +64,9 @@ public class MainSceneViewController implements Initializable {
     private ImageView trashIcon;
     @FXML
     private HBox productBacklogHeaderHBox;
-
+    @FXML
+    private ComboBox<UserModel> userComboBox;
+    
     private MainSceneController controller;
     private RequirementViewController currentDragRequirement;
     private Stage stage;
@@ -121,9 +126,18 @@ public class MainSceneViewController implements Initializable {
     /**
      * This method adds a requirementView object to the product backlog pane as first item.
      * @param requirementVC RequirementViewController object that should be added
+     * @throws IOException
      */
     public void addRequirement(RequirementViewController requirementVC) throws IOException {
         productBacklogVBox.getChildren().add(0, requirementVC.getAnchorPane());
+    }
+    
+    /**
+     * This method populates the user combobox with data.
+     * @param users List of UserModel that gets inserted in the combobox
+     */
+    public void setUsers(List<UserModel> users) {
+        this.userComboBox.getItems().addAll(users);
     }
     
     /**
