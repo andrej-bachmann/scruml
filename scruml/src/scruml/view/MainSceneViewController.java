@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -96,7 +97,7 @@ public class MainSceneViewController implements Initializable {
         
         //ActionListener
         newRequirementButton.setOnMouseClicked(new requirementButtonClicked());
-               
+        userComboBox.setOnAction(new userComboBoxSelected());
     }
 
     /**
@@ -206,6 +207,18 @@ public class MainSceneViewController implements Initializable {
             controller.newRequirementClicked();
         }
     }
+    
+    /**
+     * EventHandler which gets triggered when an entry in the user combobox gets
+     * selected.
+     */
+    class userComboBoxSelected implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent t) {
+            controller.setActiveUser(userComboBox.getValue());
+        }
+    }
+    
     /**
      * Is called when the Drag and Drop of the Requirement is currently at the 
      * trash Icon

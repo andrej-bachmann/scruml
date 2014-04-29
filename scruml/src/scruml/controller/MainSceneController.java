@@ -21,6 +21,8 @@ import scruml.view.RequirementViewController;
 public class MainSceneController extends Application {
     
     private MainSceneViewController mainSceneVC;
+    private UserModel activeUser;
+    
     /**
      * start Method connects to Database and creates new MainSceneViewController,
      * which shows the MainScene
@@ -151,4 +153,9 @@ public class MainSceneController extends Application {
     public MainSceneViewController getMainSceneVC() {
         return mainSceneVC;
     }
+    
+    public void setActiveUser(UserModel activeUser) {
+        this.activeUser = activeUser;
+    }
+    
 }
