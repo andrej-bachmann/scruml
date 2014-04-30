@@ -1,6 +1,7 @@
 package scruml.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import scruml.model.IARModel;
 import scruml.model.RequirementModel;
@@ -84,6 +85,7 @@ public class RequirementController {
             return SQLiteDatabaseController.getInstance().findAll(RequirementModel.class, null);
         }
         catch(Exception e) {
+            System.err.println(e);
             return null;
         }
     }

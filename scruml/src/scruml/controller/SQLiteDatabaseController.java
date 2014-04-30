@@ -94,7 +94,7 @@ public class SQLiteDatabaseController implements IDatabaseController {
             ResultSet resultSet = statement.executeQuery(queryString)) {
             ResultSetMetaData resultSetMeta = resultSet.getMetaData();
             if(resultSet.isClosed())
-                return null;
+                return modelList;
             
             while(resultSet.next()) {
                 model = (IARModel)modelClass.newInstance();

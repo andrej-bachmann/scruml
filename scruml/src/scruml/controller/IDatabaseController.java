@@ -38,7 +38,8 @@ public interface IDatabaseController {
      * @param modelClass Model class which gets populated with data
      * @param where Where condition that gets applied to the sql statement.
      * @return List with instances of modelClass where all properties got
-     * populated with data from the database record.
+     * populated with data from the database record.  Is there no record, an empty 
+     * list will be returned.
      * @throws Exception 
      */
     public List<IARModel> findAll(Class modelClass, String where) throws Exception;
@@ -52,7 +53,8 @@ public interface IDatabaseController {
      * @param order Order parameter that gets applied to the sql statement to
      * retrieve the results in a specific order.
      * @return List with instances of modelClass where all properties got
-     * populated with data from the database record.
+     * populated with data from the database record. Is there no record, an empty 
+     * list will be returned.
      * @throws Exception 
      */
     public List<IARModel> findAll(Class modelClass, String where, String order) throws Exception;
