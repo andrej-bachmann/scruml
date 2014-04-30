@@ -42,8 +42,7 @@
                   <children>
                     <ComboBox fx:id="userComboBox" prefHeight="-1.0" prefWidth="195.0">
                       <items>
-                        <FXCollections fx:factory="observableArrayList">
-                        </FXCollections>
+                        <FXCollections fx:factory="observableArrayList" />
                       </items>
                     </ComboBox>
                   </children>
@@ -54,14 +53,14 @@
               <children>
                 <HBox id="HBox" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
                   <children>
-                    <HBox id="productBacklogHeadingHBox" fx:id="productBacklogHeaderHBox" alignment="BOTTOM_CENTER" minWidth="264.0" prefHeight="75.0" prefWidth="264.0" HBox.hgrow="ALWAYS">
+                    <HBox id="productBacklogHeadingHBox" fx:id="productBacklogHeaderHBox" alignment="BOTTOM_CENTER" minWidth="-1.0" prefHeight="75.0" prefWidth="264.0" HBox.hgrow="ALWAYS">
                       <children>
-                        <Label id="labelProductBacklog" fx:id="productBacklogLabel" alignment="CENTER" contentDisplay="LEFT" labelFor="$productBacklogLabel" minHeight="35.0" minWidth="230.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="h2" text="Product Backlog" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                        <Label id="labelProductBacklog" fx:id="productBacklogLabel" alignment="CENTER" contentDisplay="LEFT" labelFor="$productBacklogLabel" minHeight="-1.0" minWidth="-1.0" prefHeight="35.0" prefWidth="230.0" styleClass="h2" text="Product Backlog" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                           <font>
                             <Font size="20.0" fx:id="x1" />
                           </font>
                         </Label>
-                        <Button fx:id="newRequirementButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" prefHeight="-1.0" styleClass="nofocus" text="+" />
+                        <Button fx:id="newRequirementButton" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="34.0" styleClass="nofocus" text="+" HBox.hgrow="ALWAYS" />
                       </children>
                       <padding>
                         <Insets bottom="2.0" />

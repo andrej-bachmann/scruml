@@ -91,8 +91,8 @@ public class MainSceneViewController implements Initializable {
         doneRequirementsLabel.maxWidthProperty().bind(burndownScrollPane.widthProperty());
         
         //Set stage properties
-        stage.setMinWidth(700);
-        stage.setMinHeight(400);
+        stage.setMinWidth(1100);
+        stage.setMinHeight(500);
         stage.setTitle("scruml ScrumBoard");
         
         //ActionListener
